@@ -1,13 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Projekt do predmetu PV168 - Autopujcovna
+ * @description Startovaci trida
+ * @package carrental
+ * @file CarRental.java
+ * @author Jan Pesava - xpesav00
+ * @email xpesav00@mail.muni.cz
+ * @date 5. 3. 2013
  */
 package carrental;
 
-/**
- *
- * @author honzap
- */
 public class CarRental {
 
 	/**
