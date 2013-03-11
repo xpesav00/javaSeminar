@@ -46,12 +46,6 @@ public class IRentalManagerTest {
 	@Test
 	public void testFindDriversByCar() {
 		System.out.println("findDriversByCar");
-		Car car = null;
-		IRentalManager instance = new IRentalManagerImpl();
-		List expResult = null;
-		List result = instance.findDriversByCar(car);
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}
 
@@ -61,12 +55,6 @@ public class IRentalManagerTest {
 	@Test
 	public void testFindCarsByDriver() {
 		System.out.println("findCarsByDriver");
-		Driver driver = null;
-		IRentalManager instance = new IRentalManagerImpl();
-		List expResult = null;
-		List result = instance.findCarsByDriver(driver);
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}
 
@@ -76,11 +64,6 @@ public class IRentalManagerTest {
 	@Test
 	public void testRentCarToDriver() {
 		System.out.println("rentCarToDriver");
-		Car car = null;
-		Driver driver = null;
-		IRentalManager instance = new IRentalManagerImpl();
-		instance.rentCarToDriver(car, driver);
-		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}
 
@@ -90,11 +73,6 @@ public class IRentalManagerTest {
 	@Test
 	public void testReturnCar() {
 		System.out.println("returnCar");
-		Car car = null;
-		Driver driver = null;
-		IRentalManager instance = new IRentalManagerImpl();
-		instance.returnCar(car, driver);
-		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}
 
@@ -104,11 +82,6 @@ public class IRentalManagerTest {
 	@Test
 	public void testFindAllRentCars() {
 		System.out.println("findAllRentCars");
-		IRentalManager instance = new IRentalManagerImpl();
-		List expResult = null;
-		List result = instance.findAllRentCars();
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}
 
@@ -118,11 +91,6 @@ public class IRentalManagerTest {
 	@Test
 	public void testFindAllCarsOnStock() {
 		System.out.println("findAllCarsOnStock");
-		IRentalManager instance = new IRentalManagerImpl();
-		List expResult = null;
-		List result = instance.findAllCarsOnStock();
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}
 
@@ -132,41 +100,6 @@ public class IRentalManagerTest {
 	@Test
 	public void testIsCarFree() {
 		System.out.println("isCarFree");
-		Car car = null;
-		IRentalManager instance = new IRentalManagerImpl();
-		boolean expResult = false;
-		boolean result = instance.isCarFree(car);
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
-	}
-
-	public class IRentalManagerImpl implements IRentalManager {
-
-		public List<Driver> findDriversByCar(Car car) {
-			return null;
-		}
-
-		public List<Car> findCarsByDriver(Driver driver) {
-			return null;
-		}
-
-		public void rentCarToDriver(Car car, Driver driver) {
-		}
-
-		public void returnCar(Car car, Driver driver) {
-		}
-
-		public List<Car> findAllRentCars() {
-			return null;
-		}
-
-		public List<Car> findAllCarsOnStock() {
-			return null;
-		}
-
-		public boolean isCarFree(Car car) {
-			return false;
-		}
 	}
 }
