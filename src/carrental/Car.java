@@ -64,7 +64,7 @@ public class Car {
 		return this.mileage;
 	}
 	
-	public void setVin(Double mileage) {
+	public void setMileage(Double mileage) {
 		this.mileage = mileage;
 	}
 }
