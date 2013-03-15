@@ -76,10 +76,18 @@ public class CarManagerTest {
             fail("creates negative milleage");
         } catch (IllegalArgumentException ex) {
         }
+        
+        car1.setMileage(1232.9);
+        car1.setId(null);
+        try {
+            manager.createCar(car1);
+            fail("car with null id");
+        } catch (IllegalArgumentException ex) {
+        }
 
 
         car1.setId(new Long(-20));
-        car1.setMileage(1232.9);
+        
         try {
             manager.createCar(car1);
             fail("creates car with negative id");
@@ -154,7 +162,7 @@ public class CarManagerTest {
         assertNull(manager.findCarById(car1.getId()));
         assertNotNull(manager.findCarById(car2.getId()));
         cars = manager.findAllCars();
-        assertEquals("nesouhlasi pocet aut", cars.size(), 1);
+        assertEquals("number of cars doesn't match", cars.size(), 1);
 
         try {
             manager.deleteCar(null);
@@ -236,9 +244,9 @@ public class CarManagerTest {
         assertCarEquals(car1, result);
 
 
-        assertEquals(manager.findCarById(new Long(2)), car2);
+        assertCarEquals(manager.findCarById(car2.getId()), car2);
 
-        assertEquals("nesouhlasi pocet aut", manager.findAllCars().size(), 2);
+        assertEquals("number of cars doesn't match", manager.findAllCars().size(), 2);
 
         carId = car2.getId();
 
@@ -308,6 +316,13 @@ public class CarManagerTest {
         try {
 
             manager.findCarById(new Long(-1));
+            fail();
+        } catch (IllegalArgumentException ex) {
+        }
+        
+        try {
+
+            manager.findCarById(null);
             fail();
         } catch (IllegalArgumentException ex) {
         }

@@ -16,6 +16,6 @@ public interface IDriverManager {
 	public void deleteDriver(Driver driver);
 	public void updateDriver(Driver driver);
 	public List<Driver> findAllDrivers();
-	public Driver findDriverById(int id);
+	public Driver findDriverById(Long id);
         public Long getNextDriverId();        
 }
