@@ -42,8 +42,7 @@ public class DriverManagerTest {
 
         driver2.setName("test subject as well");
         driver2.setSurname("no. 2");
-        driver2.setLicenceId("EAO2547842");
-        driver2.setId(manager.getNextDriverId());
+        driver2.setLicenceId("EAO2547842");        
 
 
     }
