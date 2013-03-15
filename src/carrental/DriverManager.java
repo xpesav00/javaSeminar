@@ -40,4 +40,10 @@ public class DriverManager implements IDriverManager{
 	public Driver findDriverById(int id){
 		return new Driver();
 	}
+        
+        @Override
+        public Long getNextDriverId()
+        {
+            return new Long(System.currentTimeMillis());
+        }
 }
