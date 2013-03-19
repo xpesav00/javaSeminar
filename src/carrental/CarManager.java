@@ -46,7 +46,7 @@ public class CarManager implements ICarManager{
 	}
         
         @Override
-        public Long getNextCarId()
+        public Long findNextCarId()
         {
             return new Long(System.currentTimeMillis());
         }

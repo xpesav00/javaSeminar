@@ -38,11 +38,11 @@ public class DriverManagerTest {
         driver1.setName("test subject");
         driver1.setSurname("no. 1");
         driver1.setLicenceId("AEG154683");
-        driver1.setId(manager.getNextDriverId());
+        driver1.setId(manager.findNextDriverId());
 
         driver2.setName("test subject as well");
         driver2.setSurname("no. 2");
-        driver2.setLicenceId("EAO2547842");        
+        driver2.setLicenceId("EAO2547842");
 
 
     }
@@ -66,7 +66,7 @@ public class DriverManagerTest {
             fail("driver is null");
         } catch (IllegalArgumentException ex) {
         }
-        
+
         driver1.setId(null);
         try {
             manager.createDriver(driver1);
@@ -82,7 +82,7 @@ public class DriverManagerTest {
         } catch (IllegalArgumentException ex) {
         }
 
-        driver1.setId(manager.getNextDriverId());
+        driver1.setId(manager.findNextDriverId());
         driver1.setName(null);
         try {
             manager.createDriver(driver1);
@@ -122,7 +122,7 @@ public class DriverManagerTest {
         } catch (IllegalArgumentException ex) {
         }
 
-        driver2.setId(manager.getNextDriverId());
+        driver2.setId(manager.findNextDriverId());
         manager.createDriver(driver2);
 
         result = manager.findDriverById(driver1.getId());
@@ -136,10 +136,10 @@ public class DriverManagerTest {
      */
     @Test
     public void testDeleteDriver() {
-       List<Driver> drivers;
-       
+        List<Driver> drivers;
+
         manager.createDriver(driver1);
-        driver2.setId(manager.getNextDriverId());
+        driver2.setId(manager.findNextDriverId());
         manager.createDriver(driver2);
 
         assertNotNull(manager.findDriverById(driver1.getId()));
@@ -175,9 +175,9 @@ public class DriverManagerTest {
      */
     @Test
     public void testUpdateDriver() {
-        
+
         manager.createDriver(driver1);
-        driver2.setId(manager.getNextDriverId());
+        driver2.setId(manager.findNextDriverId());
         manager.createDriver(driver2);
         Long driverId = driver1.getId();
 
@@ -199,8 +199,8 @@ public class DriverManagerTest {
         result = manager.findDriverById(driverId);
         assertDriverEquals(driver1, result);
 
-        
-        assertDriverEquals(manager.findDriverById(driver2.getId()), driver2);      
+
+        assertDriverEquals(manager.findDriverById(driver2.getId()), driver2);
 
         assertEquals("number of drivers doesn't match", manager.findAllDrivers().size(), 2);
 
@@ -228,7 +228,7 @@ public class DriverManagerTest {
         } catch (IllegalArgumentException ex) {
         }
 
-        
+
 
         try {
             driver1 = manager.findDriverById(driverId);
@@ -269,7 +269,7 @@ public class DriverManagerTest {
         source.add(driver1);
         assertEquals(source, manager.findAllDrivers());
 
-        driver2.setId(manager.getNextDriverId());
+        driver2.setId(manager.findNextDriverId());
         manager.createDriver(driver2);
         source.add(driver2);
         assertEquals(source, manager.findAllDrivers());
@@ -281,7 +281,7 @@ public class DriverManagerTest {
         manager.deleteDriver(driver2);
         source.remove(driver2);
         assertEquals(source, manager.findAllDrivers());
-        
+
     }
 
     /**
@@ -289,14 +289,14 @@ public class DriverManagerTest {
      */
     @Test
     public void testFindDriverById() {
-        assertNull(manager.findDriverById(manager.getNextDriverId()));
+        assertNull(manager.findDriverById(manager.findNextDriverId()));
 
         try {
             manager.findDriverById(new Long(-1));
             fail();
         } catch (IllegalArgumentException ex) {
         }
-        
+
         try {
             manager.findDriverById(null);
             fail();
@@ -307,25 +307,25 @@ public class DriverManagerTest {
         manager.createDriver(driver1);
         assertEquals(driver1, manager.findDriverById(driver1.getId()));
 
-        driver2.setId(manager.getNextDriverId());
+        driver2.setId(manager.findNextDriverId());
         manager.createDriver(driver2);
         assertEquals(driver1, manager.findDriverById(driver1.getId()));
         assertEquals(driver2, manager.findDriverById(driver2.getId()));
-      
+
     }
 
     /**
      * Test of getNextDriverId method, of class DriverManager.
      */
     @Test
-    public void testGetNextDriverId() {
-        Long store = manager.getNextDriverId();
+    public void testFindNextDriverId() {
+        Long store = manager.findNextDriverId();
 
-        assertNotNull("return null", manager.getNextDriverId());
-       
+        assertNotNull("return null", manager.findNextDriverId());
+                
         manager.createDriver(driver1);
-        assertNotSame("returns same id",store, manager.getNextDriverId());
-        assertTrue("negative id", manager.getNextDriverId().longValue() >= 0);
+        assertFalse("returns same id", store.equals(manager.findNextDriverId()));
+        assertTrue("negative id", manager.findNextDriverId().longValue() >= 0);
     }
 
     private static void assertDriverEquals(Driver expected, Driver actual) {
