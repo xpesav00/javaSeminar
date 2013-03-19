@@ -41,38 +41,92 @@ public class IRentalManagerTest {
 	}
 
 	/**
-	 * Test of findDriversByCar method, of class IRentalManager.
+	 * Test of createRental method, of class IRentalManager.
 	 */
 	@Test
-	public void testFindDriversByCar() {
-		System.out.println("findDriversByCar");
+	public void testCreateRental() {
+		System.out.println("createRental");
 		fail("The test case is a prototype.");
 	}
 
 	/**
-	 * Test of findCarsByDriver method, of class IRentalManager.
+	 * Test of endRental method, of class IRentalManager.
 	 */
 	@Test
-	public void testFindCarsByDriver() {
-		System.out.println("findCarsByDriver");
+	public void testEndRental() {
+		System.out.println("endRental");
 		fail("The test case is a prototype.");
 	}
 
 	/**
-	 * Test of rentCarToDriver method, of class IRentalManager.
+	 * Test of deleteRental method, of class IRentalManager.
 	 */
 	@Test
-	public void testRentCarToDriver() {
-		System.out.println("rentCarToDriver");
+	public void testDeleteRental() {
+		System.out.println("deleteRental");
 		fail("The test case is a prototype.");
 	}
 
 	/**
-	 * Test of returnCar method, of class IRentalManager.
+	 * Test of updateRental method, of class IRentalManager.
 	 */
 	@Test
-	public void testReturnCar() {
-		System.out.println("returnCar");
+	public void testUpdateRental() {
+		System.out.println("updateRental");
+		fail("The test case is a prototype.");
+	}
+
+	/**
+	 * Test of findRentalById method, of class IRentalManager.
+	 */
+	@Test
+	public void testFindRentalById() {
+		System.out.println("findRentalById");
+		fail("The test case is a prototype.");
+	}
+
+	/**
+	 * Test of findAllRentals method, of class IRentalManager.
+	 */
+	@Test
+	public void testFindAllRentals() {
+		System.out.println("findAllRentals");
+		fail("The test case is a prototype.");
+	}
+
+	/**
+	 * Test of findDriverByCar method, of class IRentalManager.
+	 */
+	@Test
+	public void testFindDriverByCar() {
+		System.out.println("findDriverByCar");
+		fail("The test case is a prototype.");
+	}
+
+	/**
+	 * Test of findCarByDriver method, of class IRentalManager.
+	 */
+	@Test
+	public void testFindCarByDriver() {
+		System.out.println("findCarByDriver");
+		fail("The test case is a prototype.");
+	}
+
+	/**
+	 * Test of findCarHistoryOfRental method, of class IRentalManager.
+	 */
+	@Test
+	public void testFindCarHistoryOfRental() {
+		System.out.println("findCarHistoryOfRental");
+		fail("The test case is a prototype.");
+	}
+
+	/**
+	 * Test of findDriverHistoryOfRental method, of class IRentalManager.
+	 */
+	@Test
+	public void testFindDriverHistoryOfRental() {
+		System.out.println("findDriverHistoryOfRental");
 		fail("The test case is a prototype.");
 	}
 

@@ -12,11 +12,17 @@ package carrental;
 import java.util.List;
 
 public interface IRentalManager {
-	public List<Driver> findDriversByCar(Car car);
-	public List<Car> findCarsByDriver(Driver driver);
-	public void rentCarToDriver(Car car, Driver driver);
-	public void returnCar(Car car, Driver driver);
+	public Rental createRental(Rental rental);
+	public void endRental(Rental rental);
+	public void deleteRental(Rental rental);
+	public void updateRental(Rental rental);
+	public Rental findRentalById(int id);
+	public List<Rental> findAllRentals();
+	public Driver findDriverByCar(Car car);
+	public Car findCarByDriver(Driver driver);
+	public List<Driver> findCarHistoryOfRental(Car car);
+	public List<Car> findDriverHistoryOfRental(Driver driver);
 	public List<Car> findAllRentCars();
 	public List<Car> findAllCarsOnStock();
-	public boolean isCarFree(Car car);
+	public boolean isCarFree(Car car);	
 }

@@ -19,21 +19,50 @@ public class RentalManager implements IRentalManager{
 	}
 	
 	@Override
-	public List<Driver> findDriversByCar(Car car){
-		return new ArrayList<>();
+	public Rental createRental(Rental rental) {
+		return new Rental();
 	}
 	
 	@Override
-	public List<Car> findCarsByDriver(Driver driver){
-		return new ArrayList<>(); 
+	public void endRental(Rental rental) {
 	}
 	
 	@Override
-	public void rentCarToDriver(Car car, Driver driver){
+	public void deleteRental(Rental rental) {
 	}
 	
 	@Override
-	public void returnCar(Car car, Driver driver){
+	public void updateRental(Rental rental) {
+	}
+	
+	@Override
+	public Rental findRentalById(int id) {
+		return new Rental();
+	}
+	
+	@Override
+	public List<Rental> findAllRentals() {
+		return new ArrayList();
+	}
+	
+	@Override
+	public Driver findDriverByCar(Car car) {
+		return new Driver();
+	}
+	
+	@Override
+	public Car findCarByDriver(Driver driver) {
+		return new Car();
+	}
+	
+	@Override
+	public List<Driver> findCarHistoryOfRental(Car car) {
+		return new ArrayList();
+	}
+	
+	@Override
+	public List<Car> findDriverHistoryOfRental(Driver driver) {
+		return new ArrayList();
 	}
 	
 	@Override
@@ -49,6 +78,5 @@ public class RentalManager implements IRentalManager{
 	@Override
 	public boolean isCarFree(Car car){
 		return true;
-	}
-	
+	}	
 }
