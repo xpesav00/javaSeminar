@@ -16,7 +16,7 @@ public interface IRentalManager {
 	public void endRental(Rental rental);
 	public void deleteRental(Rental rental);
 	public void updateRental(Rental rental);
-	public Rental findRentalById(int id);
+	public Rental findRentalById(Long id);
 	public List<Rental> findAllRentals();
 	public Driver findDriverByCar(Car car);
 	public Car findCarByDriver(Driver driver);

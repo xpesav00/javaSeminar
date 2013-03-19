@@ -36,7 +36,7 @@ public class RentalManager implements IRentalManager{
 	}
 	
 	@Override
-	public Rental findRentalById(int id) {
+	public Rental findRentalById(Long id) {
 		return new Rental();
 	}
 	
