@@ -17,5 +17,5 @@ public interface ICarManager {
 	public List<Car> findAllCars();
 	public void updateCar(Car car);
 	public Car findCarById(Long id);	        
-        public Long getNextCarId();
+        public Long findNextCarId();
 }

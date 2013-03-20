@@ -42,7 +42,7 @@ public class DriverManager implements IDriverManager{
 	}
         
         @Override
-        public Long getNextDriverId()
+        public Long findNextDriverId()
         {
             return new Long(System.currentTimeMillis());
         }

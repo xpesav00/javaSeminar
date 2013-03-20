@@ -39,7 +39,7 @@ public class CarManagerTest {
         car1.setSpz("ASD15KU");
         car1.setVin("BASDGADG1536ASD");
         car1.setMileage(0.6);
-        car1.setId(manager.getNextCarId());
+        car1.setId(manager.findNextCarId());
 
         car2.setName("test car no. 2");
         car2.setSpz("ASDAFDKU");
@@ -94,7 +94,7 @@ public class CarManagerTest {
         } catch (IllegalArgumentException ex) {
         }
 
-        car1.setId(manager.getNextCarId());
+        car1.setId(manager.findNextCarId());
         car1.setName(null);
         try {
             manager.createCar(car1);
@@ -134,7 +134,7 @@ public class CarManagerTest {
         } catch (IllegalArgumentException ex) {
         }
 
-        car2.setId(manager.getNextCarId());
+        car2.setId(manager.findNextCarId());
         manager.createCar(car2);
 
         result = manager.findCarById(car1.getId());
@@ -151,7 +151,7 @@ public class CarManagerTest {
         List<Car> cars;
 
         manager.createCar(car1);
-        car2.setId(manager.getNextCarId());
+        car2.setId(manager.findNextCarId());
         manager.createCar(car2);
 
         assertNotNull(manager.findCarById(car1.getId()));
@@ -195,7 +195,7 @@ public class CarManagerTest {
         source.add(car1);
         assertEquals(source, manager.findAllCars());
 
-        car2.setId(manager.getNextCarId());
+        car2.setId(manager.findNextCarId());
         manager.createCar(car2);
         source.add(car2);
         assertEquals(source, manager.findAllCars());
@@ -215,7 +215,7 @@ public class CarManagerTest {
     @Test
     public void testUpdateCar() {
         manager.createCar(car1);
-        car2.setId(manager.getNextCarId());
+        car2.setId(manager.findNextCarId());
         manager.createCar(car2);
         Long carId = car1.getId();
 
@@ -311,7 +311,7 @@ public class CarManagerTest {
      */
     @Test
     public void testFindCarById() {
-        assertNull(manager.findCarById(manager.getNextCarId()));
+        assertNull(manager.findCarById(manager.findNextCarId()));
 
         try {
 
@@ -331,7 +331,7 @@ public class CarManagerTest {
         manager.createCar(car1);
         assertEquals(car1, manager.findCarById(car1.getId()));
 
-        car2.setId(manager.getNextCarId());
+        car2.setId(manager.findNextCarId());
         manager.createCar(car2);
         assertEquals(car1, manager.findCarById(car1.getId()));
         assertEquals(car2, manager.findCarById(car2.getId()));
@@ -339,14 +339,15 @@ public class CarManagerTest {
     }
 
     @Test
-    public void testGetNextId() {
-        Long store = manager.getNextCarId();
+    public void testFindNextId() {
+        Long store = manager.findNextCarId();
 
-        assertNotNull("return null", manager.getNextCarId());
+        assertNotNull("return null", manager.findNextCarId());
        
         manager.createCar(car1);
-        assertNotSame("returns same id",store, manager.getNextCarId());
-        assertTrue("negative id", manager.getNextCarId().longValue() >= 0);
+         
+        assertFalse("returns same id",store.equals(manager.findNextCarId()));
+        assertTrue("negative id", manager.findNextCarId().longValue() >= 0);
 
 
     }
