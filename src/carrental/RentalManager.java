@@ -42,7 +42,7 @@ public class RentalManager implements IRentalManager{
 	
 	@Override
 	public List<Rental> findAllRentals() {
-		return new ArrayList();
+		return new ArrayList<>();
 	}
 	
 	@Override
@@ -57,12 +57,12 @@ public class RentalManager implements IRentalManager{
 	
 	@Override
 	public List<Driver> findCarHistoryOfRental(Car car) {
-		return new ArrayList();
+		return new ArrayList<>();
 	}
 	
 	@Override
 	public List<Car> findDriverHistoryOfRental(Driver driver) {
-		return new ArrayList();
+		return new ArrayList<>();
 	}
 	
 	@Override
