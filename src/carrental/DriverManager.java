@@ -10,12 +10,16 @@
 
 package carrental;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DriverManager implements IDriverManager{
+	
+	private Connection connection;
 
-	public DriverManager() {
+	public DriverManager(Connection connection) {
+		this.connection = connection;
 	}
 	
 	@Override

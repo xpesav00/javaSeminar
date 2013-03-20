@@ -10,6 +10,7 @@
 
 package carrental;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,10 @@ import java.util.List;
  */
 public class CarManager implements ICarManager{
 	
-	public CarManager() {	
+	private Connection connection;
+	
+	public CarManager(Connection connection) {	
+		this.connection = connection;
 	}
 	
 	@Override

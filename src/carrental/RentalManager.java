@@ -10,12 +10,16 @@
 
 package carrental;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RentalManager implements IRentalManager{
 	
-	public RentalManager() {
+	private Connection connection;
+	
+	public RentalManager(Connection connection) {
+		this.connection = connection;
 	}
 	
 	@Override
