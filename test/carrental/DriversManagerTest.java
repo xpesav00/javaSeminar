@@ -4,8 +4,13 @@
  */
 package carrental;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,24 +19,32 @@ import static org.junit.Assert.*;
 /**
  * Projekt do predmetu PV168 - Autopujcovna
  *
- * @description Trida testujici DriverManager
+ * @description Trida testujici DriversManager
  * @package carrental
- * @file DriverManagerTest.java
+ * @file DriversManagerTest.java
  * @author Filip Krepinsky
  * @email suomiy@gmail.com
  * @date 15. 3. 2013
  */
-public class DriverManagerTest {
+public class DriversManagerTest {
 
-    private DriverManager manager;
+    private DriversManager manager;
     private Driver driver1, driver2, result;
 
-    public DriverManagerTest() {
+    public DriversManagerTest() {
     }
 
     @Before
     public void setUp() {
-        manager = new DriverManager();
+	//connect to db
+	Connection connection = null;
+	try {
+		connection = DriverManager.getConnection("jdbc:derby://localhost:1527/javaSeminar", "developer", "developer");
+	} catch (SQLException ex) {
+		Logger.getLogger(DriversManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+	}
+        
+	manager = new DriversManager(connection);
         driver1 = new Driver();
         driver2 = new Driver();
 
@@ -56,7 +69,7 @@ public class DriverManagerTest {
     }
 
     /**
-     * Test of createDriver method, of class DriverManager.
+     * Test of createDriver method, of class DriversManager.
      */
     @Test
     public void testCreateDriver() {
@@ -132,7 +145,7 @@ public class DriverManagerTest {
     }
 
     /**
-     * Test of deleteDriver method, of class DriverManager.
+     * Test of deleteDriver method, of class DriversManager.
      */
     @Test
     public void testDeleteDriver() {
@@ -171,7 +184,7 @@ public class DriverManagerTest {
     }
 
     /**
-     * Test of updateDriver method, of class DriverManager.
+     * Test of updateDriver method, of class DriversManager.
      */
     @Test
     public void testUpdateDriver() {
@@ -257,7 +270,7 @@ public class DriverManagerTest {
     }
 
     /**
-     * Test of findAllDrivers method, of class DriverManager.
+     * Test of findAllDrivers method, of class DriversManager.
      */
     @Test
     public void testFindAllDrivers() {
@@ -285,7 +298,7 @@ public class DriverManagerTest {
     }
 
     /**
-     * Test of findDriverById method, of class DriverManager.
+     * Test of findDriverById method, of class DriversManager.
      */
     @Test
     public void testFindDriverById() {
@@ -315,7 +328,7 @@ public class DriverManagerTest {
     }
 
     /**
-     * Test of getNextDriverId method, of class DriverManager.
+     * Test of getNextDriverId method, of class DriversManager.
      */
     @Test
     public void testFindNextDriverId() {

@@ -4,8 +4,13 @@
  */
 package carrental;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,24 +19,32 @@ import static org.junit.Assert.*;
 /**
  * Projekt do predmetu PV168 - Autopujcovna
  *
- * @description Trida testujici CarManager
+ * @description Trida testujici CarsManager
  * @package carrental
- * @file CarManagerTest.java
+ * @file CarsManagerTest.java
  * @author Filip Krepinsky
  * @email suomiy@gmail.com
  * @date 15. 3. 2013
  */
-public class CarManagerTest {
+public class CarsManagerTest {
 
-    private CarManager manager;
+    private CarsManager manager;
     private Car car1, car2, result;
 
-    public CarManagerTest() {
+    public CarsManagerTest() {
     }
 
     @Before
     public void setUp() {
-        manager = new CarManager();
+	 //connect to db
+	Connection connection = null;
+	try {
+		connection = DriverManager.getConnection("jdbc:derby://localhost:1527/javaSeminar", "developer", "developer");
+	} catch (SQLException ex) {
+		Logger.getLogger(CarsManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+	}
+        
+        manager = new CarsManager(connection);
         car1 = new Car();
         car2 = new Car();
 
@@ -59,7 +72,7 @@ public class CarManagerTest {
     }
 
     /**
-     * Test of createCar method, of class CarManager.
+     * Test of createCar method, of class CarsManager.
      */
     @Test
     public void testCreateCar() {
@@ -144,7 +157,7 @@ public class CarManagerTest {
     }
 
     /**
-     * Test of deleteCar method, of class CarManager.
+     * Test of deleteCar method, of class CarsManager.
      */
     @Test
     public void testDeleteCar() {
@@ -183,7 +196,7 @@ public class CarManagerTest {
     }
 
     /**
-     * Test of findAllCars method, of class CarManager.
+     * Test of findAllCars method, of class CarsManager.
      */
     @Test
     public void testFindAllCars() {
@@ -210,7 +223,7 @@ public class CarManagerTest {
     }
 
     /**
-     * Test of updateCar method, of class CarManager.
+     * Test of updateCar method, of class CarsManager.
      */
     @Test
     public void testUpdateCar() {
@@ -307,7 +320,7 @@ public class CarManagerTest {
     }
 
     /**
-     * Test of findCarById method, of class CarManager.
+     * Test of findCarById method, of class CarsManager.
      */
     @Test
     public void testFindCarById() {

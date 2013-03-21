@@ -31,7 +31,7 @@ public class CarRental {
 			
 		} catch (SQLException ex) {
 			Logger.getLogger(CarRental.class.getName()).log(Level.SEVERE, null, ex);
-		}
+		} 
 		
 	}
 }

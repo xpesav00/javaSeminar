@@ -1,8 +1,8 @@
 /**
  * Projekt do predmetu PV168 - Autopujcovna
- * @description Trida zajistuje spravu dat nad objektem Driver
+ * @description Trida zajistuje manazera pro praci s objektem Car
  * @package carrental
- * @file DriverManager.java
+ * @file CarsManager.java
  * @author Jan Pesava - xpesav00
  * @email xpesav00@mail.muni.cz
  * @date 5. 3. 2013
@@ -14,39 +14,43 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DriverManager implements IDriverManager{
+/**
+ *
+ * @author honzap
+ */
+public class CarsManager implements ICarManager{
 	
 	private Connection connection;
-
-	public DriverManager(Connection connection) {
+	
+	public CarsManager(Connection connection) {	
 		this.connection = connection;
 	}
 	
 	@Override
-	public Driver createDriver(Driver driver){
-		return new Driver();
+	public Car createCar(Car car) {
+		return new Car();
 	}
 	
 	@Override
-	public void deleteDriver(Driver driver){
+	public void deleteCar(Car car){
 	}
 	
 	@Override
-	public void updateDriver(Driver driver){
+	public List<Car> findAllCars(){
+		return new ArrayList<Car>();
 	}
 	
 	@Override
-	public List<Driver> findAllDrivers(){
-		return new ArrayList<>();
+	public void updateCar(Car car){
 	}
 	
 	@Override
-	public Driver findDriverById(Long id){
-		return new Driver();
+	public Car findCarById(Long id){
+		return new Car();
 	}
         
         @Override
-        public Long findNextDriverId()
+        public Long findNextCarId()
         {
             return new Long(System.currentTimeMillis());
         }

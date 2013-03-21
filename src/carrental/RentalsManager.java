@@ -2,7 +2,7 @@
  * Projekt do predmetu PV168 - Autopujcovna
  * @description Trida zajistuje manazera pro praci s objektem Rental
  * @package carrental
- * @file RentalManager.java
+ * @file RentalsManager.java
  * @author Jan Pesava - xpesav00
  * @email xpesav00@mail.muni.cz
  * @date 5. 3. 2013
@@ -14,11 +14,11 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RentalManager implements IRentalManager{
+public class RentalsManager implements IRentalManager{
 	
 	private Connection connection;
 	
-	public RentalManager(Connection connection) {
+	public RentalsManager(Connection connection) {
 		this.connection = connection;
 	}
 	

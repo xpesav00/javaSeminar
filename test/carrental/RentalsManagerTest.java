@@ -1,8 +1,8 @@
 /**
  * Projekt do predmetu PV168 - Autopujcovna
- * @description Trida zajistuje testovani objektu RentalManager
+ * @description Trida zajistuje testovani objektu RentalsManager
  * @package carrental
- * @file RentalManagerTest.java
+ * @file RentalsManagerTest.java
  * @author Jan Pesava - xpesav00
  * @email xpesav00@mail.muni.cz
  * @date 5. 3. 2013
@@ -11,8 +11,13 @@
 package carrental;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -20,11 +25,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class RentalManagerTest {
+public class RentalsManagerTest {
 	
-	private RentalManager rentalManager;
-	private CarManager carManager;
-	private DriverManager driverManager;
+	private RentalsManager rentalManager;
+	private CarsManager carManager;
+	private DriversManager driverManager;
 	private Rental rental1;
 	private Rental rental2;
 	private Rental rental3;
@@ -33,7 +38,7 @@ public class RentalManagerTest {
 	private Rental rentalBad2;
 	private Rental rentalBad3;
 	
-	public RentalManagerTest() {
+	public RentalsManagerTest() {
 	}
 	
 	@BeforeClass
@@ -46,14 +51,23 @@ public class RentalManagerTest {
 	
 	@Before
 	public void setUp() {
+		
+		//connect to db
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:derby://localhost:1527/javaSeminar", "developer", "developer");
+		} catch (SQLException ex) {
+			Logger.getLogger(RentalsManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+		}
+        
 		//set rentalManager
-		this.rentalManager = new RentalManager();
+		this.rentalManager = new RentalsManager(connection);
 		
 		//set carManager
-		this.carManager = new CarManager();
+		this.carManager = new CarsManager(connection);
 		
 		//set driverManager
-		this.driverManager = new DriverManager();
+		this.driverManager = new DriversManager(connection);
 		
 		this.rental1 = new Rental(null, new Driver(), new Car(), BigDecimal.ZERO, null, null);
 		this.rental2 = new Rental(null, new Driver(), new Car(), BigDecimal.ZERO, null, null);
@@ -80,7 +94,7 @@ public class RentalManagerTest {
 	}
 
 	/**
-	 * Test of createRental method, of class RentalManager.
+	 * Test of createRental method, of class RentalsManager.
 	 */
 	@Test
 	public void testCreateRental() {
@@ -161,7 +175,7 @@ public class RentalManagerTest {
 	}
 
 	/**
-	 * Test of deleteRental method, of class RentalManager.
+	 * Test of deleteRental method, of class RentalsManager.
 	 */
 	@Test
 	public void testDeleteRental() {
@@ -235,7 +249,7 @@ public class RentalManagerTest {
 	}
 	
 	/**
-	 * Test of findAllRentCars method, of class RentalManager.
+	 * Test of findAllRentCars method, of class RentalsManager.
 	 */
 	@Test
 	public void testFindAllRentCars() {
@@ -315,7 +329,7 @@ public class RentalManagerTest {
 	}
 	
 	/**
-	 * Test of endRental method, of class RentalManager.
+	 * Test of endRental method, of class RentalsManager.
 	 */
 	@Test
 	public void testEndRental() {
@@ -325,7 +339,7 @@ public class RentalManagerTest {
 
 
 	/**
-	 * Test of updateRental method, of class RentalManager.
+	 * Test of updateRental method, of class RentalsManager.
 	 */
 	@Test
 	public void testUpdateRental() {
@@ -388,7 +402,7 @@ public class RentalManagerTest {
 	}
 
 	/**
-	 * Test of findRentalById method, of class RentalManager.
+	 * Test of findRentalById method, of class RentalsManager.
 	 */
 	@Test
 	public void testFindRentalById() {
@@ -408,7 +422,7 @@ public class RentalManagerTest {
 	}
 
 	/**
-	 * Test of findAllRentals method, of class RentalManager.
+	 * Test of findAllRentals method, of class RentalsManager.
 	 */
 	@Test
 	public void testFindAllRentals() {
@@ -447,7 +461,7 @@ public class RentalManagerTest {
 	}
 
 	/**
-	 * Test of findDriverByCar method, of class RentalManager.
+	 * Test of findDriverByCar method, of class RentalsManager.
 	 */
 	@Test
 	public void testFindDriverByCar() {
@@ -468,7 +482,7 @@ public class RentalManagerTest {
 	}
 
 	/**
-	 * Test of findCarByDriver method, of class RentalManager.
+	 * Test of findCarByDriver method, of class RentalsManager.
 	 */
 	@Test
 	public void testFindCarByDriver() {
@@ -489,7 +503,7 @@ public class RentalManagerTest {
 	}
 
 	/**
-	 * Test of findCarHistoryOfRental method, of class RentalManager.
+	 * Test of findCarHistoryOfRental method, of class RentalsManager.
 	 */
 	@Test
 	public void testFindCarHistoryOfRental() {
@@ -534,7 +548,7 @@ public class RentalManagerTest {
 	}
 
 	/**
-	 * Test of findDriverHistoryOfRental method, of class RentalManager.
+	 * Test of findDriverHistoryOfRental method, of class RentalsManager.
 	 */
 	@Test
 	public void testFindDriverHistoryOfRental() {
@@ -581,7 +595,7 @@ public class RentalManagerTest {
 	}
 
 	/**
-	 * Test of findAllCarsOnStock method, of class RentalManager.
+	 * Test of findAllCarsOnStock method, of class RentalsManager.
 	 */
 	@Test
 	public void testFindAllCarsOnStock() {
@@ -616,7 +630,7 @@ public class RentalManagerTest {
 	}
 
 	/**
-	 * Test of isCarFree method, of class RentalManager.
+	 * Test of isCarFree method, of class RentalsManager.
 	 */
 	@Test
 	public void testIsCarFree() {
