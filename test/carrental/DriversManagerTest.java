@@ -30,28 +30,36 @@ public class DriversManagerTest {
 
     private DriversManager manager;
     private Driver driver1, driver2, result;
+    Connection connection = null;
 
     public DriversManagerTest() {
     }
 
     @Before
-    public void setUp() {
-	//connect to db
-	Connection connection = null;
-	try {
-		connection = DriverManager.getConnection("jdbc:derby://localhost:1527/javaSeminar", "developer", "developer");
-	} catch (SQLException ex) {
-		Logger.getLogger(DriversManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-	}
+    public void setUp() throws SQLException {
+        //connect to db
         
-	manager = new DriversManager(connection);
+        try {
+            connection = DriverManager.getConnection("jdbc:derby://localhost:1527/javaSeminar", "developer", "developer");
+        } catch (SQLException ex) {
+            Logger.getLogger(DriversManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+ 
+        
+       connection.prepareStatement( "CREATE TABLE DRIVERTEST ("
+                + "id BIGINT NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,"
+                + "name VARCHAR(100) NOT NULL,"
+                + "surname VARCHAR(20) NOT NULL,"
+                + "license_id VARCHAR(100) NOT NULL)").executeUpdate();
+
+
+        manager = new DriversManager(connection);
         driver1 = new Driver();
         driver2 = new Driver();
 
         driver1.setName("test subject");
         driver1.setSurname("no. 1");
         driver1.setLicenceId("AEG154683");
-        driver1.setId(manager.findNextDriverId());
 
         driver2.setName("test subject as well");
         driver2.setSurname("no. 2");
@@ -61,11 +69,13 @@ public class DriversManagerTest {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown () throws SQLException{
         manager = null;
         driver1 = null;
         driver2 = null;
         result = null;
+        connection.prepareStatement("DROP TABLE DRIVERTEST").executeUpdate();        
+        connection.close();
     }
 
     /**
@@ -80,22 +90,14 @@ public class DriversManagerTest {
         } catch (IllegalArgumentException ex) {
         }
 
+        driver1.setId(new Long(20));
+        try {
+            manager.createDriver(driver1);
+            fail("driver with not null id");
+        } catch (IllegalArgumentException ex) {
+        }
+
         driver1.setId(null);
-        try {
-            manager.createDriver(driver1);
-            fail("driver with null id");
-        } catch (IllegalArgumentException ex) {
-        }
-
-
-        driver1.setId(new Long(-20));
-        try {
-            manager.createDriver(driver1);
-            fail("driver with negative id");
-        } catch (IllegalArgumentException ex) {
-        }
-
-        driver1.setId(manager.findNextDriverId());
         driver1.setName(null);
         try {
             manager.createDriver(driver1);
@@ -126,16 +128,6 @@ public class DriversManagerTest {
         assertEquals("doesn't return same object", result, driver1);
         assertEquals("doesn't return same object", manager.findDriverById(driver1.getId()), driver1);
 
-
-
-        driver2.setId(driver1.getId());
-        try {
-            manager.createDriver(driver2);
-            fail("creates driver with same id");
-        } catch (IllegalArgumentException ex) {
-        }
-
-        driver2.setId(manager.findNextDriverId());
         manager.createDriver(driver2);
 
         result = manager.findDriverById(driver1.getId());
@@ -152,7 +144,6 @@ public class DriversManagerTest {
         List<Driver> drivers;
 
         manager.createDriver(driver1);
-        driver2.setId(manager.findNextDriverId());
         manager.createDriver(driver2);
 
         assertNotNull(manager.findDriverById(driver1.getId()));
@@ -190,7 +181,6 @@ public class DriversManagerTest {
     public void testUpdateDriver() {
 
         manager.createDriver(driver1);
-        driver2.setId(manager.findNextDriverId());
         manager.createDriver(driver2);
         Long driverId = driver1.getId();
 
@@ -282,7 +272,6 @@ public class DriversManagerTest {
         source.add(driver1);
         assertEquals(source, manager.findAllDrivers());
 
-        driver2.setId(manager.findNextDriverId());
         manager.createDriver(driver2);
         source.add(driver2);
         assertEquals(source, manager.findAllDrivers());
@@ -302,13 +291,13 @@ public class DriversManagerTest {
      */
     @Test
     public void testFindDriverById() {
-        assertNull(manager.findDriverById(manager.findNextDriverId()));
+        assertNull(manager.findDriverById(new Long(10)));
 
-        try {
-            manager.findDriverById(new Long(-1));
-            fail();
-        } catch (IllegalArgumentException ex) {
-        }
+        /*  try {
+         manager.findDriverById(new Long(-1));
+         fail();
+         } catch (IllegalArgumentException ex) {
+         }*/
 
         try {
             manager.findDriverById(null);
@@ -320,25 +309,10 @@ public class DriversManagerTest {
         manager.createDriver(driver1);
         assertEquals(driver1, manager.findDriverById(driver1.getId()));
 
-        driver2.setId(manager.findNextDriverId());
         manager.createDriver(driver2);
         assertEquals(driver1, manager.findDriverById(driver1.getId()));
         assertEquals(driver2, manager.findDriverById(driver2.getId()));
 
-    }
-
-    /**
-     * Test of getNextDriverId method, of class DriversManager.
-     */
-    @Test
-    public void testFindNextDriverId() {
-        Long store = manager.findNextDriverId();
-
-        assertNotNull("return null", manager.findNextDriverId());
-                
-        manager.createDriver(driver1);
-        assertFalse("returns same id", store.equals(manager.findNextDriverId()));
-        assertTrue("negative id", manager.findNextDriverId().longValue() >= 0);
     }
 
     private static void assertDriverEquals(Driver expected, Driver actual) {

@@ -36,14 +36,14 @@ public class CarsManagerTest {
 
     @Before
     public void setUp() {
-	 //connect to db
-	Connection connection = null;
-	try {
-		connection = DriverManager.getConnection("jdbc:derby://localhost:1527/javaSeminar", "developer", "developer");
-	} catch (SQLException ex) {
-		Logger.getLogger(CarsManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-	}
-        
+        //connect to db
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:derby://localhost:1527/javaSeminar", "developer", "developer");
+        } catch (SQLException ex) {
+            Logger.getLogger(CarsManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         manager = new CarsManager(connection);
         car1 = new Car();
         car2 = new Car();
@@ -52,7 +52,6 @@ public class CarsManagerTest {
         car1.setSpz("ASD15KU");
         car1.setVin("BASDGADG1536ASD");
         car1.setMileage(0.6);
-        car1.setId(manager.findNextCarId());
 
         car2.setName("test car no. 2");
         car2.setSpz("ASDAFDKU");
@@ -89,25 +88,17 @@ public class CarsManagerTest {
             fail("creates negative milleage");
         } catch (IllegalArgumentException ex) {
         }
-        
+
         car1.setMileage(1232.9);
+
+        car1.setId(new Long(25));
+        try {
+            manager.createCar(car1);
+            fail("creates car with not null id");
+        } catch (IllegalArgumentException ex) {
+        }
+
         car1.setId(null);
-        try {
-            manager.createCar(car1);
-            fail("car with null id");
-        } catch (IllegalArgumentException ex) {
-        }
-
-
-        car1.setId(new Long(-20));
-        
-        try {
-            manager.createCar(car1);
-            fail("creates car with negative id");
-        } catch (IllegalArgumentException ex) {
-        }
-
-        car1.setId(manager.findNextCarId());
         car1.setName(null);
         try {
             manager.createCar(car1);
@@ -138,16 +129,6 @@ public class CarsManagerTest {
         assertEquals("doesn't return same object", result, car1);
         assertEquals("doesn't return same object", manager.findCarById(car1.getId()), car1);
 
-
-        car2.setMileage(0.0);
-        car2.setId(car1.getId());
-        try {
-            manager.createCar(car2);
-            fail("creates car with same id");
-        } catch (IllegalArgumentException ex) {
-        }
-
-        car2.setId(manager.findNextCarId());
         manager.createCar(car2);
 
         result = manager.findCarById(car1.getId());
@@ -164,7 +145,6 @@ public class CarsManagerTest {
         List<Car> cars;
 
         manager.createCar(car1);
-        car2.setId(manager.findNextCarId());
         manager.createCar(car2);
 
         assertNotNull(manager.findCarById(car1.getId()));
@@ -208,7 +188,6 @@ public class CarsManagerTest {
         source.add(car1);
         assertEquals(source, manager.findAllCars());
 
-        car2.setId(manager.findNextCarId());
         manager.createCar(car2);
         source.add(car2);
         assertEquals(source, manager.findAllCars());
@@ -228,7 +207,6 @@ public class CarsManagerTest {
     @Test
     public void testUpdateCar() {
         manager.createCar(car1);
-        car2.setId(manager.findNextCarId());
         manager.createCar(car2);
         Long carId = car1.getId();
 
@@ -324,15 +302,15 @@ public class CarsManagerTest {
      */
     @Test
     public void testFindCarById() {
-        assertNull(manager.findCarById(manager.findNextCarId()));
+        assertNull(manager.findCarById(new Long(10)));
 
-        try {
+/*        try {
 
             manager.findCarById(new Long(-1));
             fail();
         } catch (IllegalArgumentException ex) {
-        }
-        
+        }*/
+
         try {
 
             manager.findCarById(null);
@@ -344,24 +322,9 @@ public class CarsManagerTest {
         manager.createCar(car1);
         assertEquals(car1, manager.findCarById(car1.getId()));
 
-        car2.setId(manager.findNextCarId());
         manager.createCar(car2);
         assertEquals(car1, manager.findCarById(car1.getId()));
         assertEquals(car2, manager.findCarById(car2.getId()));
-
-    }
-
-    @Test
-    public void testFindNextId() {
-        Long store = manager.findNextCarId();
-
-        assertNotNull("return null", manager.findNextCarId());
-       
-        manager.createCar(car1);
-         
-        assertFalse("returns same id",store.equals(manager.findNextCarId()));
-        assertTrue("negative id", manager.findNextCarId().longValue() >= 0);
-
 
     }
 

@@ -47,11 +47,6 @@ public class CarsManager implements ICarManager{
 	@Override
 	public Car findCarById(Long id){
 		return new Car();
-	}
+	}        
         
-        @Override
-        public Long findNextCarId()
-        {
-            return new Long(System.currentTimeMillis());
-        }
 }
