@@ -7,10 +7,9 @@ package carrental;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +29,8 @@ public class DriversManagerTest {
 
     private DriversManager manager;
     private Driver driver1, driver2, result;
-    Connection connection = null;
+    private Connection connection = null;
+    private Statement st;
 
     public DriversManagerTest() {
     }
@@ -38,19 +38,12 @@ public class DriversManagerTest {
     @Before
     public void setUp() throws SQLException {
         //connect to db
-        
-        try {
-            connection = DriverManager.getConnection("jdbc:derby://localhost:1527/javaSeminar", "developer", "developer");
-        } catch (SQLException ex) {
-            Logger.getLogger(DriversManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
- 
-        
-       connection.prepareStatement( "CREATE TABLE DRIVERTEST ("
-                + "id BIGINT NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,"
-                + "name VARCHAR(100) NOT NULL,"
-                + "surname VARCHAR(20) NOT NULL,"
-                + "license_id VARCHAR(100) NOT NULL)").executeUpdate();
+
+        connection = DriverManager.getConnection("jdbc:derby://localhost:1527/javaSeminar", "developer", "developer");
+        st = connection.createStatement();
+        st.execute("DELETE FROM DRIVER");
+        st.execute("ALTER TABLE DRIVER ALTER COLUMN id RESTART WITH 1");//reseting id counter
+        //  st.execute("TRUNCATE TABLE DRIVER");
 
 
         manager = new DriversManager(connection);
@@ -69,13 +62,17 @@ public class DriversManagerTest {
     }
 
     @After
-    public void tearDown () throws SQLException{
+    public void tearDown() throws SQLException {
         manager = null;
         driver1 = null;
         driver2 = null;
         result = null;
-        connection.prepareStatement("DROP TABLE DRIVERTEST").executeUpdate();        
+        st.execute("DELETE FROM DRIVER");
+        st.execute("ALTER TABLE DRIVER ALTER COLUMN id RESTART WITH 1");//reseting id counter
+        st.close();
         connection.close();
+
+
     }
 
     /**
@@ -151,6 +148,7 @@ public class DriversManagerTest {
 
         manager.deleteDriver(driver1);
 
+        driver1.setId(Long.MAX_VALUE);
         assertNull(manager.findDriverById(driver1.getId()));
         assertNotNull(manager.findDriverById(driver2.getId()));
         drivers = manager.findAllDrivers();
@@ -165,7 +163,14 @@ public class DriversManagerTest {
         try {
 
             manager.deleteDriver(driver1);
-            fail("cant delete non existing car");
+            fail("cant delete non existing driver");
+        } catch (IllegalArgumentException ex) {
+        }
+        driver1.setId(null);
+        try {
+
+            manager.deleteDriver(driver1);
+            fail("cant delete non existing driver");
         } catch (IllegalArgumentException ex) {
         }
 
@@ -223,9 +228,9 @@ public class DriversManagerTest {
         } catch (IllegalArgumentException ex) {
         }
 
-        try {
+         try { 
             driver1 = manager.findDriverById(driverId);
-            driver1.setId(new Long(-1));
+            driver1.setId(Long.MAX_VALUE);
             manager.updateDriver(driver1);
             fail();
         } catch (IllegalArgumentException ex) {
@@ -276,12 +281,12 @@ public class DriversManagerTest {
         source.add(driver2);
         assertEquals(source, manager.findAllDrivers());
 
-        manager.deleteDriver(driver1);
         source.remove(driver1);
+        manager.deleteDriver(driver1);
         assertEquals(source, manager.findAllDrivers());
 
-        manager.deleteDriver(driver2);
         source.remove(driver2);
+        manager.deleteDriver(driver2);
         assertEquals(source, manager.findAllDrivers());
 
     }
@@ -291,9 +296,9 @@ public class DriversManagerTest {
      */
     @Test
     public void testFindDriverById() {
-        assertNull(manager.findDriverById(new Long(10)));
+        assertNull(manager.findDriverById(Long.MAX_VALUE));
 
-        /*  try {
+        /*  try {   //only if negative id's are forbiden
          manager.findDriverById(new Long(-1));
          fail();
          } catch (IllegalArgumentException ex) {
@@ -313,6 +318,9 @@ public class DriversManagerTest {
         assertEquals(driver1, manager.findDriverById(driver1.getId()));
         assertEquals(driver2, manager.findDriverById(driver2.getId()));
 
+        driver2.setId(Long.MAX_VALUE);
+        assertNull("not created driver must not be found",
+                manager.findDriverById(driver2.getId()));
     }
 
     private static void assertDriverEquals(Driver expected, Driver actual) {

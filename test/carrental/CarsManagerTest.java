@@ -7,10 +7,9 @@ package carrental;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,19 +29,23 @@ public class CarsManagerTest {
 
     private CarsManager manager;
     private Car car1, car2, result;
+    private Connection connection = null;
+    private Statement st;
 
     public CarsManagerTest() {
     }
 
     @Before
-    public void setUp() {
+    public void setUp() throws SQLException {
         //connect to db
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection("jdbc:derby://localhost:1527/javaSeminar", "developer", "developer");
-        } catch (SQLException ex) {
-            Logger.getLogger(CarsManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        connection = DriverManager.getConnection("jdbc:derby://localhost:1527/javaSeminar", "developer", "developer");
+        st = connection.createStatement();
+        st.execute("DELETE FROM CAR"); 
+        st.execute("ALTER TABLE CAR ALTER COLUMN id RESTART WITH 1");//reseting id counter
+        // st.execute("TRUNCATE TABLE CAR");
+        
+          
 
         manager = new CarsManager(connection);
         car1 = new Car();
@@ -62,11 +65,16 @@ public class CarsManagerTest {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown() throws SQLException {
         manager = null;
         car1 = null;
         car2 = null;
         result = null;
+
+        st.execute("DELETE FROM CAR"); 
+        st.execute("ALTER TABLE CAR ALTER COLUMN id RESTART WITH 1");//reseting id counter
+        st.close();
+        connection.close();
 
     }
 
@@ -152,6 +160,7 @@ public class CarsManagerTest {
 
         manager.deleteCar(car1);
 
+        car1.setId(Long.MAX_VALUE);
         assertNull(manager.findCarById(car1.getId()));
         assertNotNull(manager.findCarById(car2.getId()));
         cars = manager.findAllCars();
@@ -169,36 +178,17 @@ public class CarsManagerTest {
             fail("cant delete non existing car");
         } catch (IllegalArgumentException ex) {
         }
+        car1.setId(null);
+        try {
 
-        manager.createCar(car2);
-        cars = manager.findAllCars();
-        assertTrue("manager isnt empty", cars.isEmpty());
-    }
-
-    /**
-     * Test of findAllCars method, of class CarsManager.
-     */
-    @Test
-    public void testFindAllCars() {
-        List<Car> source = new ArrayList<>();
-
-        assertEquals(source, manager.findAllCars());
-
-        manager.createCar(car1);
-        source.add(car1);
-        assertEquals(source, manager.findAllCars());
-
-        manager.createCar(car2);
-        source.add(car2);
-        assertEquals(source, manager.findAllCars());
-
-        manager.deleteCar(car1);
-        source.remove(car1);
-        assertEquals(source, manager.findAllCars());
+            manager.deleteCar(car1);
+            fail("cant delete non existing car");
+        } catch (IllegalArgumentException ex) {
+        }
 
         manager.deleteCar(car2);
-        source.remove(car2);
-        assertEquals(source, manager.findAllCars());
+        cars = manager.findAllCars();
+        assertTrue("manager isnt empty", cars.isEmpty());       
     }
 
     /**
@@ -257,7 +247,7 @@ public class CarsManagerTest {
 
         try {
             car1 = manager.findCarById(carId);
-            car1.setId(new Long(-1));
+            car1.setId(new Long(Long.MAX_VALUE));
             manager.updateCar(car1);
             fail();
         } catch (IllegalArgumentException ex) {
@@ -296,20 +286,45 @@ public class CarsManagerTest {
         }
 
     }
+    
+    /**
+     * Test of findAllCars method, of class CarsManager.
+     */
+    @Test
+    public void testFindAllCars() {
+        List<Car> source = new ArrayList<>();
 
+        assertEquals(source, manager.findAllCars());
+
+        manager.createCar(car1);
+        source.add(car1);
+        assertEquals(source, manager.findAllCars());
+
+        manager.createCar(car2);
+        source.add(car2);
+        assertEquals(source, manager.findAllCars());
+
+        source.remove(car1);
+        manager.deleteCar(car1);
+        assertEquals(source, manager.findAllCars());
+
+        source.remove(car2);
+        manager.deleteCar(car2);
+        assertEquals(source, manager.findAllCars());
+    }
+    
     /**
      * Test of findCarById method, of class CarsManager.
      */
     @Test
     public void testFindCarById() {
-        assertNull(manager.findCarById(new Long(10)));
+        assertNull(manager.findCarById(Long.MAX_VALUE));
 
-/*        try {
-
-            manager.findCarById(new Long(-1));
-            fail();
-        } catch (IllegalArgumentException ex) {
-        }*/
+        /*        try {  //only if negative id's are forbiden
+         manager.findCarById(new Long(-1));
+         fail();
+         } catch (IllegalArgumentException ex) {
+         }*/
 
         try {
 
@@ -326,6 +341,9 @@ public class CarsManagerTest {
         assertEquals(car1, manager.findCarById(car1.getId()));
         assertEquals(car2, manager.findCarById(car2.getId()));
 
+        car2.setId(Long.MAX_VALUE);
+        assertNull("not created car must not be found",
+                manager.findCarById(car2.getId()));
     }
 
     private static void assertCarEquals(Car expected, Car actual) {
