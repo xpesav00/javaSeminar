@@ -118,7 +118,7 @@ public class CarsManager implements ICarManager {
                 "SELECT * FROM CAR", Statement.RETURN_GENERATED_KEYS)) {
             try (ResultSet rs = st.executeQuery()) {
 
-                result = new ArrayList();
+                result = new ArrayList<>();
                 while (rs.next()) {
                     result.add(resultSetToCar(rs));
                 }

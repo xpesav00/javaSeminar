@@ -140,17 +140,16 @@ public class DriversManagerTest {
     public void testDeleteDriver() {
         List<Driver> drivers;
 
-        manager.createDriver(driver1);
-        manager.createDriver(driver2);
+        Driver driverTmp1 = manager.createDriver(driver1);
+        Driver driverTmp2 = manager.createDriver(driver2);
 
-        assertNotNull(manager.findDriverById(driver1.getId()));
-        assertNotNull(manager.findDriverById(driver2.getId()));
+        assertNotNull(manager.findDriverById(driverTmp1.getId()));
+        assertNotNull(manager.findDriverById(driverTmp2.getId()));
 
-        manager.deleteDriver(driver1);
+        manager.deleteDriver(driverTmp1);
 
-        driver1.setId(Long.MAX_VALUE);
-        assertNull(manager.findDriverById(driver1.getId()));
-        assertNotNull(manager.findDriverById(driver2.getId()));
+        assertNull(manager.findDriverById(driverTmp1.getId()));
+        assertNotNull(manager.findDriverById(driverTmp2.getId()));
         drivers = manager.findAllDrivers();
         assertEquals("number of drivers doesn't match", drivers.size(), 1);
 
@@ -162,19 +161,19 @@ public class DriversManagerTest {
 
         try {
 
-            manager.deleteDriver(driver1);
+            manager.deleteDriver(driverTmp1);
             fail("cant delete non existing driver");
-        } catch (IllegalArgumentException ex) {
+        } catch (ServiceFailureException ex) {
         }
-        driver1.setId(null);
+        driverTmp1.setId(null);
         try {
 
-            manager.deleteDriver(driver1);
+            manager.deleteDriver(driverTmp1);
             fail("cant delete non existing driver");
         } catch (IllegalArgumentException ex) {
         }
-
-        manager.deleteDriver(driver2);
+	
+        manager.deleteDriver(driverTmp2);
         drivers = manager.findAllDrivers();
         assertTrue("manager isnt empty", drivers.isEmpty());
     }
@@ -185,8 +184,8 @@ public class DriversManagerTest {
     @Test
     public void testUpdateDriver() {
 
-        manager.createDriver(driver1);
-        manager.createDriver(driver2);
+        driver1 = manager.createDriver(driver1);
+        driver2 = manager.createDriver(driver2);
         Long driverId = driver1.getId();
 
         driver1 = manager.findDriverById(driverId);
@@ -227,7 +226,7 @@ public class DriversManagerTest {
             fail();
         } catch (IllegalArgumentException ex) {
         }
-
+	
          try { 
             driver1 = manager.findDriverById(driverId);
             driver1.setId(Long.MAX_VALUE);
@@ -235,8 +234,6 @@ public class DriversManagerTest {
             fail();
         } catch (IllegalArgumentException ex) {
         }
-
-
 
         try {
             driver1 = manager.findDriverById(driverId);
@@ -297,19 +294,12 @@ public class DriversManagerTest {
     @Test
     public void testFindDriverById() {
         assertNull(manager.findDriverById(Long.MAX_VALUE));
-
-        /*  try {   //only if negative id's are forbiden
-         manager.findDriverById(new Long(-1));
-         fail();
-         } catch (IllegalArgumentException ex) {
-         }*/
-
+	
         try {
             manager.findDriverById(null);
             fail();
         } catch (IllegalArgumentException ex) {
         }
-
 
         manager.createDriver(driver1);
         assertEquals(driver1, manager.findDriverById(driver1.getId()));

@@ -62,6 +62,7 @@ public class DriversManager implements IDriverManager{
 			
 			ResultSet rs = insertStatement.getGeneratedKeys();
 			driver.setId(this.getKey(rs, driver));
+			//System.out.println("created new driver with this id:"+driver.getId());
 			
 		} catch (SQLException ex) {
 			Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -110,6 +111,13 @@ public class DriversManager implements IDriverManager{
 			throw new IllegalArgumentException("Argument - driver.id is null.");
 		}
 		
+		//control data in database
+		try {
+			this.findDriverById(driver.getId());
+		} catch(ServiceFailureException ex) {
+			throw new ServiceFailureException("Driver isnt in database.", ex);
+		}
+		
 		PreparedStatement deleteStatement = null;
 		try {
 			deleteStatement = this.connection.prepareStatement("DELETE FROM driver where id=?");
@@ -117,7 +125,7 @@ public class DriversManager implements IDriverManager{
 			int deletedRows = deleteStatement.executeUpdate();
 			
 			if(deletedRows != 1) {
-				throw new ServiceFailureException("Internal error: In database was deleted more or less rows");
+				throw new ServiceFailureException("Internal error: In database was deleted more or less rows. Deleted rows: " + deletedRows);
 			}	
 			
 		} catch (SQLException ex) {
@@ -152,6 +160,12 @@ public class DriversManager implements IDriverManager{
 			throw new IllegalArgumentException("Driver have null surname pointer.");
 		}
 		
+		try {
+			this.findDriverById(driver.getId());
+		} catch(ServiceFailureException ex) {
+			throw new IllegalArgumentException("This driver isnt in database.", ex);
+		}
+		
 		//save data to database
 		PreparedStatement updateStatement = null;
 		try {
@@ -162,7 +176,7 @@ public class DriversManager implements IDriverManager{
 			updateStatement.setLong(4, driver.getId());
 			int updatedRows = updateStatement.executeUpdate();
 			if(updatedRows != 1) {
-				throw new ServiceFailureException("In DB was updated bad count of rows - " + updatedRows);
+				throw new IllegalArgumentException("In DB was updated bad count of rows - " + updatedRows);
 			}			
 		} catch (SQLException ex) {
 			Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -182,11 +196,10 @@ public class DriversManager implements IDriverManager{
 		
 		PreparedStatement findStatement = null;
 		try {
-			findStatement = connection.prepareStatement(
-				"SELECT * FROM graves");
+			findStatement = connection.prepareStatement("SELECT * FROM driver");
 			ResultSet rs = findStatement.executeQuery();
 
-			List<Driver> result = new ArrayList<Driver>();
+			List<Driver> result = new ArrayList<>();
 			while (rs.next()) {
 			    result.add(resultSetToDriver(rs));
 			}
@@ -208,6 +221,10 @@ public class DriversManager implements IDriverManager{
 	
 	@Override
 	public Driver findDriverById(Long id) throws ServiceFailureException {
+		
+		if(id == null) {
+			throw new IllegalArgumentException("Bad param: id is null.");
+		}
 		
 		PreparedStatement findStatement = null;
 		try {
