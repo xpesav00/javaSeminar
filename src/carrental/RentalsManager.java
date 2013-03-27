@@ -70,7 +70,7 @@ public class RentalsManager implements IRentalManager{
 	}
 	
 	@Override
-	public List<Car> findAllRentCars(){
+	public List<Car> findAllRentedCars(){
 		return new ArrayList<>();
 	}
 	

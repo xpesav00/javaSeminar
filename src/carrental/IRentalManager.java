@@ -22,7 +22,7 @@ public interface IRentalManager {
 	public Car findCarByDriver(Driver driver);
 	public List<Driver> findCarHistoryOfRental(Car car);
 	public List<Car> findDriverHistoryOfRental(Driver driver);
-	public List<Car> findAllRentCars();
+	public List<Car> findAllRentedCars();
 	public List<Car> findAllCarsOnStock();
 	public boolean isCarFree(Car car);	
-}
+}	

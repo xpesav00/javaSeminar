@@ -163,7 +163,7 @@ public class DriversManagerTest {
 
             manager.deleteDriver(driverTmp1);
             fail("cant delete non existing driver");
-        } catch (ServiceFailureException ex) {
+        } catch (IllegalArgumentException ex) {
         }
         driverTmp1.setId(null);
         try {
