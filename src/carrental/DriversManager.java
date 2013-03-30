@@ -19,13 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sql.DataSource;
 
 public class DriversManager implements IDriverManager {
 
-    private Connection connection;
+    private DataSource dataSource;
 
-    public DriversManager(Connection connection) {
-        this.connection = connection;
+    public DriversManager(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     @Override
@@ -49,9 +50,8 @@ public class DriversManager implements IDriverManager {
         }
 
         //save data to database
-        PreparedStatement insertStatement = null;
-        try {
-            insertStatement = connection.prepareStatement("INSERT INTO driver (license_id, name, surname) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
+        try(Connection connection = this.dataSource.getConnection();
+		PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO driver (license_id, name, surname) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);) {	    
             insertStatement.setString(1, driver.getLicenceId());
             insertStatement.setString(2, driver.getName());
             insertStatement.setString(3, driver.getSurname());
@@ -62,18 +62,9 @@ public class DriversManager implements IDriverManager {
 
             ResultSet rs = insertStatement.getGeneratedKeys();
             driver.setId(this.getKey(rs, driver));
-            //System.out.println("created new driver with this id:"+driver.getId());
 
         } catch (SQLException ex) {
             Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (insertStatement != null) {
-                try {
-                    insertStatement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
         }
 
         return driver;
@@ -112,14 +103,12 @@ public class DriversManager implements IDriverManager {
         }
 
         //control data in database
-
         if (this.findDriverById(driver.getId()) == null) {
             throw new IllegalArgumentException("Driver isnt in database.");
         }
 
-        PreparedStatement deleteStatement = null;
-        try {
-            deleteStatement = this.connection.prepareStatement("DELETE FROM driver where id=?");
+        try(Connection connection = this.dataSource.getConnection();
+		PreparedStatement deleteStatement = connection.prepareStatement("DELETE FROM driver where id=?");) {
             deleteStatement.setLong(1, driver.getId());
             int deletedRows = deleteStatement.executeUpdate();
 
@@ -129,14 +118,6 @@ public class DriversManager implements IDriverManager {
 
         } catch (SQLException ex) {
             throw new ServiceFailureException("Internal error: Problem with deleting driver.", ex);
-        } finally {
-            if (deleteStatement != null) {
-                try {
-                    deleteStatement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
         }
     }
 
@@ -166,9 +147,8 @@ public class DriversManager implements IDriverManager {
         }
 
         //save data to database
-        PreparedStatement updateStatement = null;
-        try {
-            updateStatement = connection.prepareStatement("UPDATE driver set license_id = ?,name = ?,surname = ? WHERE id = ?");
+        try(Connection connection = this.dataSource.getConnection();
+		PreparedStatement updateStatement = connection.prepareStatement("UPDATE driver set license_id = ?,name = ?,surname = ? WHERE id = ?");) {
             updateStatement.setString(1, driver.getLicenceId());
             updateStatement.setString(2, driver.getName());
             updateStatement.setString(3, driver.getSurname());
@@ -179,25 +159,15 @@ public class DriversManager implements IDriverManager {
             }
         } catch (SQLException ex) {
             Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (updateStatement != null) {
-                try {
-                    updateStatement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
         }
     }
 
     @Override
     public List<Driver> findAllDrivers() throws ServiceFailureException {
 
-        PreparedStatement findStatement = null;
-        try {
-            findStatement = connection.prepareStatement("SELECT * FROM driver");
+        try(Connection connection = this.dataSource.getConnection();
+		PreparedStatement findStatement = connection.prepareStatement("SELECT * FROM driver");) {            
             ResultSet rs = findStatement.executeQuery();
-
             List<Driver> result = new ArrayList<>();
             while (rs.next()) {
                 result.add(resultSetToDriver(rs));
@@ -207,14 +177,6 @@ public class DriversManager implements IDriverManager {
         } catch (SQLException ex) {
             throw new ServiceFailureException(
                     "Error when retrieving all drivers", ex);
-        } finally {
-            if (findStatement != null) {
-                try {
-                    findStatement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
         }
     }
 
@@ -225,9 +187,9 @@ public class DriversManager implements IDriverManager {
             throw new IllegalArgumentException("Bad param: id is null.");
         }
 
-        PreparedStatement findStatement = null;
-        try {
-            findStatement = connection.prepareStatement("SELECT * FROM driver WHERE id = ?");
+        try(Connection connection = this.dataSource.getConnection();
+		PreparedStatement findStatement = connection.prepareStatement("SELECT * FROM driver WHERE id = ?");) {
+	      
             findStatement.setLong(1, id);
             ResultSet rs = findStatement.executeQuery();
 
@@ -248,14 +210,6 @@ public class DriversManager implements IDriverManager {
         } catch (SQLException ex) {
             throw new ServiceFailureException(
                     "Error when retrieving driver with id " + id, ex);
-        } finally {
-            if (findStatement != null) {
-                try {
-                    findStatement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
         }
     }
 

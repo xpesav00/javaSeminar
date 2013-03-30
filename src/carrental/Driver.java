@@ -19,6 +19,10 @@ public class Driver {
 
     public Driver() {
     }
+    
+    public Driver(Long id) {
+	    this.id = id;
+    }
 
     public Driver(Long id, String name, String surname, String licenseId) {
         this.id = id;

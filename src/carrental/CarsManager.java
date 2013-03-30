@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sql.DataSource;
 
 /**
  *
@@ -27,10 +28,10 @@ import java.util.logging.Logger;
 public class CarsManager implements ICarManager {
 
     public static final Logger logger = Logger.getLogger(CarsManager.class.getName());
-    private Connection connection;
+    private DataSource dataSource;
 
-    public CarsManager(Connection connection) {
-        this.connection = connection;
+    public CarsManager(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     @Override
@@ -55,8 +56,8 @@ public class CarsManager implements ICarManager {
             throw new IllegalArgumentException("car vin is null");
         }
 
-        try (PreparedStatement st = connection.prepareStatement(
-                "INSERT INTO CAR(vin,spz,name,mileage) "
+        try (Connection connection = this.dataSource.getConnection();
+		PreparedStatement st = connection.prepareStatement("INSERT INTO CAR(vin,spz,name,mileage) "
                 + "VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
             st.setString(1, car.getVin());
             st.setString(2, car.getSpz());
@@ -94,8 +95,9 @@ public class CarsManager implements ICarManager {
             throw new IllegalArgumentException("car isn't there");
         }
 
-        try (PreparedStatement st = connection.prepareStatement(
-                "DELETE FROM CAR WHERE ID = ?", Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = this.dataSource.getConnection();
+		PreparedStatement st = connection.prepareStatement(
+			"DELETE FROM CAR WHERE ID = ?", Statement.RETURN_GENERATED_KEYS)) {
             st.setLong(1, car.getId());
             int alteredRows = st.executeUpdate();
             if (alteredRows != 1) {
@@ -114,8 +116,9 @@ public class CarsManager implements ICarManager {
     public List<Car> findAllCars() {
         List<Car> result = null;
 
-        try (PreparedStatement st = connection.prepareStatement(
-                "SELECT * FROM CAR", Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = this.dataSource.getConnection();
+		PreparedStatement st = connection.prepareStatement(
+			"SELECT * FROM CAR", Statement.RETURN_GENERATED_KEYS)) {
             try (ResultSet rs = st.executeQuery()) {
 
                 result = new ArrayList<>();
@@ -154,8 +157,9 @@ public class CarsManager implements ICarManager {
             throw new IllegalArgumentException("car isn't there");
         }
 
-        try (PreparedStatement st = connection.prepareStatement(
-                "UPDATE car set name = ?,spz = ?,vin = ?, mileage = ? WHERE id = ?")) {
+        try (Connection connection = this.dataSource.getConnection();
+		PreparedStatement st = connection.prepareStatement(
+			"UPDATE car set name = ?,spz = ?,vin = ?, mileage = ? WHERE id = ?")) {
             st.setString(1, car.getName());
             st.setString(2, car.getSpz());
             st.setString(3, car.getVin());
@@ -179,8 +183,9 @@ public class CarsManager implements ICarManager {
             throw new IllegalArgumentException("id is null");
         }
 
-        try (PreparedStatement st = connection.prepareStatement(
-                "SELECT * FROM CAR WHERE id = ?", Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = this.dataSource.getConnection();
+		PreparedStatement st = connection.prepareStatement(
+			"SELECT * FROM CAR WHERE id = ?", Statement.RETURN_GENERATED_KEYS)) {
             st.setLong(1, id.longValue());
             try (ResultSet rs = st.executeQuery()) {
                 if (rs.next()) {

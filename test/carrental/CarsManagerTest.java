@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,18 +39,20 @@ public class CarsManagerTest {
     }
 
     @Before
-    public void setUp() throws SQLException {
+    public void setUp() throws SQLException, NamingException {
         //connect to db
-
-        connection = DriverManager.getConnection("jdbc:derby://localhost:1527/javaSeminar", "developer", "developer");
+        //connection = DriverManager.getConnection("jdbc:derby://localhost:1527/javaSeminar", "developer", "developer");
+	InitialContext initialContext = new InitialContext();
+	DataSource dataSource = (DataSource)initialContext.lookup("jdbc/DEVELOPER");
+	this.connection = dataSource.getConnection();
+	    
+	    
         st = connection.createStatement();
         st.execute("DELETE FROM CAR"); 
         st.execute("ALTER TABLE CAR ALTER COLUMN id RESTART WITH 1");//reseting id counter
         // st.execute("TRUNCATE TABLE CAR");
         
-          
-
-        manager = new CarsManager(connection);
+        manager = new CarsManager(dataSource);
         car1 = new Car();
         car2 = new Car();
 

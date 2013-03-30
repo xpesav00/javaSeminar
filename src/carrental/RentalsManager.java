@@ -11,61 +11,343 @@
 package carrental;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sql.DataSource;
 
 public class RentalsManager implements IRentalManager{
 	
-	private Connection connection;
+	private DataSource dataSource;
 	
-	public RentalsManager(Connection connection) {
-		this.connection = connection;
+	public RentalsManager(DataSource dataSource) {
+		this.dataSource = dataSource;
 	}
 	
 	@Override
-	public Rental createRental(Rental rental) {
-		return new Rental();
+	public Rental createRental(Rental rental) throws ServiceFailureException {
+		
+		 //control rental object
+		if (rental == null) {
+		    throw new IllegalArgumentException("Rental has null pointer.");
+		}
+		if (rental.getId() != null) {
+		    throw new IllegalArgumentException("Rental doesn have null id pointer.");
+		}
+		if (rental.getCar() == null) {
+		    throw new IllegalArgumentException("Rental has null car pointer.");
+		}
+		if (rental.getCar().getId() == null) {
+		    throw new IllegalArgumentException("Rental has null car.id pointer.");
+		}
+		if (rental.getDriver() == null) {
+		    throw new IllegalArgumentException("Rental has null driver pointer.");
+		}
+		if (rental.getDriver().getId() == null) {
+		    throw new IllegalArgumentException("Rental has null driver.id pointer.");
+		}
+		if (rental.getPrice() == null) {
+		    throw new IllegalArgumentException("Rental has null price pointer.");
+		}
+		if (rental.getStartTime() == null) {
+		    throw new IllegalArgumentException("Rental has null start time pointer.");
+		}
+		if (rental.getExpectedEndTime() == null) {
+		    throw new IllegalArgumentException("Rental has null expected end time pointer.");
+		}
+
+		//save data to database
+		PreparedStatement insertStatement = null;
+		try {
+		    Connection connection = this.dataSource.getConnection();
+		    insertStatement = connection.prepareStatement("INSERT INTO rental (driver_id, car_id, price, start_time, expected_end_time) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+		    insertStatement.setLong(1, rental.getDriver().getId());
+		    insertStatement.setLong(2, rental.getCar().getId());
+		    insertStatement.setBigDecimal(3, rental.getPrice());
+		    insertStatement.setTimestamp(4, new Timestamp(rental.getStartTime().getTimeInMillis()));
+		    insertStatement.setTimestamp(5, new Timestamp(rental.getExpectedEndTime().getTimeInMillis()));
+		    int addedRows = insertStatement.executeUpdate();
+		    if (addedRows != 1) {
+			throw new ServiceFailureException("To DB was added bad count of rows - " + addedRows);
+		    }
+
+		    ResultSet rs = insertStatement.getGeneratedKeys();
+		    rental.setId(this.getKey(rs, rental));
+
+		} catch (SQLException ex) {
+		    Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+		    if (insertStatement != null) {
+			try {
+			    insertStatement.close();
+			} catch (SQLException ex) {
+			    Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		    }
+		}
+		
+		return rental;
+	}
+	
+	private Long getKey(ResultSet keyRS, Rental rental) throws ServiceFailureException, SQLException {
+		if (keyRS.next()) {
+		    if (keyRS.getMetaData().getColumnCount() != 1) {
+			throw new ServiceFailureException("Internal Error: Generated key"
+				+ "retriving failed when trying to insert driver " + rental
+				+ " - wrong key fields count: " + keyRS.getMetaData().getColumnCount());
+		    }
+		    Long result = keyRS.getLong(1);
+		    if (keyRS.next()) {
+			throw new ServiceFailureException("Internal Error: Generated key"
+				+ "retriving failed when trying to insert driver " + rental
+				+ " - more keys found");
+		    }
+		    return result;
+		} else {
+		    throw new ServiceFailureException("Internal Error: Generated key"
+			    + "retriving failed when trying to insert driver " + rental
+			    + " - no key found");
+		}
 	}
 	
 	@Override
 	public void endRental(Rental rental) {
+		//check param
+		if(rental == null) {
+			throw new IllegalArgumentException("Internal Error: Rental param is null.");
+		}
+		if(rental.getId() == null) {
+			throw new IllegalArgumentException("Internal Error: Rental id is null.");
+		}
+		if(rental.getId() < 0) {
+			throw new IllegalArgumentException("Internal Error: Rental id is less then zero.");
+		}
+		if(this.findRentalById(rental.getId()) == null) {
+			throw new IllegalArgumentException("Internal Error: Rental is not found.");
+		}
+		if(rental.getCar() == null) {
+			throw new IllegalArgumentException("Internal Error: Car is null.");
+		}
+		if(rental.getDriver() == null) {
+			throw new IllegalArgumentException("Internal Error: Driver is null.");
+		}
+		if(this.isCarFree(rental.getCar())) {
+			throw new IllegalArgumentException("Internal Error: Car is free.");
+		}
+		if(rental.getPrice() == null) {
+			throw new IllegalArgumentException("Internal Error: Price is null.");
+		}
+		if(rental.getStartTime() == null) {
+			throw new IllegalArgumentException("Internal Error: StartTime is null.");
+		}
+		
+		rental.setEndTime(Calendar.getInstance());
+		this.updateRental(rental);		
 	}
 	
 	@Override
 	public void deleteRental(Rental rental) {
+		//check param
+		if (rental == null) {
+		    throw new IllegalArgumentException("Argument - rental is null.");
+		}
+		if (rental.getId() == null) {
+		    throw new IllegalArgumentException("Argument - rental.id is null.");
+		}
+
+		//control data in database
+		if (this.findRentalById(rental.getId()) == null) {
+		    throw new IllegalArgumentException("Rental isnt in database.");
+		}
+
+		PreparedStatement deleteStatement = null;
+		try {
+		    Connection connection = this.dataSource.getConnection();
+		    deleteStatement = connection.prepareStatement("DELETE FROM rental where id=?");
+		    deleteStatement.setLong(1, rental.getId());
+		    int deletedRows = deleteStatement.executeUpdate();
+
+		    if (deletedRows != 1) {
+			throw new ServiceFailureException("Internal error: In database was deleted more or less rows. Deleted rows: " + deletedRows);
+		    }
+
+		} catch (SQLException ex) {
+		    throw new ServiceFailureException("Internal error: Problem with deleting driver.", ex);
+		} finally {
+		    if (deleteStatement != null) {
+			try {
+			    deleteStatement.close();
+			} catch (SQLException ex) {
+			    Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		    }
+		}
 	}
 	
 	@Override
 	public void updateRental(Rental rental) {
+		 //control driver object
+		if (rental == null) {
+		    throw new IllegalArgumentException("Rental has null pointer.");
+		}
+		if (rental.getId() == null) {
+		    throw new IllegalArgumentException("Rental has null id pointer.");
+		}
+		if (rental.getCar() == null) {
+		    throw new IllegalArgumentException("Rental has null car pointer.");
+		}
+		if (rental.getDriver() == null) {
+		    throw new IllegalArgumentException("Rental has null driver pointer.");
+		}
+		if (rental.getPrice() == null) {
+		    throw new IllegalArgumentException("Driver has null price pointer.");
+		}
+		if (rental.getExpectedEndTime() == null) {
+		    throw new IllegalArgumentException("Driver has null expectedEndTime pointer.");
+		}
+		if (rental.getStartTime() == null) {
+		    throw new IllegalArgumentException("Driver has null startTime pointer.");
+		}
+
+		try {
+		    this.findRentalById(rental.getId());
+		} catch (ServiceFailureException ex) {
+		    throw new IllegalArgumentException("This rental isnt in database.", ex);
+		}
+
+		//save data to database
+		PreparedStatement updateStatement = null;
+		try {
+		    Connection connection = this.dataSource.getConnection();
+		    updateStatement = connection.prepareStatement("UPDATE rental set driver_id = ?, car_id = ?, price = ?, start_time = ?, expected_end_time=?, end_time=? WHERE id = ?");
+		    updateStatement.setLong(1, rental.getDriver().getId());
+		    updateStatement.setLong(2, rental.getCar().getId());
+		    updateStatement.setBigDecimal(3, rental.getPrice());
+		    updateStatement.setTimestamp(4, new Timestamp(rental.getStartTime().getTimeInMillis()));
+		    updateStatement.setTimestamp(5, new Timestamp(rental.getExpectedEndTime().getTimeInMillis()));
+		    updateStatement.setTimestamp(6, new Timestamp(rental.getEndTime().getTimeInMillis()));
+		    int updatedRows = updateStatement.executeUpdate();
+		    if (updatedRows != 1) {
+			throw new IllegalArgumentException("In DB was updated bad count of rows - " + updatedRows);
+		    }
+		} catch (SQLException ex) {
+		    Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+		    if (updateStatement != null) {
+			try {
+			    updateStatement.close();
+			} catch (SQLException ex) {
+			    Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		    }
+		}
 	}
 	
 	@Override
 	public Rental findRentalById(Long id) {
-		return new Rental();
+		if (id == null) {
+			throw new IllegalArgumentException("Bad param: id is null.");
+		}
+
+		PreparedStatement findStatement = null;
+		try {
+			Connection connection = this.dataSource.getConnection();
+			findStatement = connection.prepareStatement("SELECT * FROM rental WHERE id = ?");
+			findStatement.setLong(1, id);
+			ResultSet rs = findStatement.executeQuery();
+
+			if (rs.next()) {
+			    Rental rental = resultSetToRental(rs);
+
+			    if (rs.next()) {
+				throw new ServiceFailureException(
+					"Internal error: More entities with the same id found "
+					+ "(source id: " + id + ", found " + rental + " and " + resultSetToRental(rs));
+			    }
+
+			    return rental;
+			} else {
+			    return null;
+			}
+
+		} catch (SQLException ex) {
+			throw new ServiceFailureException(
+				"Error when retrieving driver with id " + id, ex);
+		} finally {
+			if (findStatement != null) {
+			    try {
+				findStatement.close();
+			    } catch (SQLException ex) {
+				Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
+			    }
+			}
+		}
 	}
 	
 	@Override
 	public List<Rental> findAllRentals() {
+		 PreparedStatement findStatement = null;
+		try {
+		    Connection connection = this.dataSource.getConnection();
+		    findStatement = connection.prepareStatement("SELECT * FROM rental");
+		    ResultSet rs = findStatement.executeQuery();
+
+		    List<Rental> result = new ArrayList<>();
+		    while (rs.next()) {
+			result.add(resultSetToRental(rs));
+		    }
+		    return result;
+
+		} catch (SQLException ex) {
+		    throw new ServiceFailureException(
+			    "Error when retrieving all rentals", ex);
+		} finally {
+		    if (findStatement != null) {
+			try {
+			    findStatement.close();
+			} catch (SQLException ex) {
+			    Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		    }
+		}
+	}
+	
+	private Rental resultSetToRental(ResultSet rs) throws SQLException {
+		Rental rental = new Rental();
+		rental.setId(rs.getLong("id"));
+		rental.setCar(new Car(rs.getLong("car_id")));
+		rental.setDriver(new Driver(rs.getLong("driver_id")));
+		rental.setPrice(rs.getBigDecimal("price"));
+		
+		Calendar startDate = Calendar.getInstance();
+		startDate.setTimeInMillis(rs.getDate("start_date").getTime());		
+		rental.setStartTime(startDate);
+		
+		Calendar endDate = Calendar.getInstance();
+		endDate.setTimeInMillis(rs.getDate("end_date").getTime());		
+		rental.setStartTime(endDate);
+		
+		Calendar expectedEndDate = Calendar.getInstance();
+		expectedEndDate.setTimeInMillis(rs.getDate("expected_end_date").getTime());		
+		rental.setStartTime(expectedEndDate);
+
+		return rental;
+	}
+	
+	@Override
+	public List<Rental> findHistoryOfRental(Car car) {
 		return new ArrayList<>();
 	}
 	
 	@Override
-	public Driver findDriverByCar(Car car) {
-		return new Driver();
-	}
-	
-	@Override
-	public Car findCarByDriver(Driver driver) {
-		return new Car();
-	}
-	
-	@Override
-	public List<Driver> findCarHistoryOfRental(Car car) {
-		return new ArrayList<>();
-	}
-	
-	@Override
-	public List<Car> findDriverHistoryOfRental(Driver driver) {
+	public List<Rental> findHistoryOfRental(Driver driver) {
 		return new ArrayList<>();
 	}
 	

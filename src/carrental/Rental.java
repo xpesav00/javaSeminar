@@ -24,6 +24,10 @@ public class Rental {
 	public Rental() {
 	}
 	
+	public Rental(Long id) {
+		this.id = id;
+	}
+	
 	public Rental(Long id, Driver driver, Car car, BigDecimal price, Calendar startTime, Calendar expectedEndTime) {
 		this.id = id;
 		this.driver = driver;

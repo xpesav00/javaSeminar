@@ -20,6 +20,10 @@ public class Car {
 
     public Car() {
     }
+    
+    public Car(Long id) {
+	    this.id = id;
+    }
 
     public Car(Long id, String vin, String spz, String name, Double mileage) {
         this.id = id;
