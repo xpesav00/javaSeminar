@@ -13,6 +13,7 @@ import java.util.List;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import org.apache.commons.dbcp.BasicDataSource;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,9 +42,11 @@ public class DriversManagerTest {
     @Before
     public void setUp() throws SQLException, NamingException {
         //connect to db
-        //connection = DriverManager.getConnection("jdbc:derby://localhost:1527/javaSeminar", "developer", "developer");
-	InitialContext initialContext = new InitialContext();
-	DataSource dataSource = (DataSource)initialContext.lookup("jdbc/DEVELOPER");
+	BasicDataSource dataSource = new BasicDataSource();
+	dataSource.setDriverClassName("org.apache.derby.jdbc.Driver169");
+	dataSource.setUrl("jdbc:derby://localhost:1527/javaSeminar");
+	dataSource.setUsername("developer");
+	dataSource.setPassword("developer");
 	this.connection = dataSource.getConnection();
 	
 	

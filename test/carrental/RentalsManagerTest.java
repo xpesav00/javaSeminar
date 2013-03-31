@@ -27,6 +27,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.apache.commons.dbcp.BasicDataSource;
 
 public class RentalsManagerTest {
 	
@@ -39,6 +40,7 @@ public class RentalsManagerTest {
 	private Rental rentalBad3;
 	private Rental rentalBad4;
 	private Rental rentalBad5;
+	private Connection connection;
 	
 	public RentalsManagerTest() {
 	}
@@ -55,13 +57,14 @@ public class RentalsManagerTest {
 	public void setUp() throws NamingException {
 		
 		//connect to db
-		Connection connection = null;
-		DataSource dataSource = null;
+		BasicDataSource dataSource = null;
 		try {
-			//connection = DriverManager.getConnection("jdbc:derby://localhost:1527/javaSeminar", "developer", "developer");
-			InitialContext initialContext = new InitialContext();
-			dataSource = (DataSource)initialContext.lookup("jdbc/DEVELOPER");
-			connection = dataSource.getConnection();
+			dataSource = new BasicDataSource();
+			dataSource.setDriverClassName("org.apache.derby.jdbc.Driver169");
+			dataSource.setUrl("jdbc:derby://localhost:1527/javaSeminar");
+			dataSource.setUsername("developer");
+			dataSource.setPassword("developer");
+			this.connection = dataSource.getConnection();
 		} catch (SQLException ex) {
 			Logger.getLogger(RentalsManagerTest.class.getName()).log(Level.SEVERE, null, ex);
 		}
