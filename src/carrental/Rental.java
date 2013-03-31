@@ -92,4 +92,21 @@ public class Rental {
 	public void setEndTime(Calendar endTime) {
 		this.endTime = endTime;
 	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if(object instanceof Rental) {
+			Rental rental = (Rental) object;
+			
+			if(this.id == rental.id) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return (int)(this.id*211);
+	}
 }

@@ -40,7 +40,8 @@ public class RentalsManagerTest {
 	private Rental rentalBad3;
 	private Rental rentalBad4;
 	private Rental rentalBad5;
-	private Connection connection;
+	private Rental rentalBad6;
+	private Rental rentalBad7;
 	
 	public RentalsManagerTest() {
 	}
@@ -57,17 +58,11 @@ public class RentalsManagerTest {
 	public void setUp() throws NamingException {
 		
 		//connect to db
-		BasicDataSource dataSource = null;
-		try {
-			dataSource = new BasicDataSource();
-			dataSource.setDriverClassName("org.apache.derby.jdbc.Driver169");
-			dataSource.setUrl("jdbc:derby://localhost:1527/javaSeminar");
-			dataSource.setUsername("developer");
-			dataSource.setPassword("developer");
-			this.connection = dataSource.getConnection();
-		} catch (SQLException ex) {
-			Logger.getLogger(RentalsManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-		}
+		BasicDataSource dataSource = new BasicDataSource();
+		dataSource.setDriverClassName("org.apache.derby.jdbc.Driver169");
+		dataSource.setUrl("jdbc:derby://localhost:1527/javaSeminar");
+		dataSource.setUsername("developer");
+		dataSource.setPassword("developer");
         
 		//set rentalManager
 		this.rentalManager = new RentalsManager(dataSource);
@@ -84,11 +79,14 @@ public class RentalsManagerTest {
 		driver = this.driverManager.createDriver(driver);
 		
 		this.rental = new Rental(null, driver, car, BigDecimal.ZERO, Calendar.getInstance(), Calendar.getInstance());
-		this.rentalBad1 = new Rental(null, null, car, BigDecimal.ZERO, null, null);
-		this.rentalBad2 = new Rental(null, new Driver(), null, BigDecimal.ZERO, null, null);
-		this.rentalBad3 = new Rental(null, new Driver(), new Car(), new BigDecimal(-1), null, null);
-		this.rentalBad4 = new Rental(null, new Driver(), car, new BigDecimal(130), null, null);
-		this.rentalBad5 = new Rental(null, driver, new Car(), new BigDecimal(222), null, null);
+		this.rentalBad1 = new Rental(null, null, car, BigDecimal.ZERO, Calendar.getInstance(), Calendar.getInstance());
+		this.rentalBad2 = new Rental(null, new Driver(), null, BigDecimal.ZERO, Calendar.getInstance(), Calendar.getInstance());
+		this.rentalBad3 = new Rental(null, new Driver(), new Car(), new BigDecimal(-1), Calendar.getInstance(), Calendar.getInstance());
+		this.rentalBad4 = new Rental(null, new Driver(), car, new BigDecimal(130), Calendar.getInstance(), Calendar.getInstance());
+		this.rentalBad5 = new Rental(null, driver, new Car(), new BigDecimal(222), Calendar.getInstance(), Calendar.getInstance());
+		this.rentalBad6 = new Rental(null, driver, new Car(), new BigDecimal(222), null, Calendar.getInstance());
+		this.rentalBad7 = new Rental(null, driver, new Car(), new BigDecimal(222), Calendar.getInstance(), null);
+		
 		
 	}
 	
@@ -103,6 +101,8 @@ public class RentalsManagerTest {
 		this.rentalBad3 = null;
 		this.rentalBad4 = null;
 		this.rentalBad5 = null;
+		this.rentalBad6 = null;
+		this.rentalBad7 = null;
 	}
 
 	/**
@@ -111,9 +111,9 @@ public class RentalsManagerTest {
 	@Test
 	public void testCreateRental() {
 		System.out.println("createRental");
-		
+
 		int rentalCount = this.rentalManager.findAllRentals().size();
-		
+
 		//null rental object
 		try{
 			this.rentalManager.createRental(null);
@@ -156,15 +156,27 @@ public class RentalsManagerTest {
 		}catch(IllegalArgumentException ex) {	
 		}
 		
+		//startDate is null
+		try{
+			this.rentalManager.createRental(this.rentalBad6);
+			fail("Create new Rental with null startDate.");
+		}catch(IllegalArgumentException ex) {	
+		}
+		
+		//expected end date is null
+		try{
+			this.rentalManager.createRental(this.rentalBad7);
+			fail("Create new Rental with null expectedEndDate.");
+		}catch(IllegalArgumentException ex) {	
+		}
+		
 		//create rental
 		Rental rentalTmp;
 		rentalTmp = this.rentalManager.createRental(this.rental);
-		System.out.println(this.rental);
-		System.out.println(rentalTmp);
 		assertNotNull("Vraceny prvek je null.", rentalTmp);
 		assertNotNull("Vraceny prvek nema prirazene id.", rentalTmp.getId());
 		assertEquals("Vlozeny a vytazeny prvek neni stejny.", this.rental, rentalTmp);
-		assertNotSame("Vlozeny a vytazeny prvek nemaji stejnou referenci.", this.rental, rentalTmp);
+		assertSame("Vlozeny a vytazeny prvek nemaji stejnou referenci.", this.rental, rentalTmp);
 		
 		
 		//numeric control
@@ -187,9 +199,6 @@ public class RentalsManagerTest {
 		//get current size
 		int rentalCountStart = this.rentalManager.findAllRentals().size();
 		
-		//create rental
-		Rental rentalTmp = this.rentalManager.createRental(this.rental);
-		
 		//delete null pointer rental
 		try {
 			this.rentalManager.deleteRental(null);
@@ -203,15 +212,18 @@ public class RentalsManagerTest {
 			fail("No failures to null id.");
 		} catch(IllegalArgumentException ex) {
 		}
+		
+		//create rental
+		Rental rentalTmp = this.rentalManager.createRental(this.rental);
 			
 		//test rentalTmp
+		assertNotNull("Vraceny prvek je null.", rentalTmp);
 		assertNotNull("Vraceny prvek nema prirazene id.", rentalTmp.getId());
 		this.rentalManager.deleteRental(rentalTmp);
 		assertEquals("Nesedi pocet aut na sklade.", rentalCountStart, this.rentalManager.findAllRentals().size());
-		try {
-			this.rentalManager.findRentalById(rentalTmp.getId());
+		
+		if(this.rentalManager.findRentalById(rentalTmp.getId()) != null) {
 			fail("Podarilo se nalezt odstanenou vypujcku");
-		} catch(Exception ex) {
 		}
 	}
 	
@@ -320,7 +332,7 @@ public class RentalsManagerTest {
 		} catch(Exception ex) {
 		} 
 		
-		// re null pointer
+		// rental.id null pointer
 		try {
 			this.rentalManager.updateRental(this.rental);
 			fail("Update Rental without id.");
@@ -334,10 +346,24 @@ public class RentalsManagerTest {
 		} catch(Exception ex) {
 		} 
 		
+		// car.id pointer is null
+		try {
+			this.rentalManager.updateRental(this.rentalBad4);
+			fail("Update Rental with car.id null pointer.");
+		} catch(Exception ex) {
+		} 
+		
 		// driver pointer is null
 		try {
 			this.rentalManager.updateRental(this.rentalBad2);
 			fail("Update Rental with driver null pointer.");
+		} catch(Exception ex) {
+		}
+		
+		// driver.id pointer is null
+		try {
+			this.rentalManager.updateRental(this.rentalBad5);
+			fail("Update Rental with driver.id null pointer.");
 		} catch(Exception ex) {
 		}
 		
@@ -348,14 +374,29 @@ public class RentalsManagerTest {
 		} catch(Exception ex) {
 		} 
 		
+		// startDate
+		try {
+			this.rentalManager.updateRental(this.rentalBad6);
+			fail("Update Rental with null start date.");
+		} catch(Exception ex) {
+		} 
+		
+		// expectedEndDate
+		try {
+			this.rentalManager.updateRental(this.rentalBad7);
+			fail("Update Rental with null expected end date.");
+		} catch(Exception ex) {
+		} 
+		
 		//create new rental
 		Rental rentalTmp = this.rentalManager.createRental(this.rental);
 		
 		//update
 		rentalTmp.setPrice(new BigDecimal(1000));
-		rentalTmp.setDriver(new Driver());
-		rentalTmp.setCar(new Car());
-		rentalTmp.setStartTime(null);
+		rentalTmp.setDriver(new Driver(new Long(1)));
+		rentalTmp.setCar(new Car(new Long(1)));
+		rentalTmp.setStartTime(Calendar.getInstance());
+		rentalTmp.setExpectedEndTime(Calendar.getInstance());
 		
 		int rentalCount = this.rentalManager.findAllRentals().size();
 		this.rentalManager.updateRental(rentalTmp);
@@ -374,14 +415,25 @@ public class RentalsManagerTest {
 	public void testFindRentalById() {
 		System.out.println("findRentalById");
 		
-		//imposibble oportunities
-		assertNotNull("Funkce vratila nenulovy objekt.", this.rentalManager.findRentalById(null));
-		assertNotNull("Funkce vratila nenulovy objekt.", this.rentalManager.findRentalById(new Long(-1)));
+		//is is null
+		try {
+			this.rentalManager.findRentalById(null);
+			fail("Internal Error: Funkce vratila hodnotu s nulovy parametrem.");
+		} catch(IllegalArgumentException ex) {
+		}
+		
+		//is is less then zero
+		try {
+			this.rentalManager.findRentalById(new Long(-1));
+			fail("Internal Error: Funkce vratila hodnotu se zapornym parametrem.");
+		} catch(IllegalArgumentException ex) {
+		}
 		
 		//create new rental
 		Rental tmpRental = this.rentalManager.createRental(this.rental);
 		Rental tmpRentalFind = this.rentalManager.findRentalById(tmpRental.getId());
 		assertEquals("Objekty nejsou stejne.", tmpRental, tmpRentalFind);
+		assertNotSame("Objekty maji stejnou referenci.", tmpRental, tmpRentalFind);
 		
 		//remove rental
 		this.rentalManager.deleteRental(tmpRental);
@@ -404,10 +456,12 @@ public class RentalsManagerTest {
 		//test all rentals
 		List<Rental> rentalList = this.rentalManager.findAllRentals();
 		assertEquals("Nesedi pocet vypujcek.", rentalCountStart + 1, rentalList.size());
-		assertFalse("Databaze neobsahuje dany objekt.", rentalList.contains(rentalTmp));
+		assertTrue("Databaze neobsahuje vytvoreny objekt.", rentalList.contains(rentalTmp));
 		
 		//delete rental
 		this.rentalManager.deleteRental(rentalTmp);
+		rentalList = this.rentalManager.findAllRentals();
+		assertFalse("Databaze obsahuje vymazany objekt.", rentalList.contains(rentalTmp));
 		assertEquals("Nesedi pocet vypujcek.", rentalCountStart,  this.rentalManager.findAllRentals().size());
 	}
 
