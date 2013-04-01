@@ -4,6 +4,7 @@
  */
 package carrental;
 
+import common.DBUtils;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -35,6 +36,7 @@ public class DriversManagerTest {
     private Driver driver1, driver2, result;
     private Connection connection = null;
     private Statement st;
+    private BasicDataSource dataSource;
 
     public DriversManagerTest() {
     }
@@ -42,19 +44,18 @@ public class DriversManagerTest {
     @Before
     public void setUp() throws SQLException, NamingException {
         //connect to db
-	BasicDataSource dataSource = new BasicDataSource();
+	dataSource = new BasicDataSource();
 	dataSource.setDriverClassName("org.apache.derby.jdbc.Driver169");
 	dataSource.setUrl("jdbc:derby://localhost:1527/javaSeminar");
 	dataSource.setUsername("developer");
 	dataSource.setPassword("developer");
-	this.connection = dataSource.getConnection();
 	
-	
-        st = connection.createStatement();
-        st.execute("DELETE FROM DRIVER");
-        st.execute("ALTER TABLE DRIVER ALTER COLUMN id RESTART WITH 1");//reseting id counter
-        //  st.execute("TRUNCATE TABLE DRIVER");
-
+        try {
+            DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/createTables.sql"));
+        } catch  (Exception ex){
+            DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/dropTables.sql"));
+            DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/createTables.sql"));            
+        }
 
         manager = new DriversManager(dataSource);
         driver1 = new Driver();
@@ -77,12 +78,8 @@ public class DriversManagerTest {
         driver1 = null;
         driver2 = null;
         result = null;
-        st.execute("DELETE FROM DRIVER");
-        st.execute("ALTER TABLE DRIVER ALTER COLUMN id RESTART WITH 1");//reseting id counter
-        st.close();
-        connection.close();
-
-
+        DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/dropTables.sql"));
+        
     }
 
     /**

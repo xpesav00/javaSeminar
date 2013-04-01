@@ -10,6 +10,8 @@
  */
 package carrental;
 
+import common.DBUtils;
+import common.ServiceFailureException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,63 +34,35 @@ public class DriversManager implements IDriverManager {
     @Override
     public Driver createDriver(Driver driver) throws ServiceFailureException {
 
-        //control driver object
-        if (driver == null) {
-            throw new IllegalArgumentException("Driver has null pointer.");
-        }
+        checkArgs(driver);
         if (driver.getId() != null) {
             throw new IllegalArgumentException("Driver dont have null id pointer.");
         }
-        if (driver.getLicenceId() == null) {
-            throw new IllegalArgumentException("Driver have null id pointer.");
-        }
-        if (driver.getName() == null) {
-            throw new IllegalArgumentException("Driver have null name pointer.");
-        }
-        if (driver.getSurname() == null) {
-            throw new IllegalArgumentException("Driver have null surname pointer.");
-        }
 
         //save data to database
-        try(Connection connection = this.dataSource.getConnection();
-		PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO driver (license_id, name, surname) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);) {	    
-            insertStatement.setString(1, driver.getLicenceId());
-            insertStatement.setString(2, driver.getName());
-            insertStatement.setString(3, driver.getSurname());
-            int addedRows = insertStatement.executeUpdate();
-            if (addedRows != 1) {
-                throw new ServiceFailureException("To DB was added bad count of rows - " + addedRows);
+        try (Connection connection = this.dataSource.getConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement insertStatement = connection.prepareStatement(
+                    "INSERT INTO driver (license_id, name, surname) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+                insertStatement.setString(1, driver.getLicenceId());
+                insertStatement.setString(2, driver.getName());
+                insertStatement.setString(3, driver.getSurname());
+                int addedRows = insertStatement.executeUpdate();
+                if (addedRows != 1) {
+                    throw new ServiceFailureException("To DB was added bad count of rows - " + addedRows);
+                }
+
+                ResultSet rs = insertStatement.getGeneratedKeys();
+                driver.setId(this.getKey(rs, driver));
+                connection.commit();
+            } finally {
+                connection.rollback();
             }
-
-            ResultSet rs = insertStatement.getGeneratedKeys();
-            driver.setId(this.getKey(rs, driver));
-
         } catch (SQLException ex) {
             Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return driver;
-    }
-
-    private Long getKey(ResultSet keyRS, Driver driver) throws ServiceFailureException, SQLException {
-        if (keyRS.next()) {
-            if (keyRS.getMetaData().getColumnCount() != 1) {
-                throw new ServiceFailureException("Internal Error: Generated key"
-                        + "retriving failed when trying to insert driver " + driver
-                        + " - wrong key fields count: " + keyRS.getMetaData().getColumnCount());
-            }
-            Long result = keyRS.getLong(1);
-            if (keyRS.next()) {
-                throw new ServiceFailureException("Internal Error: Generated key"
-                        + "retriving failed when trying to insert driver " + driver
-                        + " - more keys found");
-            }
-            return result;
-        } else {
-            throw new ServiceFailureException("Internal Error: Generated key"
-                    + "retriving failed when trying to insert driver " + driver
-                    + " - no key found");
-        }
     }
 
     @Override
@@ -98,22 +72,20 @@ public class DriversManager implements IDriverManager {
         if (driver == null) {
             throw new IllegalArgumentException("Argument - driver is null.");
         }
-        if (driver.getId() == null) {
-            throw new IllegalArgumentException("Argument - driver.id is null.");
-        }
+        checkArgs2(driver);
 
-        //control data in database
-        if (this.findDriverById(driver.getId()) == null) {
-            throw new IllegalArgumentException("Driver isnt in database.");
-        }
+        try (Connection connection = this.dataSource.getConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement deleteStatement = connection.prepareStatement("DELETE FROM driver where id=?")) {
+                deleteStatement.setLong(1, driver.getId());
+                int deletedRows = deleteStatement.executeUpdate();
 
-        try(Connection connection = this.dataSource.getConnection();
-		PreparedStatement deleteStatement = connection.prepareStatement("DELETE FROM driver where id=?");) {
-            deleteStatement.setLong(1, driver.getId());
-            int deletedRows = deleteStatement.executeUpdate();
-
-            if (deletedRows != 1) {
-                throw new ServiceFailureException("Internal error: In database was deleted more or less rows. Deleted rows: " + deletedRows);
+                if (deletedRows != 1) {
+                    throw new ServiceFailureException("Internal error: In database was deleted more or less rows. Deleted rows: " + deletedRows);
+                }
+                connection.commit();
+            } finally {
+                connection.rollback();
             }
 
         } catch (SQLException ex) {
@@ -122,40 +94,27 @@ public class DriversManager implements IDriverManager {
     }
 
     @Override
-    public void updateDriver(Driver driver) throws ServiceFailureException {
-        //control driver object
-        if (driver == null) {
-            throw new IllegalArgumentException("Driver has null pointer.");
-        }
-        if (driver.getId() == null) {
-            throw new IllegalArgumentException("Driver have null id pointer.");
-        }
-        if (driver.getLicenceId() == null) {
-            throw new IllegalArgumentException("Driver have null id pointer.");
-        }
-        if (driver.getName() == null) {
-            throw new IllegalArgumentException("Driver have null name pointer.");
-        }
-        if (driver.getSurname() == null) {
-            throw new IllegalArgumentException("Driver have null surname pointer.");
-        }
+    public void updateDriver(Driver driver) throws ServiceFailureException {  //control driver object  
 
-        try {
-            this.findDriverById(driver.getId());
-        } catch (ServiceFailureException ex) {
-            throw new IllegalArgumentException("This driver isnt in database.", ex);
-        }
+        checkArgs(driver);
+        checkArgs2(driver);
 
         //save data to database
-        try(Connection connection = this.dataSource.getConnection();
-		PreparedStatement updateStatement = connection.prepareStatement("UPDATE driver set license_id = ?,name = ?,surname = ? WHERE id = ?");) {
-            updateStatement.setString(1, driver.getLicenceId());
-            updateStatement.setString(2, driver.getName());
-            updateStatement.setString(3, driver.getSurname());
-            updateStatement.setLong(4, driver.getId());
-            int updatedRows = updateStatement.executeUpdate();
-            if (updatedRows != 1) {
-                throw new IllegalArgumentException("In DB was updated bad count of rows - " + updatedRows);
+        try (Connection connection = this.dataSource.getConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement updateStatement = connection.prepareStatement(
+                    "UPDATE driver set license_id = ?,name = ?,surname = ? WHERE id = ?")) {
+                updateStatement.setString(1, driver.getLicenceId());
+                updateStatement.setString(2, driver.getName());
+                updateStatement.setString(3, driver.getSurname());
+                updateStatement.setLong(4, driver.getId());
+                int updatedRows = updateStatement.executeUpdate();
+                if (updatedRows != 1) {
+                    throw new IllegalArgumentException("In DB was updated bad count of rows - " + updatedRows);
+                }
+                connection.commit();
+            } finally {
+                connection.rollback();
             }
         } catch (SQLException ex) {
             Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -165,8 +124,8 @@ public class DriversManager implements IDriverManager {
     @Override
     public List<Driver> findAllDrivers() throws ServiceFailureException {
 
-        try(Connection connection = this.dataSource.getConnection();
-		PreparedStatement findStatement = connection.prepareStatement("SELECT * FROM driver");) {            
+        try (Connection connection = this.dataSource.getConnection();
+                PreparedStatement findStatement = connection.prepareStatement("SELECT * FROM driver");) {
             ResultSet rs = findStatement.executeQuery();
             List<Driver> result = new ArrayList<>();
             while (rs.next()) {
@@ -187,9 +146,9 @@ public class DriversManager implements IDriverManager {
             throw new IllegalArgumentException("Bad param: id is null.");
         }
 
-        try(Connection connection = this.dataSource.getConnection();
-		PreparedStatement findStatement = connection.prepareStatement("SELECT * FROM driver WHERE id = ?");) {
-	      
+        try (Connection connection = this.dataSource.getConnection();
+                PreparedStatement findStatement = connection.prepareStatement("SELECT * FROM driver WHERE id = ?");) {
+
             findStatement.setLong(1, id);
             ResultSet rs = findStatement.executeQuery();
 
@@ -220,5 +179,52 @@ public class DriversManager implements IDriverManager {
         driver.setName(rs.getString("name"));
         driver.setSurname(rs.getString("surname"));
         return driver;
+    }
+
+    private Long getKey(ResultSet keyRS, Driver driver) throws ServiceFailureException, SQLException {
+        if (keyRS.next()) {
+            if (keyRS.getMetaData().getColumnCount() != 1) {
+                throw new ServiceFailureException("Internal Error: Generated key"
+                        + "retriving failed when trying to insert driver " + driver
+                        + " - wrong key fields count: " + keyRS.getMetaData().getColumnCount());
+            }
+            Long result = keyRS.getLong(1);
+            if (keyRS.next()) {
+                throw new ServiceFailureException("Internal Error: Generated key"
+                        + "retriving failed when trying to insert driver " + driver
+                        + " - more keys found");
+            }
+            return result;
+        } else {
+            throw new ServiceFailureException("Internal Error: Generated key"
+                    + "retriving failed when trying to insert driver " + driver
+                    + " - no key found");
+        }
+    }
+
+    private void checkArgs(Driver driver) throws IllegalArgumentException {
+        //control driver object
+        if (driver == null) {
+            throw new IllegalArgumentException("Driver has null pointer.");
+        }
+
+        if (driver.getLicenceId() == null) {
+            throw new IllegalArgumentException("Driver have null id pointer.");
+        }
+        if (driver.getName() == null) {
+            throw new IllegalArgumentException("Driver have null name pointer.");
+        }
+        if (driver.getSurname() == null) {
+            throw new IllegalArgumentException("Driver have null surname pointer.");
+        }
+    }
+
+    private void checkArgs2(Driver driver) throws IllegalArgumentException, ServiceFailureException {
+        if (driver.getId() == null) {
+            throw new IllegalArgumentException("Argument - driver.id is null.");
+        }
+        if (this.findDriverById(driver.getId()) == null) {
+            throw new IllegalArgumentException("Driver isnt in database.");
+        }
     }
 }

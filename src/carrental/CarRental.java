@@ -40,7 +40,7 @@ public class CarRental {
 			dataSource.setPassword("developer");
 			Connection connection = dataSource.getConnection();
 			
-			
+                        
 			//here is possible to create  queries
 			/*PreparedStatement ps = connection.prepareStatement("SELECT * from car");
 			ResultSet rs = ps.executeQuery();

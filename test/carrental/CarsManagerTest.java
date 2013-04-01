@@ -4,6 +4,7 @@
  */
 package carrental;
 
+import common.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -35,6 +36,7 @@ public class CarsManagerTest {
     private Car car1, car2, result;
     private Connection connection = null;
     private Statement st;
+    private BasicDataSource dataSource;
 
     public CarsManagerTest() {
     }
@@ -42,19 +44,19 @@ public class CarsManagerTest {
     @Before
     public void setUp() throws SQLException, NamingException {
         //connect to db
-        BasicDataSource dataSource = new BasicDataSource();
-	dataSource.setDriverClassName("org.apache.derby.jdbc.Driver169");
-	dataSource.setUrl("jdbc:derby://localhost:1527/javaSeminar");
-	dataSource.setUsername("developer");
-	dataSource.setPassword("developer");
-	this.connection = dataSource.getConnection();
-	    
-	    
-        st = connection.createStatement();
-        st.execute("DELETE FROM CAR"); 
-        st.execute("ALTER TABLE CAR ALTER COLUMN id RESTART WITH 1");//reseting id counter
-        // st.execute("TRUNCATE TABLE CAR");
-        
+        dataSource = new BasicDataSource();
+        dataSource.setDriverClassName("org.apache.derby.jdbc.Driver169");
+        dataSource.setUrl("jdbc:derby://localhost:1527/javaSeminar");
+        dataSource.setUsername("developer");
+        dataSource.setPassword("developer");
+        try {
+            DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/createTables.sql"));
+        } catch  (Exception ex){
+            DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/dropTables.sql"));
+            DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/createTables.sql"));            
+        }
+
+
         manager = new CarsManager(dataSource);
         car1 = new Car();
         car2 = new Car();
@@ -78,12 +80,7 @@ public class CarsManagerTest {
         car1 = null;
         car2 = null;
         result = null;
-
-        st.execute("DELETE FROM CAR"); 
-        st.execute("ALTER TABLE CAR ALTER COLUMN id RESTART WITH 1");//reseting id counter
-        st.close();
-        connection.close();
-
+        DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/dropTables.sql"));
     }
 
     /**
@@ -196,7 +193,7 @@ public class CarsManagerTest {
 
         manager.deleteCar(car2);
         cars = manager.findAllCars();
-        assertTrue("manager isnt empty", cars.isEmpty());       
+        assertTrue("manager isnt empty", cars.isEmpty());
     }
 
     /**
@@ -294,7 +291,7 @@ public class CarsManagerTest {
         }
 
     }
-    
+
     /**
      * Test of findAllCars method, of class CarsManager.
      */
@@ -320,7 +317,7 @@ public class CarsManagerTest {
         manager.deleteCar(car2);
         assertEquals(source, manager.findAllCars());
     }
-    
+
     /**
      * Test of findCarById method, of class CarsManager.
      */
