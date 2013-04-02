@@ -65,7 +65,7 @@ public class RentalsManagerTest {
         //connect to db
         dataSource = new BasicDataSource();
         dataSource.setDriverClassName("org.apache.derby.jdbc.Driver169");
-        dataSource.setUrl("jdbc:derby://localhost:1527/javaSeminar");
+        dataSource.setUrl("jdbc:derby:memory;create=true"); //  jdbc:derby://localhost:1527/javaSeminar
         dataSource.setUsername("developer");
         dataSource.setPassword("developer");
         
@@ -678,4 +678,8 @@ public class RentalsManagerTest {
         this.rentalManager.endRental(rental);
         assertTrue("Auto neni pujceno.", this.rentalManager.isCarFree(car));
     } 
+    @Test
+    public void testActiveRentals() {
+     
+    }
 }
