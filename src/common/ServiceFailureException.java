@@ -8,7 +8,7 @@
  * @date 20. 3. 2013
  */
 
-package carrental;
+package common;
 
 public class ServiceFailureException extends RuntimeException {
 
