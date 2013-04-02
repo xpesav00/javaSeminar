@@ -122,7 +122,7 @@ public class RentalsManager implements IRentalManager {
         //save data to database
         try (Connection connection = this.dataSource.getConnection()) {
             connection.setAutoCommit(false);
-            
+
             try (PreparedStatement updateStatement = connection.prepareStatement(
                     "UPDATE rental set driver_id = ?, car_id = ?, price = ?, start_time = ?, expected_end_time=?, end_time=? WHERE id = ?");) {
                 updateStatement.setLong(1, rental.getDriver().getId());
@@ -130,7 +130,7 @@ public class RentalsManager implements IRentalManager {
                 updateStatement.setBigDecimal(3, rental.getPrice());
                 updateStatement.setTimestamp(4, new Timestamp(rental.getStartTime().getTimeInMillis()));
                 updateStatement.setTimestamp(5, new Timestamp(rental.getExpectedEndTime().getTimeInMillis()));
-                
+
                 if (rental.getEndTime() != null) {
                     updateStatement.setTimestamp(6, new Timestamp(rental.getEndTime().getTimeInMillis()));
                 } else {
@@ -313,6 +313,18 @@ public class RentalsManager implements IRentalManager {
             logger.log(Level.SEVERE, null, ex);
         }
         return true;
+    }
+
+    @Override
+    public List<Rental> activeRentals(List<Rental> list) {
+        List<Rental> result = new ArrayList<>();
+
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getEndTime() == null) {
+                result.add(list.get(i));
+            }
+        }
+        return result;
     }
 
     private Rental resultSetToRental(ResultSet rs) throws SQLException {

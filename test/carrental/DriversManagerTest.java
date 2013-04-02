@@ -46,7 +46,7 @@ public class DriversManagerTest {
         //connect to db
 	dataSource = new BasicDataSource();
 	dataSource.setDriverClassName("org.apache.derby.jdbc.Driver169");
-	dataSource.setUrl("jdbc:derby://localhost:1527/javaSeminar");
+	dataSource.setUrl("jdbc:derby:memory;create=true");
 	dataSource.setUsername("developer");
 	dataSource.setPassword("developer");
 	
