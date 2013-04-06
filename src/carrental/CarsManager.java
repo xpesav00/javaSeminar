@@ -71,7 +71,8 @@ public class CarsManager implements ICarManager {
                 connection.rollback();
             }
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "create car", ex);
+            throw new ServiceFailureException("Internal error: Failed creating car.", ex);
 
         } finally {
         }
@@ -100,7 +101,8 @@ public class CarsManager implements ICarManager {
                 connection.rollback();
             }
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "delete car", ex);
+            throw new ServiceFailureException("Internal error: Failed deleting car.", ex);
         }
 
         // car.setId(null); 
@@ -121,7 +123,8 @@ public class CarsManager implements ICarManager {
                 }
             }
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "findAllCars", ex);
+            throw new ServiceFailureException("Internal error: Failed while searching for all cars.", ex);
         }
 
         return result;
@@ -152,7 +155,8 @@ public class CarsManager implements ICarManager {
                 connection.rollback();
             }
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "update car", ex);
+            throw new ServiceFailureException("Internal error: Failed updating car.", ex);
         }
     }
 
@@ -181,7 +185,8 @@ public class CarsManager implements ICarManager {
 
 
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "findCarById with id " + id, ex);
+            throw new ServiceFailureException("Error when retrieving car with id " + id, ex);
         }
 
         return car;

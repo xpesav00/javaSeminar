@@ -5,13 +5,9 @@
 package carrental;
 
 import common.DBUtils;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSource;
@@ -34,8 +30,6 @@ public class DriversManagerTest {
 
     private DriversManager manager;
     private Driver driver1, driver2, result;
-    private Connection connection = null;
-    private Statement st;
     private BasicDataSource dataSource;
 
     public DriversManagerTest() {
@@ -45,7 +39,7 @@ public class DriversManagerTest {
     public void setUp() throws SQLException, NamingException {
         //connect to db
 	dataSource = new BasicDataSource();
-	dataSource.setDriverClassName("org.apache.derby.jdbc.Driver169");
+//	dataSource.setDriverClassName("org.apache.derby.jdbc.Driver169");
 	dataSource.setUrl("jdbc:derby:memory;create=true");
 	dataSource.setUsername("developer");
 	dataSource.setPassword("developer");
@@ -195,19 +189,16 @@ public class DriversManagerTest {
         driver2 = manager.createDriver(driver2);
         Long driverId = driver1.getId();
 
-        driver1 = manager.findDriverById(driverId);
         driver1.setLicenceId("265165AS");
         manager.updateDriver(driver1);
         result = manager.findDriverById(driverId);
         assertDriverEquals(driver1, result);
 
-        driver1 = manager.findDriverById(driverId);
         driver1.setSurname("Jakob");
         manager.updateDriver(driver1);
         result = manager.findDriverById(driverId);
         assertDriverEquals(driver1, result);
 
-        driver1 = manager.findDriverById(driverId);
         driver1.setName("Hay");
         manager.updateDriver(driver1);
         result = manager.findDriverById(driverId);
