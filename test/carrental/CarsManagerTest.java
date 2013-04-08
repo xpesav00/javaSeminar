@@ -5,13 +5,9 @@
 package carrental;
 
 import common.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSource;
@@ -34,21 +30,19 @@ public class CarsManagerTest {
 
     private CarsManager manager;
     private Car car1, car2, result;
-    private Connection connection = null;
-    private Statement st;
     private BasicDataSource dataSource;
 
     public CarsManagerTest() {
-    }
-
+    }   
+    
     @Before
     public void setUp() throws SQLException, NamingException {
-        //connect to db
+         //connect to db
         dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("org.apache.derby.jdbc.Driver169");
+     // dataSource.setDriverClassName("org.apache.derby.jdbc.Driver169");
         dataSource.setUrl("jdbc:derby:memory;create=true");
         dataSource.setUsername("developer");
-        dataSource.setPassword("developer");
+        dataSource.setPassword("developer");       
         try {
             DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/createTables.sql"));
         } catch  (Exception ex){
@@ -140,7 +134,7 @@ public class CarsManagerTest {
 
         result = manager.createCar(car1);
         assertEquals("doesn't return same object", result, car1);
-        assertEquals("doesn't return same object", manager.findCarById(car1.getId()), car1);
+        assertEquals("doesn't return same object", manager.findCarById(car1.getId()), car1); 
 
         manager.createCar(car2);
 
@@ -205,25 +199,21 @@ public class CarsManagerTest {
         manager.createCar(car2);
         Long carId = car1.getId();
 
-        car1 = manager.findCarById(carId);
         car1.setVin("ABCD");
         manager.updateCar(car1);
         result = manager.findCarById(carId);
         assertCarEquals(car1, result);
 
-        car1 = manager.findCarById(carId);
         car1.setSpz("BHOP12");
         manager.updateCar(car1);
         result = manager.findCarById(carId);
         assertCarEquals(car1, result);
 
-        car1 = manager.findCarById(carId);
         car1.setName("test car no. 20");
         manager.updateCar(car1);
         result = manager.findCarById(carId);
         assertCarEquals(car1, result);
 
-        car1 = manager.findCarById(carId);
         car1.setMileage(2563.30);
         manager.updateCar(car1);
         result = manager.findCarById(carId);

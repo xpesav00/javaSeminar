@@ -100,5 +100,5 @@ public interface IRentalManager {
      * @param List<Rental>
      * @return all active rentals
      */
-    public List<Rental> activeRentals(List<Rental> list);
+    public  List<Rental> activeRentals(List<Rental> list);
 }

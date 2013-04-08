@@ -10,8 +10,7 @@
  */
 package carrental;
 
-import common.DBUtils;
-import common.ServiceFailureException;
+import common.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,6 +24,7 @@ import javax.sql.DataSource;
 
 public class DriversManager implements IDriverManager {
 
+    public static final Logger logger = Logger.getLogger(DriversManager.class.getName());
     private DataSource dataSource;
 
     public DriversManager(DataSource dataSource) {
@@ -59,7 +59,8 @@ public class DriversManager implements IDriverManager {
                 connection.rollback();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "create driver", ex);
+            throw new ServiceFailureException("Internal error: Failed creating driver", ex);
         }
 
         return driver;
@@ -89,6 +90,7 @@ public class DriversManager implements IDriverManager {
             }
 
         } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "delete driver", ex);
             throw new ServiceFailureException("Internal error: Problem with deleting driver.", ex);
         }
     }
@@ -117,7 +119,8 @@ public class DriversManager implements IDriverManager {
                 connection.rollback();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DriversManager.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "update driver", ex);
+            throw new ServiceFailureException("Internal error: Problem with updating driver.", ex);
         }
     }
 
@@ -134,8 +137,8 @@ public class DriversManager implements IDriverManager {
             return result;
 
         } catch (SQLException ex) {
-            throw new ServiceFailureException(
-                    "Error when retrieving all drivers", ex);
+            logger.log(Level.SEVERE, "find all drivers", ex);
+            throw new ServiceFailureException("Error when retrieving all drivers", ex);
         }
     }
 
@@ -167,8 +170,8 @@ public class DriversManager implements IDriverManager {
             }
 
         } catch (SQLException ex) {
-            throw new ServiceFailureException(
-                    "Error when retrieving driver with id " + id, ex);
+            logger.log(Level.SEVERE, "find driver with id " + id, ex);
+            throw new ServiceFailureException("Error when retrieving driver with id " + id, ex);
         }
     }
 
