@@ -1,7 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Projekt do predmetu PV168 - Autopujcovna
+ *
+ * @description Trida testujici DriversManager
+ * @package carrental
+ * @file DriversManagerTest.java
+ * @author Filip Krepinsky
+ * @email suomiy@gmail.com
+ * @date 15. 3. 2013
  */
+
 package carrental;
 
 import common.DBUtils;
@@ -16,16 +23,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- * Projekt do predmetu PV168 - Autopujcovna
- *
- * @description Trida testujici DriversManager
- * @package carrental
- * @file DriversManagerTest.java
- * @author Filip Krepinsky
- * @email suomiy@gmail.com
- * @date 15. 3. 2013
- */
 public class DriversManagerTest {
 
     private DriversManager manager;
@@ -39,10 +36,7 @@ public class DriversManagerTest {
     public void setUp() throws SQLException, NamingException {
         //connect to db
 	dataSource = new BasicDataSource();
-//	dataSource.setDriverClassName("org.apache.derby.jdbc.Driver169");
 	dataSource.setUrl("jdbc:derby:memory;create=true");
-	dataSource.setUsername("developer");
-	dataSource.setPassword("developer");
 	
         try {
             DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/createTables.sql"));

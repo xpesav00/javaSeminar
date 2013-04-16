@@ -4,8 +4,8 @@
  * @description Trida zajistuje testovani objektu RentalsManager
  * @package carrental
  * @file RentalsManagerTest.java
- * @author Jan Pesava - xpesav00
- * @email xpesav00@mail.muni.cz
+ * @author Jan Pesava - xpesav00, Filip Krepinsky
+ * @email xpesav00@mail.muni.cz, 410022@mail.muni.cz
  * @date 5. 3. 2013
  */
 package carrental;
@@ -42,10 +42,7 @@ public class RentalsManagerTest {
 
         //connect to db
         dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("org.apache.derby.jdbc.Driver169");
         dataSource.setUrl("jdbc:derby:memory;create=true"); //  jdbc:derby://localhost:1527/javaSeminar
-        dataSource.setUsername("developer");
-        dataSource.setPassword("developer");
 
         try {
             DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/createTables.sql"));

@@ -3,8 +3,8 @@
  * @description Startovaci trida
  * @package carrental
  * @file CarRental.java
- * @author Jan Pesava - xpesav00
- * @email xpesav00@mail.muni.cz
+ * @author Jan Pesava - xpesav00, Filip Krepinsky
+ * @email xpesav00@mail.muni.cz, 410022@mail.muni.cz
  * @date 5. 3. 2013
  */
 package carrental;

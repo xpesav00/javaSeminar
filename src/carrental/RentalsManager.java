@@ -4,8 +4,8 @@
  * @description Trida zajistuje manazera pro praci s objektem Rental
  * @package carrental
  * @file RentalsManager.java
- * @author Jan Pesava - xpesav00
- * @email xpesav00@mail.muni.cz
+ * @author Jan Pesava - xpesav00, Filip Krepinsky
+ * @email xpesav00@mail.muni.cz, 410022@mail.muni.cz
  * @date 5. 3. 2013
  */
 package carrental;
