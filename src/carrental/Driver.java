@@ -59,7 +59,7 @@ public class Driver {
         return this.licenseId;
     }
 
-    public void setLicenceId(String licenseId) {
+    public void setLicenseId(String licenseId) {
         this.licenseId = licenseId;
     }
 
