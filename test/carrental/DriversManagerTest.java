@@ -307,7 +307,7 @@ public class DriversManagerTest {
 
     private static void assertDriverEquals(Driver expected, Driver actual) {
         assertEquals(expected.getId(), actual.getId());
-        assertEquals(expected.getLicenceId(), actual.getLicenceId());
+        assertEquals(expected.getLicenseId(), actual.getLicenseId());
         assertEquals(expected.getName(), actual.getName());
         assertEquals(expected.getSurname(), actual.getSurname());
     }

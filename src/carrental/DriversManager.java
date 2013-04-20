@@ -44,7 +44,7 @@ public class DriversManager implements IDriverManager {
             connection.setAutoCommit(false);
             try (PreparedStatement insertStatement = connection.prepareStatement(
                     "INSERT INTO driver (license_id, name, surname) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
-                insertStatement.setString(1, driver.getLicenceId());
+                insertStatement.setString(1, driver.getLicenseId());
                 insertStatement.setString(2, driver.getName());
                 insertStatement.setString(3, driver.getSurname());
                 int addedRows = insertStatement.executeUpdate();
@@ -106,7 +106,7 @@ public class DriversManager implements IDriverManager {
             connection.setAutoCommit(false);
             try (PreparedStatement updateStatement = connection.prepareStatement(
                     "UPDATE driver set license_id = ?,name = ?,surname = ? WHERE id = ?")) {
-                updateStatement.setString(1, driver.getLicenceId());
+                updateStatement.setString(1, driver.getLicenseId());
                 updateStatement.setString(2, driver.getName());
                 updateStatement.setString(3, driver.getSurname());
                 updateStatement.setLong(4, driver.getId());
@@ -211,7 +211,7 @@ public class DriversManager implements IDriverManager {
             throw new IllegalArgumentException("Driver has null pointer.");
         }
 
-        if (driver.getLicenceId() == null) {
+        if (driver.getLicenseId() == null) {
             throw new IllegalArgumentException("Driver have null id pointer.");
         }
         if (driver.getName() == null) {

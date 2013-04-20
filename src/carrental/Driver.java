@@ -55,7 +55,7 @@ public class Driver {
         this.surname = surname;
     }
 
-    public String getLicenceId() {
+    public String getLicenseId() {
         return this.licenseId;
     }
 
