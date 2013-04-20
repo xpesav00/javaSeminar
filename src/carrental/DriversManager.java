@@ -178,7 +178,7 @@ public class DriversManager implements IDriverManager {
     private Driver resultSetToDriver(ResultSet rs) throws SQLException {
         Driver driver = new Driver();
         driver.setId(rs.getLong("id"));
-        driver.setLicenceId(rs.getString("license_id"));
+        driver.setLicenseId(rs.getString("license_id"));
         driver.setName(rs.getString("name"));
         driver.setSurname(rs.getString("surname"));
         return driver;

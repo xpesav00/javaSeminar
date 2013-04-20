@@ -51,11 +51,11 @@ public class DriversManagerTest {
 
         driver1.setName("test subject");
         driver1.setSurname("no. 1");
-        driver1.setLicenceId("AEG154683");
+        driver1.setLicenseId("AEG154683");
 
         driver2.setName("test subject as well");
         driver2.setSurname("no. 2");
-        driver2.setLicenceId("EAO2547842");
+        driver2.setLicenseId("EAO2547842");
 
 
     }
@@ -105,7 +105,7 @@ public class DriversManagerTest {
         } catch (IllegalArgumentException ex) {
         }
 
-        driver1.setLicenceId(null);
+        driver1.setLicenseId(null);
         driver1.setSurname("no. 1");
         try {
             manager.createDriver(driver1);
@@ -113,7 +113,7 @@ public class DriversManagerTest {
         } catch (IllegalArgumentException ex) {
         }
 
-        driver1.setLicenceId("AEG154683");
+        driver1.setLicenseId("AEG154683");
 
 
         result = manager.createDriver(driver1);
@@ -183,7 +183,7 @@ public class DriversManagerTest {
         driver2 = manager.createDriver(driver2);
         Long driverId = driver1.getId();
 
-        driver1.setLicenceId("265165AS");
+        driver1.setLicenseId("265165AS");
         manager.updateDriver(driver1);
         result = manager.findDriverById(driverId);
         assertDriverEquals(driver1, result);
@@ -229,7 +229,7 @@ public class DriversManagerTest {
 
         try {
             driver1 = manager.findDriverById(driverId);
-            driver1.setLicenceId(null);
+            driver1.setLicenseId(null);
             manager.updateDriver(driver1);
             fail();
         } catch (IllegalArgumentException ex) {
