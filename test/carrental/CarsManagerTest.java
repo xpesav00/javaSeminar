@@ -38,10 +38,10 @@ public class CarsManagerTest {
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:derby:memory;create=true");      
         try {
-            DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/createTables.sql"));
+            Utils.executeSqlScript(dataSource, CarRental.class.getResource("../common/createTables.sql"));
         } catch  (Exception ex){
-            DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/dropTables.sql"));
-            DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/createTables.sql"));            
+            Utils.executeSqlScript(dataSource, CarRental.class.getResource("../common/dropTables.sql"));
+            Utils.executeSqlScript(dataSource, CarRental.class.getResource("../common/createTables.sql"));            
         }
 
 
@@ -68,7 +68,7 @@ public class CarsManagerTest {
         car1 = null;
         car2 = null;
         result = null;
-        DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/dropTables.sql"));
+        Utils.executeSqlScript(dataSource, CarRental.class.getResource("../common/dropTables.sql"));
     }
 
     /**

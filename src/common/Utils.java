@@ -10,16 +10,32 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
+import org.apache.log4j.*;
+
 
 /**
  * Some DB tools.
  * 
  * @author Petr Adamek 
  */
-public class DBUtils {
+public class Utils {
 
     private static final Logger logger = Logger.getLogger(
-            DBUtils.class.getName());
+            Utils.class.getName());
+    
+    
+    /**
+     * sets format and file for logging
+     * catches IOException
+     * @param logger logger for initialization
+     */       
+    public static void initLogger(org.apache.log4j.Logger logger) {
+        try {        
+           FileAppender logfile =  new FileAppender(new PatternLayout("%d %r [%t] %-5p %c %x - %m%n"),"appLog.log",true);
+           logger.addAppender(logfile);              
+       } catch (IOException x) {
+       }
+    }
 
     /**
      * Closes connection and logs possible error.

@@ -10,7 +10,7 @@
  */
 package carrental;
 
-import common.DBUtils;
+import common.Utils;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -45,10 +45,10 @@ public class RentalsManagerTest {
         dataSource.setUrl("jdbc:derby:memory;create=true"); //  jdbc:derby://localhost:1527/javaSeminar
 
         try {
-            DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/createTables.sql"));
+            Utils.executeSqlScript(dataSource, CarRental.class.getResource("../common/createTables.sql"));
         } catch (Exception ex) {
-            DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/dropTables.sql"));
-            DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/createTables.sql"));
+            Utils.executeSqlScript(dataSource, CarRental.class.getResource("../common/dropTables.sql"));
+            Utils.executeSqlScript(dataSource, CarRental.class.getResource("../common/createTables.sql"));
         }
 
         //set rentalManager
@@ -94,7 +94,7 @@ public class RentalsManagerTest {
         rentalBad5 = null;
         rentalBad6 = null;
         validRental = null;        
-        DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/dropTables.sql"));
+        Utils.executeSqlScript(dataSource, CarRental.class.getResource("../common/dropTables.sql"));
     }
 
     /**

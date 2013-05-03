@@ -11,7 +11,7 @@
 
 package carrental;
 
-import common.DBUtils;
+import common.Utils;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +39,10 @@ public class DriversManagerTest {
 	dataSource.setUrl("jdbc:derby:memory;create=true");
 	
         try {
-            DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/createTables.sql"));
+            Utils.executeSqlScript(dataSource, CarRental.class.getResource("../common/createTables.sql"));
         } catch  (Exception ex){
-            DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/dropTables.sql"));
-            DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/createTables.sql"));            
+            Utils.executeSqlScript(dataSource, CarRental.class.getResource("../common/dropTables.sql"));
+            Utils.executeSqlScript(dataSource, CarRental.class.getResource("../common/createTables.sql"));            
         }
 
         manager = new DriversManager(dataSource);
@@ -66,7 +66,7 @@ public class DriversManagerTest {
         driver1 = null;
         driver2 = null;
         result = null;
-        DBUtils.executeSqlScript(dataSource, CarRental.class.getResource("../common/dropTables.sql"));
+        Utils.executeSqlScript(dataSource, CarRental.class.getResource("../common/dropTables.sql"));
         
     }
 

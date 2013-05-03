@@ -5,7 +5,8 @@
  * @package carrental
  * @file CarsManager.java
  * @author Jan Pesava - xpesav00, Filip Krepinsky
- * @email xpesav00@mail.muni.cz, 410022@mail.muni.cz
+ * @email xpesav00@mail.muni.cz, 410022
+ * @mail.muni.cz
  * @date 5. 3. 2013
  */
 package carrental;
@@ -18,9 +19,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sql.DataSource;
+import org.apache.log4j.*;
 
 /**
  *
@@ -28,12 +28,13 @@ import javax.sql.DataSource;
  */
 public class CarsManager implements ICarManager {
 
-    public static final Logger logger = Logger.getLogger(CarsManager.class.getName());
+    public static final Logger logger = Logger.getLogger(CarRental.class.getName());
     private DataSource dataSource;
 
     public CarsManager(DataSource dataSource) {
         this.dataSource = dataSource;
-    }
+        Utils.initLogger(logger);
+    }    
 
     @Override
     public Car createCar(Car car) {
@@ -71,11 +72,12 @@ public class CarsManager implements ICarManager {
                 connection.rollback();
             }
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "create car", ex);
+            logger.log(Level.ERROR, "create car", ex);
             throw new ServiceFailureException("Internal error: Failed creating car.", ex);
 
         } finally {
         }
+        logger.log(Level.INFO,"createCar " + car);
         return car;
     }
 
@@ -101,10 +103,10 @@ public class CarsManager implements ICarManager {
                 connection.rollback();
             }
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "delete car", ex);
+            logger.log(Level.ERROR, "delete car", ex);
             throw new ServiceFailureException("Internal error: Failed deleting car.", ex);
         }
-
+        logger.log(Level.INFO,"deleteCar" + car);
         // car.setId(null); 
     }
 
@@ -123,10 +125,10 @@ public class CarsManager implements ICarManager {
                 }
             }
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "findAllCars", ex);
+            logger.log(Level.ERROR, "findAllCars", ex);
             throw new ServiceFailureException("Internal error: Failed while searching for all cars.", ex);
         }
-
+        logger.log(Level.INFO,"findAllCars");
         return result;
     }
 
@@ -155,9 +157,10 @@ public class CarsManager implements ICarManager {
                 connection.rollback();
             }
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "update car", ex);
+            logger.log(Level.ERROR, "update car", ex);
             throw new ServiceFailureException("Internal error: Failed updating car.", ex);
         }
+        logger.log(Level.INFO,"updateCar" + car);
     }
 
     @Override
@@ -185,10 +188,10 @@ public class CarsManager implements ICarManager {
 
 
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "findCarById with id " + id, ex);
+            logger.log(Level.ERROR, "findCarById with id " + id, ex);
             throw new ServiceFailureException("Error when retrieving car with id " + id, ex);
         }
-
+        logger.log(Level.INFO,"findCarById" + id);
         return car;
     }
 

@@ -10,7 +10,7 @@
  */
 package carrental;
 
-import common.ServiceFailureException;
+import common.*;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sql.DataSource;
+import org.apache.log4j.*;
 
 public class RentalsManager implements IRentalManager {
 
-    public static final Logger logger = Logger.getLogger(RentalsManager.class.getName());
+    public static final Logger logger = Logger.getLogger(CarRental.class.getName());
     private DataSource dataSource;
 
     public RentalsManager(DataSource dataSource) {
         this.dataSource = dataSource;
+         Utils.initLogger(logger);         
     }
 
     @Override
@@ -67,10 +67,10 @@ public class RentalsManager implements IRentalManager {
                 connection.rollback();
             }
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "create rental", ex);
+            logger.log(Level.ERROR, "create rental", ex);
             throw new ServiceFailureException("Internal error: Failed creating rental.", ex);
         }
-
+        logger.log(Level.INFO,"createRental " + rental);
         return rental;
     }
 
@@ -84,6 +84,7 @@ public class RentalsManager implements IRentalManager {
         }
         rental.setEndTime(Calendar.getInstance());
         this.updateRental(rental);
+        logger.log(Level.INFO,"endRental" + rental);
     }
 
     @Override
@@ -110,9 +111,10 @@ public class RentalsManager implements IRentalManager {
             }
 
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "delete rental", ex);
+            logger.log(Level.ERROR, "delete rental", ex);
             throw new ServiceFailureException("Internal error: Problem with deleting rental.", ex);
         }
+        logger.log(Level.INFO,"deleteRental" + rental);
     }
 
     @Override
@@ -148,9 +150,10 @@ public class RentalsManager implements IRentalManager {
                 connection.rollback();
             }
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "update rental", ex);
+            logger.log(Level.ERROR, "update rental", ex);
             throw new ServiceFailureException("Internal error: Failed updating rental", ex);
         }
+        logger.log(Level.INFO,"updateRental" + rental);
     }
 
     @Override
@@ -177,14 +180,15 @@ public class RentalsManager implements IRentalManager {
                             "Internal error: More entities with the same id found "
                             + "(source id: " + id + ", found " + rental + " and " + resultSetToRental(rs));
                 }
-
+                logger.log(Level.INFO,"findRentalById" + id);
                 return rental;
             } else {
+                logger.log(Level.INFO,"findRentalById" + id);
                 return null;
             }
 
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "find rental with id" + id, ex);
+            logger.log(Level.ERROR, "find rental with id" + id, ex);
             throw new ServiceFailureException("Error when retrieving rental with id " + id, ex);
         }
     }
@@ -200,12 +204,13 @@ public class RentalsManager implements IRentalManager {
             while (rs.next()) {
                 result.add(resultSetToRental(rs));
             }
+            logger.log(Level.INFO,"findAllRentals");
             return result;
 
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "findAllRentals", ex);
+            logger.log(Level.ERROR, "findAllRentals", ex);
             throw new ServiceFailureException("Error when retrieving all rentals", ex);
-        }
+        }    
     }
 
     @Override
@@ -225,10 +230,10 @@ public class RentalsManager implements IRentalManager {
                 }
             }
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "find history of rental", ex);
+            logger.log(Level.ERROR, "find history of rental", ex);
             throw new ServiceFailureException("Error when finding history of rental(car)", ex);
         }
-
+        logger.log(Level.INFO,"findHistoryOfRental" + car);
         return result;
 
     }
@@ -256,10 +261,10 @@ public class RentalsManager implements IRentalManager {
                 }
             }
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "find history of rental", ex);
+            logger.log(Level.ERROR, "find history of rental", ex);
             throw new ServiceFailureException("Error when finding history of rental(driver)", ex);
         }
-
+        logger.log(Level.INFO,"findHistoryOfRental" + driver);
         return result;
 
     }
@@ -282,9 +287,10 @@ public class RentalsManager implements IRentalManager {
 
             }
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "find all rented cars", ex);
+            logger.log(Level.ERROR, "find all rented cars", ex);
             throw new ServiceFailureException("Error when finding all rented cars", ex);
         }
+        logger.log(Level.INFO,"findAllRentedCars");
         return result;
     }
 
@@ -295,6 +301,7 @@ public class RentalsManager implements IRentalManager {
         result = manager.findAllCars();
 
         result.removeAll(findAllRentedCars());
+        logger.log(Level.INFO,"findAllCarsOnStock");
         return result;
     }
 
@@ -316,7 +323,7 @@ public class RentalsManager implements IRentalManager {
                 }
             }
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "isCarFree", ex);
+            logger.log(Level.ERROR, "isCarFree", ex);
             throw new ServiceFailureException("Error when assuring car is free", ex);
         }
         return true;
@@ -331,6 +338,7 @@ public class RentalsManager implements IRentalManager {
                 result.add(list.get(i));
             }
         }
+        logger.log(Level.INFO,"activeRentals");
         return result;
     }
 

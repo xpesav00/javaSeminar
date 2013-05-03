@@ -5,7 +5,8 @@
  * @package carrental
  * @file DriversManager.java
  * @author Jan Pesava - xpesav00, Filip Krepinsky
- * @email xpesav00@mail.muni.cz, 410022@mail.muni.cz
+ * @email xpesav00@mail.muni.cz, 410022
+ * @mail.muni.cz
  * @date 5. 3. 2013
  */
 package carrental;
@@ -18,17 +19,17 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sql.DataSource;
+import org.apache.log4j.*;
 
 public class DriversManager implements IDriverManager {
 
-    public static final Logger logger = Logger.getLogger(DriversManager.class.getName());
+    public static final Logger logger = Logger.getLogger(CarRental.class.getName());
     private DataSource dataSource;
 
     public DriversManager(DataSource dataSource) {
         this.dataSource = dataSource;
+        Utils.initLogger(logger);
     }
 
     @Override
@@ -59,10 +60,10 @@ public class DriversManager implements IDriverManager {
                 connection.rollback();
             }
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "create driver", ex);
+            logger.log(Level.ERROR, "create driver", ex);
             throw new ServiceFailureException("Internal error: Failed creating driver", ex);
         }
-
+         logger.log(Level.INFO,"create driver " + driver);
         return driver;
     }
 
@@ -90,9 +91,10 @@ public class DriversManager implements IDriverManager {
             }
 
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "delete driver", ex);
+            logger.log(Level.ERROR, "delete driver", ex);
             throw new ServiceFailureException("Internal error: Problem with deleting driver.", ex);
         }
+        logger.log(Level.INFO,"deleteDriver" + driver);
     }
 
     @Override
@@ -119,9 +121,10 @@ public class DriversManager implements IDriverManager {
                 connection.rollback();
             }
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "update driver", ex);
+            logger.log(Level.ERROR, "update driver", ex);
             throw new ServiceFailureException("Internal error: Problem with updating driver.", ex);
         }
+        logger.log(Level.INFO,"updateDriver" + driver);
     }
 
     @Override
@@ -134,10 +137,11 @@ public class DriversManager implements IDriverManager {
             while (rs.next()) {
                 result.add(resultSetToDriver(rs));
             }
+            logger.log(Level.INFO,"findAllDrivers");
             return result;
 
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "find all drivers", ex);
+            logger.log(Level.ERROR, "find all drivers", ex);
             throw new ServiceFailureException("Error when retrieving all drivers", ex);
         }
     }
@@ -163,14 +167,16 @@ public class DriversManager implements IDriverManager {
                             "Internal error: More entities with the same id found "
                             + "(source id: " + id + ", found " + driver + " and " + resultSetToDriver(rs));
                 }
-
+                logger.log(Level.INFO,"findDriverById" + id);
                 return driver;
+                
             } else {
+                logger.log(Level.INFO,"findDriverById" + id);
                 return null;
             }
 
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "find driver with id " + id, ex);
+            logger.log(Level.ERROR, "find driver with id " + id, ex);
             throw new ServiceFailureException("Error when retrieving driver with id " + id, ex);
         }
     }
