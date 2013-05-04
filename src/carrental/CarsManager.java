@@ -34,7 +34,7 @@ public class CarsManager implements ICarManager {
     public CarsManager(DataSource dataSource) {
         this.dataSource = dataSource;
         Utils.initLogger(logger);
-    }    
+    }
 
     @Override
     public Car createCar(Car car) {
@@ -77,7 +77,7 @@ public class CarsManager implements ICarManager {
 
         } finally {
         }
-        logger.log(Level.INFO,"createCar " + car);
+        logger.log(Level.INFO, "createCar " + car);
         return car;
     }
 
@@ -106,7 +106,7 @@ public class CarsManager implements ICarManager {
             logger.log(Level.ERROR, "delete car", ex);
             throw new ServiceFailureException("Internal error: Failed deleting car.", ex);
         }
-        logger.log(Level.INFO,"deleteCar" + car);
+        logger.log(Level.INFO, "deleteCar" + car);
         // car.setId(null); 
     }
 
@@ -128,7 +128,7 @@ public class CarsManager implements ICarManager {
             logger.log(Level.ERROR, "findAllCars", ex);
             throw new ServiceFailureException("Internal error: Failed while searching for all cars.", ex);
         }
-        logger.log(Level.INFO,"findAllCars");
+        logger.log(Level.INFO, "findAllCars");
         return result;
     }
 
@@ -160,7 +160,7 @@ public class CarsManager implements ICarManager {
             logger.log(Level.ERROR, "update car", ex);
             throw new ServiceFailureException("Internal error: Failed updating car.", ex);
         }
-        logger.log(Level.INFO,"updateCar" + car);
+        logger.log(Level.INFO, "updateCar" + car);
     }
 
     @Override
@@ -191,7 +191,7 @@ public class CarsManager implements ICarManager {
             logger.log(Level.ERROR, "findCarById with id " + id, ex);
             throw new ServiceFailureException("Error when retrieving car with id " + id, ex);
         }
-        logger.log(Level.INFO,"findCarById" + id);
+        logger.log(Level.INFO, "findCarById" + id);
         return car;
     }
 
@@ -214,13 +214,13 @@ public class CarsManager implements ICarManager {
         if (car.getMileage() < 0) {
             throw new IllegalArgumentException("car has negative mileage");
         }
-        if (car.getName() == null) {
+        if (car.getName() == null || car.getName() == "") {
             throw new IllegalArgumentException("car name is null");
         }
-        if (car.getSpz() == null) {
+        if (car.getSpz() == null || car.getSpz() == "") {
             throw new IllegalArgumentException("car spz is null");
         }
-        if (car.getVin() == null) {
+        if (car.getVin() == null || car.getVin() == "") {
             throw new IllegalArgumentException("car vin is null");
         }
     }
