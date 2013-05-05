@@ -105,6 +105,7 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
 
     @Override
     public void tableChanged(TableModelEvent e) {
+	    this.loadData();
         //     int row = e.getFirstRow();
         //     int column = e.getColumn();
         System.err.println("heeey");
@@ -124,7 +125,9 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
             }
 
         }
-
-
+    }
+    
+    private void loadData() {
+	    this.cars = manager.findAllCars();
     }
 }

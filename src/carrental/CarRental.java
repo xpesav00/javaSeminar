@@ -60,11 +60,12 @@ public class CarRental {
             throw new ServiceFailureException("Internal error: couldn't load properties", ex);
         }
         
-        
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        MainWindow.main(args);
+        /*javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
+		    MainWindow.main(args);
             }
-        });
+        });*/
     }
 }
