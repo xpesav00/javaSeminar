@@ -25,8 +25,25 @@ public class MainWindow extends javax.swing.JFrame {
      * Creates new form MainWindow
      */
     public MainWindow() {
-        initManagers();
-      /*  for(char i='a';i <= 'z';i++){
+        
+         /* Create and display the form */
+        Properties prop = new Properties();
+        BasicDataSource dataSource;
+        
+        try {
+            prop.load(new FileInputStream("db.properties"));
+
+            dataSource = new BasicDataSource();
+            dataSource.setUrl(prop.getProperty("url"));
+            dataSource.setUsername(prop.getProperty("username"));
+            dataSource.setPassword(prop.getProperty("password"));
+
+        } catch (IOException ex) {
+            throw new ServiceFailureException("Internal error: couldn't load properties", ex);
+        }
+        carsManager = new CarsManager(dataSource);
+        carsModel = new CarsTableModel(carsManager);
+     /*   for(char i='a';i <= 'z';i++){
             Car c = new Car();
             c.setMileage(20.0);
             c.setName(i + "");
@@ -148,9 +165,9 @@ public class MainWindow extends javax.swing.JFrame {
         jTextField5 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu4 = new javax.swing.JMenu();
-        jMenuItemOptions = new javax.swing.JMenuItem();
-        jMenuItemAbout = new javax.swing.JMenuItem();
-        jMenuItemExit = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         jMenuItem3.setText("jMenuItem3");
 
@@ -464,8 +481,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         AboutProgram.setTitle("About");
         AboutProgram.setAlwaysOnTop(true);
-        AboutProgram.setMinimumSize(new java.awt.Dimension(250, 152));
-        AboutProgram.setModal(true);
         AboutProgram.setResizable(false);
 
         jButton20.setText("Close");
@@ -501,8 +516,7 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
         Options.setTitle("Options");
-        Options.setMinimumSize(new java.awt.Dimension(207, 80));
-        Options.setModal(true);
+        Options.setMinimumSize(new java.awt.Dimension(300, 200));
         Options.setResizable(false);
 
         jButton19.setText("OK");
@@ -526,20 +540,21 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(jLabel6)
                 .addGap(13, 13, 13)
-                .addComponent(jComboBox3, 0, 105, Short.MAX_VALUE)
+                .addComponent(jComboBox3, 0, 112, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
         OptionsLayout.setVerticalGroup(
             OptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OptionsLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
                 .addGroup(OptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addGap(10, 10, 10)
                 .addGroup(OptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton19)
-                    .addComponent(jButton21)))
+                    .addComponent(jButton21))
+                .addGap(0, 0, 0))
         );
 
         DeleteWindow.setAlwaysOnTop(true);
@@ -962,35 +977,30 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        jMenuItemOptions.setText("Options");
-        jMenuItemOptions.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem2.setText("Options");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemOptionsActionPerformed(evt);
+                jMenuItem2ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItemOptions);
+        jMenu4.add(jMenuItem2);
 
-        jMenuItemAbout.setText("About Program");
-        jMenuItemAbout.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemAboutActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItemAbout);
+        jMenuItem5.setText("About Program");
+        jMenu4.add(jMenuItem5);
 
-        jMenuItemExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
-        jMenuItemExit.setText("Exit");
-        jMenuItemExit.addMouseListener(new java.awt.event.MouseAdapter() {
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItem4.setText("Exit");
+        jMenuItem4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuItemExitMouseClicked(evt);
+                jMenuItem4MouseClicked(evt);
             }
         });
-        jMenuItemExit.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemExitActionPerformed(evt);
+                jMenuItem4ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItemExit);
+        jMenu4.add(jMenuItem4);
 
         jMenuBar1.add(jMenu4);
 
@@ -1020,20 +1030,20 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:        
     }//GEN-LAST:event_jMenu4KeyPressed
 
-    private void jMenuItemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExitActionPerformed
-        // TODO add your handling code here:        
-      //  dispose();
-        System.exit(0);  
-    }//GEN-LAST:event_jMenuItemExitActionPerformed
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
-    private void jMenuItemExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItemExitMouseClicked
+    private void jMenuItem4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem4MouseClicked
         // TODO add your handling code here:       
-    }//GEN-LAST:event_jMenuItemExitMouseClicked
+    }//GEN-LAST:event_jMenuItem4MouseClicked
 
-    private void jMenuItemOptionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOptionsActionPerformed
-        Options.setLocationRelativeTo(this);        
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
         Options.setVisible(true);
-    }//GEN-LAST:event_jMenuItemOptionsActionPerformed
+        //  Options.doLayout();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void carSearchOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carSearchOkButtonActionPerformed
         // TODO add your handling code here:
@@ -1056,8 +1066,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_addCarButtonActionPerformed
 
     private void deleteCarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCarButtonActionPerformed
-        DeleteWindow.setLocationRelativeTo(this);
-        DeleteWindow.setVisible(true);            
+         DeleteWindow.setVisible(true);                 
     }//GEN-LAST:event_deleteCarButtonActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -1163,18 +1172,10 @@ public class MainWindow extends javax.swing.JFrame {
         DeleteWindow.dispose();
     }//GEN-LAST:event_jButton23ActionPerformed
 
-    private void jMenuItemAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAboutActionPerformed
-     AboutProgram.setLocationRelativeTo(this);
-        AboutProgram.setVisible(true);  
-    }//GEN-LAST:event_jMenuItemAboutActionPerformed
-
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        // make sure this is only instance of this program
-        Utils.initProgram();
-        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -1197,7 +1198,7 @@ public class MainWindow extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             
@@ -1263,10 +1264,10 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItemAbout;
-    private javax.swing.JMenuItem jMenuItemExit;
-    private javax.swing.JMenuItem jMenuItemOptions;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1308,23 +1309,4 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField9;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
-
-    private void initManagers() throws ServiceFailureException {
-        Properties prop = new Properties();
-        BasicDataSource dataSource;
-        
-        try {
-            prop.load(new FileInputStream("db.properties"));
-
-            dataSource = new BasicDataSource();
-            dataSource.setUrl(prop.getProperty("url"));
-            dataSource.setUsername(prop.getProperty("username"));
-            dataSource.setPassword(prop.getProperty("password"));
-
-        } catch (IOException ex) {
-            throw new ServiceFailureException("Internal error: couldn't load properties", ex);
-        }
-        carsManager = new CarsManager(dataSource);
-        carsModel = new CarsTableModel(carsManager);
-    }
 }
