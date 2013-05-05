@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package common;
+
 import carrental.*;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,47 +17,33 @@ import org.apache.commons.dbcp.BasicDataSource;
  * @author ansy
  */
 public class MainWindow extends javax.swing.JFrame {
- private CarsManager carsManager;
- private DriversManager driversManager;
- private RentalsManager rentalsManager;
- private CarsTableModel carsModel;
+
+    private CarsManager carsManager;
+    private DriversManager driversManager;
+    private RentalsManager rentalsManager;
+    private CarsTableModel carsModel;
+    private int showCars = 0;
+    private int showDrivers = 0;
+    private int showRentals = 0;
+    private String filterString = null;
 
     /**
      * Creates new form MainWindow
      */
     public MainWindow() {
-        
-         /* Create and display the form */
-        Properties prop = new Properties();
-        BasicDataSource dataSource;
-        
-        try {
-            prop.load(new FileInputStream("db.properties"));
-
-            dataSource = new BasicDataSource();
-            dataSource.setUrl(prop.getProperty("url"));
-            dataSource.setUsername(prop.getProperty("username"));
-            dataSource.setPassword(prop.getProperty("password"));
-
-        } catch (IOException ex) {
-            throw new ServiceFailureException("Internal error: couldn't load properties", ex);
-        }
-        carsManager = new CarsManager(dataSource);
-        carsModel = new CarsTableModel(carsManager);
-     /*   for(char i='a';i <= 'z';i++){
-            Car c = new Car();
-            c.setMileage(20.0);
-            c.setName(i + "");
-            c.setSpz(i + "");
-            c.setVin(i + "");
-            carsManager.createCar(c);
-        }*/
+        initManagers();
+        /*  for(char i='a';i <= 'z';i++){
+         Car c = new Car();
+         c.setMileage(20.0);
+         c.setName(i + "");
+         c.setSpz(i + "");
+         c.setVin(i + "");
+         carsManager.createCar(c);
+         }*/
         initComponents();
         jTableCars.getTableHeader().setReorderingAllowed(false);
         carsModel.addTableModelListener(carsModel);
 
-
-       
     }
 
     /**
@@ -165,9 +152,9 @@ public class MainWindow extends javax.swing.JFrame {
         jTextField5 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu4 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItemOptions = new javax.swing.JMenuItem();
+        jMenuItemAbout = new javax.swing.JMenuItem();
+        jMenuItemExit = new javax.swing.JMenuItem();
 
         jMenuItem3.setText("jMenuItem3");
 
@@ -481,6 +468,8 @@ public class MainWindow extends javax.swing.JFrame {
 
         AboutProgram.setTitle("About");
         AboutProgram.setAlwaysOnTop(true);
+        AboutProgram.setMinimumSize(new java.awt.Dimension(250, 152));
+        AboutProgram.setModal(true);
         AboutProgram.setResizable(false);
 
         jButton20.setText("Close");
@@ -488,7 +477,7 @@ public class MainWindow extends javax.swing.JFrame {
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("About\nVersion 12");
+        jTextArea1.setText("Version 0.1");
         jTextArea1.setFocusable(false);
         jScrollPane3.setViewportView(jTextArea1);
 
@@ -516,7 +505,8 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
         Options.setTitle("Options");
-        Options.setMinimumSize(new java.awt.Dimension(300, 200));
+        Options.setMinimumSize(new java.awt.Dimension(207, 80));
+        Options.setModal(true);
         Options.setResizable(false);
 
         jButton19.setText("OK");
@@ -540,21 +530,20 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(jLabel6)
                 .addGap(13, 13, 13)
-                .addComponent(jComboBox3, 0, 112, Short.MAX_VALUE)
+                .addComponent(jComboBox3, 0, 105, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
         OptionsLayout.setVerticalGroup(
             OptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OptionsLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(OptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addGap(10, 10, 10)
                 .addGroup(OptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton19)
-                    .addComponent(jButton21))
-                .addGap(0, 0, 0))
+                    .addComponent(jButton21)))
         );
 
         DeleteWindow.setAlwaysOnTop(true);
@@ -584,12 +573,14 @@ public class MainWindow extends javax.swing.JFrame {
         DeleteWindowLayout.setHorizontalGroup(
             DeleteWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DeleteWindowLayout.createSequentialGroup()
-                .addContainerGap(65, Short.MAX_VALUE)
+                .addContainerGap(75, Short.MAX_VALUE)
                 .addComponent(jButton23)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton22)
                 .addGap(56, 56, 56))
-            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DeleteWindowLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         DeleteWindowLayout.setVerticalGroup(
             DeleteWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -977,30 +968,35 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem2.setText("Options");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemOptions.setText("Options");
+        jMenuItemOptions.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                jMenuItemOptionsActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem2);
+        jMenu4.add(jMenuItemOptions);
 
-        jMenuItem5.setText("About Program");
-        jMenu4.add(jMenuItem5);
+        jMenuItemAbout.setText("About Program");
+        jMenuItemAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAboutActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItemAbout);
 
-        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
-        jMenuItem4.setText("Exit");
-        jMenuItem4.addMouseListener(new java.awt.event.MouseAdapter() {
+        jMenuItemExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItemExit.setText("Exit");
+        jMenuItemExit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuItem4MouseClicked(evt);
+                jMenuItemExitMouseClicked(evt);
             }
         });
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                jMenuItemExitActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem4);
+        jMenu4.add(jMenuItemExit);
 
         jMenuBar1.add(jMenu4);
 
@@ -1030,20 +1026,20 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:        
     }//GEN-LAST:event_jMenu4KeyPressed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        // TODO add your handling code here:
-        dispose();
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    private void jMenuItemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExitActionPerformed
+        // TODO add your handling code here:        
+        //  dispose();
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItemExitActionPerformed
 
-    private void jMenuItem4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem4MouseClicked
+    private void jMenuItemExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItemExitMouseClicked
         // TODO add your handling code here:       
-    }//GEN-LAST:event_jMenuItem4MouseClicked
+    }//GEN-LAST:event_jMenuItemExitMouseClicked
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
+    private void jMenuItemOptionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOptionsActionPerformed
+        Options.setLocationRelativeTo(this);
         Options.setVisible(true);
-        //  Options.doLayout();
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_jMenuItemOptionsActionPerformed
 
     private void carSearchOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carSearchOkButtonActionPerformed
         // TODO add your handling code here:
@@ -1062,11 +1058,11 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButton4ActionPerformed
 
     private void addCarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCarButtonActionPerformed
-      
     }//GEN-LAST:event_addCarButtonActionPerformed
 
     private void deleteCarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCarButtonActionPerformed
-         DeleteWindow.setVisible(true);                 
+        DeleteWindow.setLocationRelativeTo(this);
+        DeleteWindow.setVisible(true);
     }//GEN-LAST:event_deleteCarButtonActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -1163,7 +1159,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
         // TODO add your handling code here:
-        carsModel.removeRow(jTableCars.getSelectedRow(),jTableCars);
+        carsModel.removeRow(jTableCars.getSelectedRow(), jTableCars);
         DeleteWindow.dispose();
     }//GEN-LAST:event_jButton22ActionPerformed
 
@@ -1172,10 +1168,18 @@ public class MainWindow extends javax.swing.JFrame {
         DeleteWindow.dispose();
     }//GEN-LAST:event_jButton23ActionPerformed
 
+    private void jMenuItemAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAboutActionPerformed
+        AboutProgram.setLocationRelativeTo(this);
+        AboutProgram.setVisible(true);
+    }//GEN-LAST:event_jMenuItemAboutActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        // make sure this is only instance of this program
+        Utils.initProgram();
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -1201,7 +1205,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            
             public void run() {
                 new MainWindow().setVisible(true);
             }
@@ -1264,10 +1267,10 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItemAbout;
+    private javax.swing.JMenuItem jMenuItemExit;
+    private javax.swing.JMenuItem jMenuItemOptions;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1309,4 +1312,59 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField9;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
+
+    private void initManagers() throws ServiceFailureException {
+        Properties prop = new Properties();
+        BasicDataSource dataSource;
+
+        try {
+            prop.load(new FileInputStream("db.properties"));
+
+            dataSource = new BasicDataSource();
+            dataSource.setUrl(prop.getProperty("url"));
+            dataSource.setUsername(prop.getProperty("username"));
+            dataSource.setPassword(prop.getProperty("password"));
+
+        } catch (IOException ex) {
+            throw new ServiceFailureException("Internal error: couldn't load properties", ex);
+        }
+        carsManager = new CarsManager(dataSource);
+        carsModel = new CarsTableModel(carsManager);
+    }
+/*
+    private void configureFilters() {
+        
+        
+        switch (columnIndex) {
+            case 0:
+                return car.getId();
+            case 1:
+                return car.getVin();
+            case 2:
+                return car.getSpz();
+            case 3:
+                return car.getName();
+            case 4:
+                return car.getMileage();
+            default:
+                throw new IllegalArgumentException("columnIndex");
+        }
+        if (showOnlyWinners && hasFilterString()) {
+            List<RowFilter<OscarTableModel, Integer>> filters =
+                    new ArrayList<RowFilter<OscarTableModel, Integer>>(2);
+            filters.add(winnerFilter);
+            filters.add(searchFilter);
+            RowFilter<Object, Object> comboFilter = RowFilter.andFilter(filters);
+            sorter.setRowFilter(comboFilter);
+        } else if (showOnlyWinners) {
+            sorter.setRowFilter(winnerFilter);
+        } else if (hasFilterString()) {
+            sorter.setRowFilter(searchFilter);
+        } else {
+            sorter.setRowFilter(null);
+        }
+        tableStatus.setText((hasFilterString() ? searchLabelString : statusLabelString)
+                + oscarTable.getRowCount());
+
+    }*/
 }

@@ -94,7 +94,7 @@ public class DriversManager implements IDriverManager {
             logger.log(Level.ERROR, "delete driver", ex);
             throw new ServiceFailureException("Internal error: Problem with deleting driver.", ex);
         }
-        logger.log(Level.INFO,"deleteDriver" + driver);
+        logger.log(Level.INFO,"deleteDriver " + driver);
     }
 
     @Override
@@ -124,7 +124,7 @@ public class DriversManager implements IDriverManager {
             logger.log(Level.ERROR, "update driver", ex);
             throw new ServiceFailureException("Internal error: Problem with updating driver.", ex);
         }
-        logger.log(Level.INFO,"updateDriver" + driver);
+        logger.log(Level.INFO,"updateDriver " + driver);
     }
 
     @Override
@@ -171,7 +171,7 @@ public class DriversManager implements IDriverManager {
                 return driver;
                 
             } else {
-                logger.log(Level.INFO,"findDriverById" + id);
+                logger.log(Level.INFO,"findDriverById " + id);
                 return null;
             }
 
