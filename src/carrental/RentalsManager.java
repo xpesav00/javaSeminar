@@ -114,7 +114,7 @@ public class RentalsManager implements IRentalManager {
             logger.log(Level.ERROR, "delete rental", ex);
             throw new ServiceFailureException("Internal error: Problem with deleting rental.", ex);
         }
-        logger.log(Level.INFO,"deleteRental" + rental);
+        logger.log(Level.INFO,"deleteRental " + rental);
     }
 
     @Override
@@ -153,7 +153,7 @@ public class RentalsManager implements IRentalManager {
             logger.log(Level.ERROR, "update rental", ex);
             throw new ServiceFailureException("Internal error: Failed updating rental", ex);
         }
-        logger.log(Level.INFO,"updateRental" + rental);
+        logger.log(Level.INFO,"updateRental " + rental);
     }
 
     @Override
@@ -180,10 +180,10 @@ public class RentalsManager implements IRentalManager {
                             "Internal error: More entities with the same id found "
                             + "(source id: " + id + ", found " + rental + " and " + resultSetToRental(rs));
                 }
-                logger.log(Level.INFO,"findRentalById" + id);
+                logger.log(Level.INFO,"findRentalById " + id);
                 return rental;
             } else {
-                logger.log(Level.INFO,"findRentalById" + id);
+                logger.log(Level.INFO,"findRentalById " + id);
                 return null;
             }
 
@@ -233,7 +233,7 @@ public class RentalsManager implements IRentalManager {
             logger.log(Level.ERROR, "find history of rental", ex);
             throw new ServiceFailureException("Error when finding history of rental(car)", ex);
         }
-        logger.log(Level.INFO,"findHistoryOfRental" + car);
+        logger.log(Level.INFO,"findHistoryOfRental " + car);
         return result;
 
     }
@@ -264,7 +264,7 @@ public class RentalsManager implements IRentalManager {
             logger.log(Level.ERROR, "find history of rental", ex);
             throw new ServiceFailureException("Error when finding history of rental(driver)", ex);
         }
-        logger.log(Level.INFO,"findHistoryOfRental" + driver);
+        logger.log(Level.INFO,"findHistoryOfRental " + driver);
         return result;
 
     }
@@ -290,7 +290,7 @@ public class RentalsManager implements IRentalManager {
             logger.log(Level.ERROR, "find all rented cars", ex);
             throw new ServiceFailureException("Error when finding all rented cars", ex);
         }
-        logger.log(Level.INFO,"findAllRentedCars");
+        logger.log(Level.INFO,"findAllRentedCars ");
         return result;
     }
 
@@ -301,7 +301,7 @@ public class RentalsManager implements IRentalManager {
         result = manager.findAllCars();
 
         result.removeAll(findAllRentedCars());
-        logger.log(Level.INFO,"findAllCarsOnStock");
+        logger.log(Level.INFO,"findAllCarsOnStock ");
         return result;
     }
 
@@ -338,7 +338,7 @@ public class RentalsManager implements IRentalManager {
                 result.add(list.get(i));
             }
         }
-        logger.log(Level.INFO,"activeRentals");
+        logger.log(Level.INFO,"activeRentals ");
         return result;
     }
 

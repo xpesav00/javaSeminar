@@ -106,7 +106,7 @@ public class CarsManager implements ICarManager {
             logger.log(Level.ERROR, "delete car", ex);
             throw new ServiceFailureException("Internal error: Failed deleting car.", ex);
         }
-        logger.log(Level.INFO, "deleteCar" + car);
+        logger.log(Level.INFO, "deleteCar " + car);
         // car.setId(null); 
     }
 
@@ -160,7 +160,7 @@ public class CarsManager implements ICarManager {
             logger.log(Level.ERROR, "update car", ex);
             throw new ServiceFailureException("Internal error: Failed updating car.", ex);
         }
-        logger.log(Level.INFO, "updateCar" + car);
+        logger.log(Level.INFO, "updateCar " + car);
     }
 
     @Override
@@ -191,7 +191,7 @@ public class CarsManager implements ICarManager {
             logger.log(Level.ERROR, "findCarById with id " + id, ex);
             throw new ServiceFailureException("Error when retrieving car with id " + id, ex);
         }
-        logger.log(Level.INFO, "findCarById" + id);
+        logger.log(Level.INFO, "findCarById " + id);
         return car;
     }
 

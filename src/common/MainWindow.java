@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package common;
+
 import carrental.*;
 import java.awt.Color;
 import java.io.FileInputStream;
@@ -24,10 +25,15 @@ import org.apache.commons.dbcp.BasicDataSource;
  * @author ansy
  */
 public class MainWindow extends javax.swing.JFrame {
- private CarsManager carsManager;
- private DriversManager driversManager;
- private RentalsManager rentalsManager;
- private CarsTableModel carsModel;
+
+    private CarsManager carsManager;
+    private DriversManager driversManager;
+    private RentalsManager rentalsManager;
+    private CarsTableModel carsModel;
+    private int showCars = 0;
+    private int showDrivers = 0;
+    private int showRentals = 0;
+    private String filterString = null;
 
     /**
      * Creates new form MainWindow
@@ -46,8 +52,6 @@ public class MainWindow extends javax.swing.JFrame {
         jTableCars.getTableHeader().setReorderingAllowed(false);
         carsModel.addTableModelListener(carsModel);
 
-
-       
     }
 
     /**
@@ -1280,7 +1284,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
         // TODO add your handling code here:
-        carsModel.removeRow(jTableCars.getSelectedRow(),jTableCars);
+        carsModel.removeRow(jTableCars.getSelectedRow(), jTableCars);
         DeleteWindow.dispose();
     }//GEN-LAST:event_jButton22ActionPerformed
 
@@ -1429,7 +1433,6 @@ public class MainWindow extends javax.swing.JFrame {
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            
             public void run() {
                 new MainWindow().setVisible(true);
             }
