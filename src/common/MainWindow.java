@@ -8,7 +8,12 @@ import carrental.*;
 import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.DriverManager;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -87,9 +92,9 @@ public class MainWindow extends javax.swing.JFrame {
                 jLabelCRDPrice = new javax.swing.JLabel();
                 jTextFieldCRDPrice = new javax.swing.JTextField();
                 jLabelCRDStartTime = new javax.swing.JLabel();
-                jTextFieldCRDStartTime = new javax.swing.JTextField();
                 jLabelCRDExEndTime = new javax.swing.JLabel();
-                jTextFieldCRDExEndTime = new javax.swing.JTextField();
+                jXDatePickerCRDStartTime = new org.jdesktop.swingx.JXDatePicker();
+                jXDatePickerCRDExEndTime = new org.jdesktop.swingx.JXDatePicker();
                 CreateDriverDialog = new javax.swing.JDialog();
                 jButtonCDDOk = new javax.swing.JButton();
                 jButtonCDDCancel = new javax.swing.JButton();
@@ -242,27 +247,14 @@ public class MainWindow extends javax.swing.JFrame {
 
                 jLabelCRDStartTime.setText("Start Time");
 
-                jTextFieldCRDStartTime.setText("0");
-                jTextFieldCRDStartTime.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                jTextFieldCRDStartTimeActionPerformed(evt);
-                        }
-                });
-
                 jLabelCRDExEndTime.setText("Expected End time");
-
-                jTextFieldCRDExEndTime.setText("0");
-                jTextFieldCRDExEndTime.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                jTextFieldCRDExEndTimeActionPerformed(evt);
-                        }
-                });
 
                 javax.swing.GroupLayout CreateRentalDialogLayout = new javax.swing.GroupLayout(CreateRentalDialog.getContentPane());
                 CreateRentalDialog.getContentPane().setLayout(CreateRentalDialogLayout);
                 CreateRentalDialogLayout.setHorizontalGroup(
                         CreateRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CreateRentalDialogLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jButtonCRDCancel)
                                 .addGap(0, 0, 0)
                                 .addComponent(jButtonCRDOk, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -276,26 +268,25 @@ public class MainWindow extends javax.swing.JFrame {
                                                 .addComponent(jLabelCRDPrice))
                                         .addGroup(CreateRentalDialogLayout.createSequentialGroup()
                                                 .addGap(8, 8, 8)
-                                                .addComponent(jLabelCRDDriver, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(jLabelCRDDriver, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(CreateRentalDialogLayout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addGroup(CreateRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLabelCRDExEndTime)
+                                                        .addComponent(jLabelCRDStartTime))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(CreateRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(CreateRentalDialogLayout.createSequentialGroup()
-                                                .addComponent(jTextFieldCRDPrice)
-                                                .addContainerGap())
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CreateRentalDialogLayout.createSequentialGroup()
                                                 .addGroup(CreateRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addComponent(jComboBoxCRDDriver, 0, 150, Short.MAX_VALUE)
                                                         .addComponent(jComboBoxCRDCar, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                .addGap(10, 10, 10))))
-                        .addGroup(CreateRentalDialogLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(CreateRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabelCRDExEndTime)
-                                        .addComponent(jLabelCRDStartTime))
-                                .addGroup(CreateRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jTextFieldCRDStartTime)
-                                        .addComponent(jTextFieldCRDExEndTime))
-                                .addContainerGap())
+                                                .addGap(10, 10, 10))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CreateRentalDialogLayout.createSequentialGroup()
+                                                .addGroup(CreateRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addComponent(jXDatePickerCRDExEndTime, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(jXDatePickerCRDStartTime, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(jTextFieldCRDPrice))
+                                                .addContainerGap())))
                 );
                 CreateRentalDialogLayout.setVerticalGroup(
                         CreateRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -315,12 +306,12 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(CreateRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabelCRDStartTime)
-                                        .addComponent(jTextFieldCRDStartTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jXDatePickerCRDStartTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(CreateRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabelCRDExEndTime)
-                                        .addComponent(jTextFieldCRDExEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(10, 10, 10)
+                                        .addComponent(jXDatePickerCRDExEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(9, 9, 9)
                                 .addGroup(CreateRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jButtonCRDOk)
                                         .addComponent(jButtonCRDCancel))
@@ -329,7 +320,6 @@ public class MainWindow extends javax.swing.JFrame {
 
                 CreateDriverDialog.setTitle("Create Driver");
                 CreateDriverDialog.setMinimumSize(new java.awt.Dimension(300, 160));
-                CreateDriverDialog.setPreferredSize(new java.awt.Dimension(300, 160));
                 CreateDriverDialog.setResizable(false);
 
                 jButtonCDDOk.setText("OK");
@@ -535,7 +525,7 @@ public class MainWindow extends javax.swing.JFrame {
                 jTextArea1.setColumns(20);
                 jTextArea1.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
                 jTextArea1.setRows(5);
-                jTextArea1.setText("About\nVersion 12");
+                jTextArea1.setText("Version 0.1");
                 jTextArea1.setFocusable(false);
                 jScrollPane3.setViewportView(jTextArea1);
 
@@ -582,7 +572,12 @@ public class MainWindow extends javax.swing.JFrame {
                         }
                 });
 
-                jComboBoxOptionsLanguage.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+                jComboBoxOptionsLanguage.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Čeština", "English", "Deutsh" }));
+                jComboBoxOptionsLanguage.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                jComboBoxOptionsLanguageActionPerformed(evt);
+                        }
+                });
 
                 jLabelOptionsLanguage.setText("Language");
 
@@ -642,12 +637,14 @@ public class MainWindow extends javax.swing.JFrame {
                 DeleteWindowLayout.setHorizontalGroup(
                         DeleteWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DeleteWindowLayout.createSequentialGroup()
-                                .addContainerGap(65, Short.MAX_VALUE)
+                                .addContainerGap(75, Short.MAX_VALUE)
                                 .addComponent(jButton23)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton22)
                                 .addGap(56, 56, 56))
-                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DeleteWindowLayout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 );
                 DeleteWindowLayout.setVerticalGroup(
                         DeleteWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1242,14 +1239,6 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldCRDPriceActionPerformed
 
-    private void jTextFieldCRDStartTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCRDStartTimeActionPerformed
-        //
-    }//GEN-LAST:event_jTextFieldCRDStartTimeActionPerformed
-
-    private void jTextFieldCRDExEndTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCRDExEndTimeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldCRDExEndTimeActionPerformed
-
     private void jTextFieldCDDLicenseIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCDDLicenseIdActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldCDDLicenseIdActionPerformed
@@ -1398,8 +1387,52 @@ public class MainWindow extends javax.swing.JFrame {
         }//GEN-LAST:event_jButtonCRDCancelActionPerformed
 
         private void jButtonCRDOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCRDOkActionPerformed
-                this.CreateRentalDialog.dispose();
+                try {
+			//control input data
+			this.controlInputText(this.jTextFieldCRDPrice);
+			
+			//get data
+			Car car = (Car) this.jComboBoxCRDCar.getSelectedItem();
+			Driver driver = (Driver) this.jComboBoxCRDDriver.getSelectedItem();
+			String priceStr = this.jTextFieldCRDPrice.getText();
+			Date startDate = this.jXDatePickerCRDStartTime.getDate();
+			Date expectedEndDate = this.jXDatePickerCRDExEndTime.getDate();
+			
+			//create correct objects
+			Calendar startDateCal = Calendar.getInstance();
+			startDateCal.setTime(startDate);
+			Calendar expectedEndDateCal = Calendar.getInstance();
+			expectedEndDateCal.setTime(expectedEndDate);
+			BigDecimal price = new BigDecimal(priceStr);
+			
+			//control dates
+			if(startDateCal.compareTo(expectedEndDateCal) >= 0) {
+				throw new IllegalAccessException("Start date isnt less than expected end date.");
+			}
+			if(price.doubleValue() < 0) {
+				throw new IllegalAccessException("Price is lower than zero.");
+			}
+			
+			//create rental
+			Rental rental = new Rental(null, driver, car, price, startDateCal, expectedEndDateCal);
+			this.rentalsManager.createRental(rental);
+	
+			//data was changed, info to datamodel
+			//this.rentalsModel.fireTableDataChanged();
+			
+			//hide dialog
+			this.CreateRentalDialog.dispose();
+			
+			
+		} catch (Exception ex) {
+			Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+			this.displayInformationDialog("Problem with creating new rental.\nMaybe any information are bad.");
+		}
         }//GEN-LAST:event_jButtonCRDOkActionPerformed
+
+        private void jComboBoxOptionsLanguageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxOptionsLanguageActionPerformed
+                // TODO add your handling code here:
+        }//GEN-LAST:event_jComboBoxOptionsLanguageActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1536,10 +1569,10 @@ public class MainWindow extends javax.swing.JFrame {
         private javax.swing.JTextField jTextFieldCDDLicenseId;
         private javax.swing.JTextField jTextFieldCDDName;
         private javax.swing.JTextField jTextFieldCDDSurname;
-        private javax.swing.JTextField jTextFieldCRDExEndTime;
         private javax.swing.JTextField jTextFieldCRDPrice;
-        private javax.swing.JTextField jTextFieldCRDStartTime;
         private javax.swing.JTree jTree1;
+        private org.jdesktop.swingx.JXDatePicker jXDatePickerCRDExEndTime;
+        private org.jdesktop.swingx.JXDatePicker jXDatePickerCRDStartTime;
         private javax.swing.JButton rentalSearchOkButton;
         private javax.swing.JTextField rentalSearchTextField;
         private javax.swing.JRadioButton rentedCarsRadioButton;
@@ -1596,9 +1629,13 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     private void clearCreateRentalDialog() {
+	Calendar today = Calendar.getInstance();
+	Calendar tomorrow = Calendar.getInstance();
+	tomorrow.add(Calendar.DATE, 1);
+	    
 	this.jTextFieldCRDPrice.setText("");
-	this.jTextFieldCRDStartTime.setText("");
-	this.jTextFieldCRDExEndTime.setText("");
+	this.jXDatePickerCRDStartTime.setDate(new Date(Calendar.getInstance().getTimeInMillis()));
+	this.jXDatePickerCRDExEndTime.setDate(new Date(tomorrow.getTimeInMillis()));
 	this.jComboBoxCRDCar.setSelectedIndex(0);
 	this.jComboBoxCRDDriver.setSelectedIndex(0);
     }
