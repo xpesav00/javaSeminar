@@ -5,7 +5,7 @@
 package common;
 
 import carrental.Car;
-import carrental.CarsManager;
+import carrental.RentalsManager;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ComboBoxModel;
@@ -19,15 +19,15 @@ public class CarComboBoxModel implements ComboBoxModel {
 
 	List<Car> cars = new ArrayList<>();
 	Object selectedObject;
-	CarsManager manager;
+	RentalsManager manager;
 	
-	public CarComboBoxModel(CarsManager manager) {
+	public CarComboBoxModel(RentalsManager manager) {
 		this.manager = manager;
 		this.loadData();
 	}
 	
 	private void loadData() {
-		this.cars = manager.findAllCars();
+		this.cars = manager.findAllCarsOnStock();
 	}
 	
 	@Override

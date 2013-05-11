@@ -4,55 +4,50 @@
  */
 package common;
 
-import carrental.Car;
-import carrental.CarsManager;
-import java.io.Serializable;
-import java.util.ArrayList;
+import carrental.Driver;
+import carrental.DriversManager;
 import java.util.List;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
 
 /**
  *
  * @author ansy
  */
-public class CarsTableModel extends AbstractTableModel implements TableModelListener {
+public class DriversTableModel extends AbstractTableModel implements TableModelListener {
 
-    private CarsManager manager;
-    private List<Car> cars;
+    private DriversManager manager;
+    private List<Driver> drivers;
 
-    public CarsTableModel(CarsManager manager) {
+    public DriversTableModel(DriversManager manager) {
         this.manager = manager;
-        cars = manager.findAllCars();
+        drivers = manager.findAllDrivers();
     }
 
     @Override
     public int getRowCount() {
-        return cars.size();
+        return drivers.size();
     }
 
     @Override
     public int getColumnCount() {
-        return 5;
+        return 4;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Car car = cars.get(rowIndex);
+        Driver driver = drivers.get(rowIndex);
 
         switch (columnIndex) {
             case 0:
-                return car.getId();
+                return driver.getId();
             case 1:
-                return car.getVin();
+                return driver.getSurname();
             case 2:
-                return car.getSpz();
+                return driver.getName();
             case 3:
-                return car.getName();
-            case 4:
-                return car.getMileage();
+                return driver.getLicenseId();
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
@@ -70,7 +65,7 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         Long id = Long.parseLong(getValueAt(rowIndex, 0).toString());
-        Car car = cars.get(rowIndex);
+        Driver driver = drivers.get(rowIndex);
         String s = (String) aValue;
 
         if (s.equals("")) {
@@ -79,31 +74,27 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
 
         switch (columnIndex) {
             case 1:
-                if (car.getVin().equals(s)) {
+                if (driver.getSurname().equals(s)) {
                     return;
                 }
-                car.setVin(s);
+                driver.setSurname(s);
                 break;
             case 2:
-                if (car.getSpz().equals(s)) {
+                if (driver.getName().equals(s)) {
                     return;
                 }
-                car.setSpz(s);
+                driver.setName(s);
                 break;
             case 3:
-                if (car.getName().equals(s)) {
+                if (driver.getLicenseId().equals(s)) {
                     return;
                 }
-                car.setName(s);
+                driver.setLicenseId(s);
                 break;
-            case 4:
-                if (car.getMileage() == Double.parseDouble(s)) {
-                    return;
-                }
-                car.setMileage(Double.parseDouble(s));
+
         }
-        cars.set(rowIndex, car);
-        manager.updateCar(car);
+        drivers.set(rowIndex, driver);
+        manager.updateDriver(driver);
 
     }
 
@@ -116,15 +107,15 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
         //    getValueAt(row, column);
     }
 
-    public Car removeRow(javax.swing.JTable table) {
-        Car car = null;
+    public Driver removeRow(javax.swing.JTable table) {
+        Driver driver = null;
         int row = table.getSelectedRow();
         if (row != -1) {
             row = table.convertRowIndexToModel(row);
             Long id = Long.parseLong(getValueAt(row, 0).toString());
-            car = manager.findCarById(id);
-            manager.deleteCar(car);
-            cars = manager.findAllCars();
+            driver = manager.findDriverById(id);
+            manager.deleteDriver(driver);
+            drivers = manager.findAllDrivers();
             row = table.convertRowIndexToView(row);
             fireTableRowsDeleted(row, row);
 
@@ -133,18 +124,16 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
             } else {
                 table.setRowSelectionInterval(row - 1, row - 1);
             }
-
         }
-        return car;
-
+        return driver;
     }
 
-    public Car getCar(int index) {
-        return cars.get(index);
+    public Driver getDriver(int index) {
+        return drivers.get(index);
 
     }
 
     private void loadData() {
-        this.cars = manager.findAllCars();
+        this.drivers = manager.findAllDrivers();
     }
 }
