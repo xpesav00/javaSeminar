@@ -99,10 +99,14 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
                 car.setName(s);
                 break;
             case 4:
-                if (car.getMileage() == Double.parseDouble(s)) {
+                try {
+                    if (car.getMileage() == Double.valueOf(s)) {
+                        return;
+                    }
+                    car.setMileage(Double.parseDouble(s));
+                } catch (NumberFormatException ex) {  
                     return;
                 }
-                car.setMileage(Double.parseDouble(s));
         }
         cars.set(rowIndex, car);
         UpdateCarSwingWorker update = new UpdateCarSwingWorker(car);
@@ -126,7 +130,7 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
         if (row != -1) {
             int view = row;
             row = table.getRowSorter().convertRowIndexToModel(row);
-           
+
             car = getCar(row);
             manager.deleteCar(car);
             cars = manager.findAllCars();
@@ -150,12 +154,14 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
     }
 
     private void loadData() {
-        this.cars = manager.findAllCars();        
+        this.cars = manager.findAllCars();
     }
-    
+
     private class UpdateCarSwingWorker extends SwingWorker<Void, Void> {
+
         Car car;
-        public UpdateCarSwingWorker(Car car){
+
+        public UpdateCarSwingWorker(Car car) {
             this.car = car;
         }
 
@@ -163,7 +169,7 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
         protected Void doInBackground() throws Exception {
             manager.updateCar(car);
             return null;
-           
+
         }
     }
 }
