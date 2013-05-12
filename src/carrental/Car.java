@@ -91,6 +91,6 @@ public class Car {
     
     @Override
     public String toString() {
-        return id.toString() + " " + name;
+        return id.toString() + " : " + name;
     }
 }

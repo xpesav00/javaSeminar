@@ -5,6 +5,7 @@
 package common;
 
 import carrental.*;
+import common.window.*;
 import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,6 +16,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import javax.swing.JDialog;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingWorker;
@@ -33,25 +36,21 @@ public class MainWindow extends javax.swing.JFrame {
     private CarsManager carsManager;
     private DriversManager driversManager;
     private RentalsManager rentalsManager;
-    
     private CarsTableModel carsModel;
     private DriversTableModel driversModel;
-    //private RentalsTableModel rentalsModel;
-    
-    private TableRowSorter carsSorter;
-    private TableRowSorter driversSorter;
-    private TableRowSorter rentalsSorter;
+    private RentalsTableModel rentalsModel;
+    private TableRowSorter<CarsTableModel> carsSorter;
+    private TableRowSorter<DriversTableModel> driversSorter;
+    private TableRowSorter<RentalsTableModel> rentalsSorter;
     private RowFilter<CarsTableModel, Integer> carsFilter;
     private RowFilter<DriversTableModel, Integer> driversFilter;
     //private RowFilter<RentalsTableModel, Integer> rentalsFilter;
-    
     private String filterCars = "";
     private String filterDrivers = "";
     private String filterRentals = "";
-    
     private int showCars = 0;
-    private int showRentals= 0;
-    private int deleteChoice = 0; 
+    private int showRentals = 0;
+    private int deleteChoice = 0;
     private static final Object LOCK = new Object();
 
     /**
@@ -59,18 +58,25 @@ public class MainWindow extends javax.swing.JFrame {
      */
     public MainWindow() {
         initManagers();
-        /*  for(char i='a';i <= 'z';i++){
+
+        // <editor-fold defaultstate="collapsed" desc="Generate test cases"> 
+   /*    for (char i = 'a'; i <= 'z'; i++) {
          Car c = new Car();
+         Driver d = new Driver();
          c.setMileage(20.0);
          c.setName(i + "");
          c.setSpz(i + "");
          c.setVin(i + "");
+         d.setLicenseId(i + "");
+         d.setName(i + "");
+         d.setSurname(i + "");
+         driversManager.createDriver(d);
          carsManager.createCar(c);
-         }*/
+         }// </editor-fold>*/
+
         initComponents();
         initSortingFiltering();
         initComponents2();
-
     }
 
     /**
@@ -179,6 +185,8 @@ public class MainWindow extends javax.swing.JFrame {
         deleteRentalButton = new javax.swing.JButton();
         endRentalButton = new javax.swing.JButton();
         rentalsSearchLabel = new javax.swing.JLabel();
+        endRentalButton1 = new javax.swing.JButton();
+        finishedRentalsRadioButton1 = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableRentals = new javax.swing.JTable();
         statusBar = new javax.swing.JTextField();
@@ -263,6 +271,19 @@ public class MainWindow extends javax.swing.JFrame {
         jLabelCRDStartTime.setText("Start Time");
 
         jLabelCRDExEndTime.setText("Expected End time");
+
+        jXDatePickerCRDStartTime.setLightWeightPopupEnabled(false);
+        jXDatePickerCRDStartTime.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXDatePickerCRDStartTimeActionPerformed(evt);
+            }
+        });
+
+        jXDatePickerCRDExEndTime.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXDatePickerCRDExEndTimeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout CreateRentalDialogLayout = new javax.swing.GroupLayout(CreateRentalDialog.getContentPane());
         CreateRentalDialog.getContentPane().setLayout(CreateRentalDialogLayout);
@@ -637,7 +658,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setText("Do u really wish to delete?");
+        jLabel7.setText("Do you really wish to delete?");
 
         jButton23.setText("No");
         jButton23.addActionListener(new java.awt.event.ActionListener() {
@@ -657,8 +678,8 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jButton22)
                 .addGap(56, 56, 56))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DeleteWindowLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE))
+                .addGap(7, 7, 7)
+                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         DeleteWindowLayout.setVerticalGroup(
             DeleteWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -839,7 +860,7 @@ public class MainWindow extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
+            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(carsSearchLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
@@ -855,7 +876,6 @@ public class MainWindow extends javax.swing.JFrame {
         jTableDrivers.setEditingColumn(0);
         jTableDrivers.setEditingRow(0);
         jTableDrivers.setMinimumSize(new java.awt.Dimension(300, 150));
-        jTableDrivers.setRowSelectionAllowed(true);
         jTableDrivers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane7.setViewportView(jTableDrivers);
         jTableDrivers.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -924,7 +944,7 @@ public class MainWindow extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -977,7 +997,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        endRentalButton.setText("End Rental");
+        endRentalButton.setText("Edit Rental");
         endRentalButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 endRentalButtonActionPerformed(evt);
@@ -990,21 +1010,38 @@ public class MainWindow extends javax.swing.JFrame {
         rentalsSearchLabel.setMinimumSize(new java.awt.Dimension(49, 28));
         rentalsSearchLabel.setPreferredSize(new java.awt.Dimension(49, 28));
 
+        endRentalButton1.setText("End Rental");
+        endRentalButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                endRentalButton1ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup2.add(finishedRentalsRadioButton1);
+        finishedRentalsRadioButton1.setText("Custom");
+        finishedRentalsRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                finishedRentalsRadioButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(allRentalsRadioButton)
-                    .addComponent(activeRentalsRadioButton)
-                    .addComponent(finishedRentalsRadioButton))
-                .addContainerGap(51, Short.MAX_VALUE))
             .addComponent(rentalSearchTextField)
             .addComponent(createRentalButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(deleteRentalButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(endRentalButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(rentalsSearchLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+            .addComponent(endRentalButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(allRentalsRadioButton)
+                    .addComponent(activeRentalsRadioButton)
+                    .addComponent(finishedRentalsRadioButton)
+                    .addComponent(finishedRentalsRadioButton1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1019,30 +1056,25 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(activeRentalsRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(finishedRentalsRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(finishedRentalsRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addComponent(createRentalButton)
                 .addGap(0, 0, 0)
                 .addComponent(deleteRentalButton)
                 .addGap(0, 0, 0)
                 .addComponent(endRentalButton)
+                .addGap(0, 0, 0)
+                .addComponent(endRentalButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTableRentals.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Driver", "Car", "Price", "Start time", "Expected end time", "End time"
-            }
-        ));
+        jTableRentals.setModel(rentalsModel);
         jTableRentals.setEditingColumn(0);
         jTableRentals.setEditingRow(0);
-        jTableRentals.setMaximumSize(new java.awt.Dimension(0, 0));
         jTableRentals.setMinimumSize(new java.awt.Dimension(300, 150));
+        jTableRentals.setRequestFocusEnabled(false);
+        jTableRentals.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jTableRentals);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -1059,14 +1091,13 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
         );
 
         jTabbedPane2.addTab("Rentals", jPanel5);
 
         statusBar.setEditable(false);
-        statusBar.setText("Status Bar");
-        statusBar.setDisabledTextColor(new java.awt.Color(1, 1, 1));
+        statusBar.setDisabledTextColor(new java.awt.Color(70, 70, 70));
         statusBar.setEnabled(false);
         statusBar.setFocusable(false);
         statusBar.addActionListener(new java.awt.event.ActionListener() {
@@ -1146,7 +1177,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    // <editor-fold defaultstate="expanded" desc="Actions performed">  
     private void jMenu4KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jMenu4KeyPressed
         // TODO add your handling code here:        
     }//GEN-LAST:event_jMenu4KeyPressed
@@ -1232,15 +1263,22 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_createRentalButtonActionPerformed
 
     private void deleteRentalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteRentalButtonActionPerformed
-        /*  if (jTableCars.isEditing()) return;
-         Driver driver = driversModel.getDriver(jTableDrivers.convertRowIndexToModel(jTableDrivers.getSelectedRow()));
-         if (rentalsManager.findHistoryOfRental(driver).isEmpty()) {
-         deleteChoice = 1;
-         DeleteWindow.setLocationRelativeTo(this);
-         DeleteWindow.setVisible(true);
-         } else {
-         System.err.println("is in db");
-         }*/
+        if (jTableRentals.isEditing()) {
+            SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, "Stop editing to delete a Rental");
+            status.execute();
+        } else {
+            int row = jTableRentals.getSelectedRow();
+            if (row != -1) {
+
+                deleteChoice = 2;
+                DeleteWindow.setLocationRelativeTo(MainWindow.this);
+                DeleteWindow.setVisible(true);
+
+            } else {
+                SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, "Select a row");
+                status.execute();
+            }
+        }
     }//GEN-LAST:event_deleteRentalButtonActionPerformed
 
     private void carHistoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carHistoryButtonActionPerformed
@@ -1288,7 +1326,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldCCDMileageActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
-        DeleteSwingWorker deleteSwingWorker = new DeleteSwingWorker();
+        DeleteSwingWorker deleteSwingWorker = new DeleteSwingWorker(this);
         deleteSwingWorker.execute();
     }//GEN-LAST:event_jButton22ActionPerformed
 
@@ -1433,7 +1471,7 @@ public class MainWindow extends javax.swing.JFrame {
                 this.rentalsManager.createRental(rental);
 
                 //data was changed, info to datamodel
-                //this.rentalsModel.fireTableDataChanged();
+                this.rentalsModel.fireTableDataChanged();
 
                 //hide dialog
                 this.CreateRentalDialog.dispose();
@@ -1464,8 +1502,26 @@ public class MainWindow extends javax.swing.JFrame {
     private void jMenuItemRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRefreshActionPerformed
         this.carsModel.fireTableDataChanged();
         this.driversModel.fireTableDataChanged();
-        //rentalsModel.fireTableDataChanged();  
+        this.rentalsModel.fireTableDataChanged();        
     }//GEN-LAST:event_jMenuItemRefreshActionPerformed
+
+    private void jXDatePickerCRDExEndTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePickerCRDExEndTimeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jXDatePickerCRDExEndTimeActionPerformed
+
+    private void jXDatePickerCRDStartTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePickerCRDStartTimeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jXDatePickerCRDStartTimeActionPerformed
+
+    private void endRentalButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endRentalButton1ActionPerformed
+        EndRentalSwingWorker endRentalSwingWorker = new EndRentalSwingWorker();
+        endRentalSwingWorker.execute();
+    }//GEN-LAST:event_endRentalButton1ActionPerformed
+
+    private void finishedRentalsRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishedRentalsRadioButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_finishedRentalsRadioButton1ActionPerformed
+// </editor-fold>
 
     /**
      * @param args the command line arguments
@@ -1504,6 +1560,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
     }
+    // <editor-fold defaultstate="collapsed" desc="Swing variables"> 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog AboutProgram;
     private javax.swing.JDialog CreateCarDialog;
@@ -1530,7 +1587,9 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextField driverSearchTextField;
     private javax.swing.JLabel driversSearchLabel;
     private javax.swing.JButton endRentalButton;
+    private javax.swing.JButton endRentalButton1;
     private javax.swing.JRadioButton finishedRentalsRadioButton;
+    private javax.swing.JRadioButton finishedRentalsRadioButton1;
     private javax.swing.JRadioButton freeCarsRadioButton;
     private javax.swing.JButton jButton20;
     private javax.swing.JButton jButton22;
@@ -1612,6 +1671,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JRadioButton rentedCarsRadioButton;
     private javax.swing.JTextField statusBar;
     // End of variables declaration//GEN-END:variables
+// </editor-fold>
 
     private void initManagers() throws ServiceFailureException {
         Properties prop = new Properties();
@@ -1634,6 +1694,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         carsModel = new CarsTableModel(carsManager);
         driversModel = new DriversTableModel(driversManager);
+        rentalsModel = new RentalsTableModel(rentalsManager);
     }
 
     private void controlInputText(JTextField textField) throws IllegalAccessException {
@@ -1676,13 +1737,15 @@ public class MainWindow extends javax.swing.JFrame {
         this.jComboBoxCRDDriver.setSelectedIndex(0);
     }
 
-    protected void initSortingFiltering() {
+    private void initSortingFiltering() {
         //<snip>Setup filtering for winners 
-        carsSorter = new TableRowSorter(carsModel);
+        carsSorter = new TableRowSorter<>(carsModel);
         jTableCars.setRowSorter(carsSorter);
-        driversSorter = new TableRowSorter(driversModel);
+        driversSorter = new TableRowSorter<>(driversModel);
         jTableDrivers.setRowSorter(driversSorter);
-        
+        rentalsSorter = new TableRowSorter<>(rentalsModel);
+        jTableRentals.setRowSorter(rentalsSorter);
+
         carsFilter = new RowFilter<CarsTableModel, Integer>() {
             public boolean include(Entry<? extends CarsTableModel, ? extends Integer> entry) {
 
@@ -1714,7 +1777,7 @@ public class MainWindow extends javax.swing.JFrame {
                 if (car.getVin() != null && p.matcher(car.getVin()).matches()) {
                     matches = true;
                 }
-                
+
                 return matches;
             }
         };
@@ -1725,17 +1788,17 @@ public class MainWindow extends javax.swing.JFrame {
                 Driver driver = driversModel.getDriver(entry.getIdentifier().intValue());
                 boolean matches = false;
                 Pattern p = Pattern.compile(".*" + filterDrivers + ".*", Pattern.CASE_INSENSITIVE);
-                
+
                 if (driver.getName() != null && p.matcher(driver.getName()).matches()) {
                     matches = true;
                 }
-                if (driver.getSurname()!= null && p.matcher(driver.getSurname()).matches()) {
+                if (driver.getSurname() != null && p.matcher(driver.getSurname()).matches()) {
                     matches = true;
                 }
-                if (driver.getLicenseId()!= null && p.matcher(driver.getLicenseId()).matches()) {
+                if (driver.getLicenseId() != null && p.matcher(driver.getLicenseId()).matches()) {
                     matches = true;
                 }
-                
+
                 return matches;
             }
         };
@@ -1745,60 +1808,13 @@ public class MainWindow extends javax.swing.JFrame {
         jTableCars.getTableHeader().setReorderingAllowed(false);
         jTableDrivers.getTableHeader().setReorderingAllowed(false);
         jTableRentals.getTableHeader().setReorderingAllowed(false);
+
         carsModel.addTableModelListener(carsModel);
         driversModel.addTableModelListener(driversModel);
-        
-        carSearchTextField.getDocument().addDocumentListener(new SearchCarsFilterListener());
-      driverSearchTextField.getDocument().addDocumentListener(new SearchDriversFilterListener());
-    }
+        rentalsModel.addTableModelListener(rentalsModel);
 
-    protected class SearchCarsFilterListener implements DocumentListener {
-
-        protected void changeFilter(DocumentEvent event) {
-            Document document = event.getDocument();            
-            try {
-                String filterStr = document.getText(0, document.getLength());
-                filterCars = filterStr;
-                carsSorter.setRowFilter(carsFilter);
-                //  firePropertyChange("filterString", oldFilterString, filterStr);
-            } catch (Exception ex) {
-                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        public void changedUpdate(DocumentEvent e) {
-            changeFilter(e);
-        }
-        public void insertUpdate(DocumentEvent e) {
-            changeFilter(e);
-        }
-        public void removeUpdate(DocumentEvent e) {
-            changeFilter(e);
-        }
-    }
-    
-     protected class SearchDriversFilterListener implements DocumentListener {
-
-        protected void changeFilter(DocumentEvent event) {
-            Document document = event.getDocument();
-            try {
-                String filterStr = document.getText(0, document.getLength());
-                filterDrivers = filterStr;
-                driversSorter.setRowFilter(driversFilter);              
-            } catch (Exception ex) {
-                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        public void changedUpdate(DocumentEvent e) {
-            changeFilter(e);
-        }
-        public void insertUpdate(DocumentEvent e) {
-            changeFilter(e);
-        }
-        public void removeUpdate(DocumentEvent e) {
-            changeFilter(e);
-        }
+        carSearchTextField.getDocument().addDocumentListener(new SearchCarsFilterListener(this));
+        driverSearchTextField.getDocument().addDocumentListener(new SearchDriversFilterListener(this));
     }
 
     protected class DeleteCarSwingWorker extends SwingWorker<Integer, Void> {
@@ -1807,6 +1823,8 @@ public class MainWindow extends javax.swing.JFrame {
         protected Integer doInBackground() throws Exception {
 
             if (jTableCars.isEditing()) {
+                SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, "Stop editing to delete a Car");
+                status.execute();
                 return 0;
             }
             int row = jTableCars.getSelectedRow();
@@ -1817,16 +1835,13 @@ public class MainWindow extends javax.swing.JFrame {
                     DeleteWindow.setLocationRelativeTo(MainWindow.this);
                     DeleteWindow.setVisible(true);
                 } else {
-                    synchronized (LOCK) {
-                        statusBar.setText("can't delete: " + car + " is used in rentals");
-                        try {
-                            Thread.sleep(4000);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        statusBar.setText("");
-                    }
+
+                    SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, "can't delete: " + car + " is used in rentals");
+                    status.execute();
                 }
+            } else {
+                SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, "Select a row");
+                status.execute();
             }
             return 0;
         }
@@ -1838,6 +1853,8 @@ public class MainWindow extends javax.swing.JFrame {
         protected Integer doInBackground() throws Exception {
 
             if (jTableDrivers.isEditing()) {
+                SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, "Stop editing to remove a Driver");
+                status.execute();
                 return 0;
             }
             int row = jTableDrivers.getSelectedRow();
@@ -1848,61 +1865,221 @@ public class MainWindow extends javax.swing.JFrame {
                     DeleteWindow.setLocationRelativeTo(MainWindow.this);
                     DeleteWindow.setVisible(true);
                 } else {
-                    synchronized (LOCK) {
-                        statusBar.setText("can't delete: " + driver + " is used in rentals");
-                        try {
-                            Thread.sleep(4000);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        statusBar.setText("");
-                    }
+
+                    SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, "can't delete: " + driver + " is used in rentals");
+                    status.execute();
                 }
+            } else {
+                SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, "Select a row");
+                status.execute();
             }
             return 0;
+
         }
     }
 
-    protected class DeleteSwingWorker extends SwingWorker<Integer, Void> {
+    protected class EndRentalSwingWorker extends SwingWorker<Void, Void> {
 
         @Override
-        protected Integer doInBackground() throws Exception {
-            Car car = null;
-            Driver driver = null;
-            Rental rental;
+        protected Void doInBackground() throws Exception {
 
-            switch (deleteChoice) {
-                case 0:
-                    car = carsModel.removeRow(jTableCars);
-                    break;
-                case 1:
-                    driver = driversModel.removeRow(jTableDrivers);
-                    break;
-                case 2:
-                //       rentalsModel.removeRow(jTableRentals);
+            if (jTableRentals.isEditing()) {
+                SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, "Stop editing to end rental");
+                status.execute();
+                return null;
             }
-            DeleteWindow.dispose();
+            int row = jTableRentals.getSelectedRow();
+            if (row != -1) {
+                int view = row;
+                row = jTableRentals.getRowSorter().convertRowIndexToModel(row);
 
-            synchronized (LOCK) {
+                Rental rental = rentalsModel.getRental(row);
+                if (rental.getEndTime() == null) {
 
-                switch (deleteChoice) {
-                    case 0:
-                        statusBar.setText("Car : " + car + " was deleted");
-                        break;
-                    case 1:
-                        statusBar.setText("Driver : " + driver + " was removed from db");
-                        break;
-                    case 2:
-                    //       statusBar.setText("deleted"/*+ car*/);
+                    if (!Calendar.getInstance().after(rental.getStartTime())) {
+                        SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, "Start time of selected rental is in future");
+                        status.execute();
+                        return null;
+                    }
+
+                    rentalsManager.endRental(rental);
+                    rentalsModel.fireTableCellUpdated(view, 6);
+                } else {
+                    SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, "Selected rental already ended");
+                    status.execute();
                 }
-                try {
-                    Thread.sleep(4000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                statusBar.setText("");
+
+            } else {
+                SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, "Select a row");
+                status.execute();
             }
-            return 0;
+            return null;
         }
     }
+
+// <editor-fold defaultstate="collapsed" desc="Getters and Setters">    
+    public RowFilter<CarsTableModel, Integer> getCarsFilter() {
+        return carsFilter;
+    }
+
+    public void setFilterCars(String filterCars) {
+        this.filterCars = filterCars;
+    }
+
+    public TableRowSorter<CarsTableModel> getCarsSorter() {
+        return carsSorter;
+    }
+
+    public void setCarsSorter(TableRowSorter<CarsTableModel> carsSorter) {
+        this.carsSorter = carsSorter;
+    }
+
+    public TableRowSorter<DriversTableModel> getDriversSorter() {
+        return driversSorter;
+    }
+
+    public void setDriversSorter(TableRowSorter<DriversTableModel> driversSorter) {
+        this.driversSorter = driversSorter;
+    }
+
+    public TableRowSorter<RentalsTableModel> getRentalsSorter() {
+        return rentalsSorter;
+    }
+
+    public void setRentalsSorter(TableRowSorter<RentalsTableModel> rentalsSorter) {
+        this.rentalsSorter = rentalsSorter;
+    }
+
+    public RowFilter<DriversTableModel, Integer> getDriversFilter() {
+        return driversFilter;
+    }
+
+    public void setFilterDrivers(String filterDrivers) {
+        this.filterDrivers = filterDrivers;
+    }
+
+    public CarsManager getCarsManager() {
+        return carsManager;
+    }
+
+    public void setCarsManager(CarsManager carsManager) {
+        this.carsManager = carsManager;
+    }
+
+    public DriversManager getDriversManager() {
+        return driversManager;
+    }
+
+    public void setDriversManager(DriversManager driversManager) {
+        this.driversManager = driversManager;
+    }
+
+    public RentalsManager getRentalsManager() {
+        return rentalsManager;
+    }
+
+    public void setRentalsManager(RentalsManager rentalsManager) {
+        this.rentalsManager = rentalsManager;
+    }
+
+    public CarsTableModel getCarsModel() {
+        return carsModel;
+    }
+
+    public void setCarsModel(CarsTableModel carsModel) {
+        this.carsModel = carsModel;
+    }
+
+    public DriversTableModel getDriversModel() {
+        return driversModel;
+    }
+
+    public void setDriversModel(DriversTableModel driversModel) {
+        this.driversModel = driversModel;
+    }
+
+    public String getFilterRentals() {
+        return filterRentals;
+    }
+
+    public void setFilterRentals(String filterRentals) {
+        this.filterRentals = filterRentals;
+    }
+
+    public int getShowCars() {
+        return showCars;
+    }
+
+    public void setShowCars(int showCars) {
+        this.showCars = showCars;
+    }
+
+    public int getShowRentals() {
+        return showRentals;
+    }
+
+    public void setShowRentals(int showRentals) {
+        this.showRentals = showRentals;
+    }
+
+    public int getDeleteChoice() {
+        return deleteChoice;
+    }
+
+    public void setDeleteChoice(int deleteChoice) {
+        this.deleteChoice = deleteChoice;
+    }
+
+    public JDialog getDeleteWindow() {
+        return DeleteWindow;
+    }
+
+    public void setDeleteWindow(JDialog DeleteWindow) {
+        this.DeleteWindow = DeleteWindow;
+    }
+
+    public JTable getjTableCars() {
+        return jTableCars;
+    }
+
+    public void setjTableCars(JTable jTableCars) {
+        this.jTableCars = jTableCars;
+    }
+
+    public JTable getjTableDrivers() {
+        return jTableDrivers;
+    }
+
+    public void setjTableDrivers(JTable jTableDrivers) {
+        this.jTableDrivers = jTableDrivers;
+    }
+
+    public JTable getjTableRentals() {
+        return jTableRentals;
+    }
+
+    public void setjTableRentals(JTable jTableRentals) {
+        this.jTableRentals = jTableRentals;
+    }
+
+    public JTextField getStatusBar() {
+        return statusBar;
+    }
+
+    public void setStatusBar(JTextField statusBar) {
+        this.statusBar = statusBar;
+    }
+
+    public static Object getLock() {
+        return LOCK;
+    }
+
+    public RentalsTableModel getRentalsModel() {
+        return rentalsModel;
+    }
+
+    public void setRentalsModel(RentalsTableModel rentalsModel) {
+        this.rentalsModel = rentalsModel;
+    }
+// </editor-fold>
 }

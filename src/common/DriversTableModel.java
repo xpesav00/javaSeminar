@@ -7,6 +7,7 @@ package common;
 import carrental.Driver;
 import carrental.DriversManager;
 import java.util.List;
+import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
@@ -94,7 +95,8 @@ public class DriversTableModel extends AbstractTableModel implements TableModelL
 
         }
         drivers.set(rowIndex, driver);
-        manager.updateDriver(driver);
+       UpdateDriverSwingWorker update = new UpdateDriverSwingWorker(driver);
+        update.execute();
 
     }
 
@@ -111,23 +113,24 @@ public class DriversTableModel extends AbstractTableModel implements TableModelL
         Driver driver = null;
         int row = table.getSelectedRow();
         if (row != -1) {
-            row = table.convertRowIndexToModel(row);
-            Long id = Long.parseLong(getValueAt(row, 0).toString());
-            driver = manager.findDriverById(id);
+            int view = row;
+            row = table.getRowSorter().convertRowIndexToModel(row);
+            driver = getDriver(row);            
+                   
+            
             manager.deleteDriver(driver);
-            drivers = manager.findAllDrivers();
-            row = table.convertRowIndexToView(row);
+            drivers = manager.findAllDrivers();            
             fireTableRowsDeleted(row, row);
 
-            if (getRowCount() > row) {
-                table.setRowSelectionInterval(row, row);
+            if (table.getRowSorter().getViewRowCount() > view) {
+                table.setRowSelectionInterval(view, view);
             } else {
-                table.setRowSelectionInterval(row - 1, row - 1);
+                table.setRowSelectionInterval(view - 1, view - 1);
             }
         }
         return driver;
     }
-
+          
     public Driver getDriver(int index) {
         return drivers.get(index);
 
@@ -135,5 +138,17 @@ public class DriversTableModel extends AbstractTableModel implements TableModelL
 
     private void loadData() {
         this.drivers = manager.findAllDrivers();
+    }
+    private class UpdateDriverSwingWorker extends SwingWorker<Void, Void> {
+        Driver driver;
+        public UpdateDriverSwingWorker(Driver driver){
+            this.driver = driver;
+        }
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            manager.updateDriver(driver);
+            return null;          
+        }
     }
 }

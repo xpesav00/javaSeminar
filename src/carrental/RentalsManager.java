@@ -345,8 +345,8 @@ public class RentalsManager implements IRentalManager {
     private Rental resultSetToRental(ResultSet rs) throws SQLException {
         Rental rental = new Rental();
         rental.setId(rs.getLong("id"));
-        rental.setCar(new Car(rs.getLong("car_id")));
-        rental.setDriver(new Driver(rs.getLong("driver_id")));
+        rental.setCar(findCarById(rs.getLong("car_id")));
+        rental.setDriver(findDriverById(rs.getLong("driver_id")));
         rental.setPrice(rs.getBigDecimal("price"));
 
         Calendar startTime = Calendar.getInstance();
@@ -455,4 +455,75 @@ public class RentalsManager implements IRentalManager {
 
         return car;
     }
+    private Driver findDriverById(Long id) throws ServiceFailureException {
+
+        if (id == null) {
+            throw new IllegalArgumentException("Bad param: id is null.");
+        }
+
+        try (Connection connection = this.dataSource.getConnection();
+                PreparedStatement findStatement = connection.prepareStatement("SELECT * FROM driver WHERE id = ?");) {
+
+            findStatement.setLong(1, id);
+            ResultSet rs = findStatement.executeQuery();
+
+            if (rs.next()) {
+                Driver driver = resultSetToDriver(rs);
+
+                if (rs.next()) {
+                    throw new ServiceFailureException(
+                            "Internal error: More entities with the same id found "
+                            + "(source id: " + id + ", found " + driver + " and " + resultSetToDriver(rs));
+                }
+                return driver;
+                
+            } else {
+                return null;
+            }
+
+        } catch (SQLException ex) {
+            logger.log(Level.ERROR, "find driver with id (from rentalsManager)" + id, ex);
+            throw new ServiceFailureException("Error when retrieving driver with id(from rentalsManager) " + id, ex);
+        }
+    }
+
+    private Driver resultSetToDriver(ResultSet rs) throws SQLException {
+        Driver driver = new Driver();
+        driver.setId(rs.getLong("id"));
+        driver.setLicenseId(rs.getString("license_id"));
+        driver.setName(rs.getString("name"));
+        driver.setSurname(rs.getString("surname"));
+        return driver;
+    }
+     private Car findCarById(Long id) {
+        Car car = null;
+        if (id == null) {
+            throw new IllegalArgumentException("id is null");
+        }
+
+        try (Connection connection = this.dataSource.getConnection();
+                PreparedStatement st = connection.prepareStatement(
+                "SELECT * FROM CAR WHERE id = ?")) {
+            st.setLong(1, id.longValue());
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    car = resultSetToCar(rs);
+                    if (rs.next()) {
+                        throw new ServiceFailureException(
+                                "Internal error: More entities with the same id found "
+                                + "(source id: " + id + ", found " + car + " and " + resultSetToCar(rs));
+                    }
+
+                }
+            }
+
+
+        } catch (SQLException ex) {
+            logger.log(Level.ERROR, "findCarById with id " + id, ex);
+            throw new ServiceFailureException("Error when retrieving car with id " + id, ex);
+        }
+        return car;
+    }
+
+   
 }

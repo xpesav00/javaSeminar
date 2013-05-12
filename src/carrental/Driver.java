@@ -81,6 +81,6 @@ public class Driver {
     
     @Override
     public String toString() {
-        return id.toString() + " " + surname;
+        return id.toString() + " : " + surname;
     }
 }

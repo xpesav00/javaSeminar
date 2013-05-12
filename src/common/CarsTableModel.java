@@ -6,9 +6,11 @@ package common;
 
 import carrental.Car;
 import carrental.CarsManager;
+import common.window.SetStatusBarSwingWorker;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
@@ -103,7 +105,8 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
                 car.setMileage(Double.parseDouble(s));
         }
         cars.set(rowIndex, car);
-        manager.updateCar(car);
+        UpdateCarSwingWorker update = new UpdateCarSwingWorker(car);
+        update.execute();
 
     }
 
@@ -119,19 +122,21 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
     public Car removeRow(javax.swing.JTable table) {
         Car car = null;
         int row = table.getSelectedRow();
+
         if (row != -1) {
-            row = table.convertRowIndexToModel(row);
-            Long id = Long.parseLong(getValueAt(row, 0).toString());
-            car = manager.findCarById(id);
+            int view = row;
+            row = table.getRowSorter().convertRowIndexToModel(row);
+           
+            car = getCar(row);
             manager.deleteCar(car);
             cars = manager.findAllCars();
-            row = table.convertRowIndexToView(row);
             fireTableRowsDeleted(row, row);
 
-            if (getRowCount() > row) {
-                table.setRowSelectionInterval(row, row);
+            if (table.getRowSorter().getViewRowCount() > view) {
+                table.setRowSelectionInterval(view, view);
+
             } else {
-                table.setRowSelectionInterval(row - 1, row - 1);
+                table.setRowSelectionInterval(view - 1, view - 1);
             }
 
         }
@@ -145,6 +150,20 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
     }
 
     private void loadData() {
-        this.cars = manager.findAllCars();
+        this.cars = manager.findAllCars();        
+    }
+    
+    private class UpdateCarSwingWorker extends SwingWorker<Void, Void> {
+        Car car;
+        public UpdateCarSwingWorker(Car car){
+            this.car = car;
+        }
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            manager.updateCar(car);
+            return null;
+           
+        }
     }
 }
