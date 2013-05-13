@@ -9,7 +9,6 @@ import carrental.CarsManager;
 import carrental.RentalsManager;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import javax.swing.ComboBoxModel;
 import javax.swing.event.ListDataListener;
 
@@ -17,22 +16,19 @@ import javax.swing.event.ListDataListener;
  *
  * @author honzap
  */
-public class LocaleComboBoxModel implements ComboBoxModel {
+public class FreeCarComboBoxModel implements ComboBoxModel {
 
-	List<Locale> locales = new ArrayList<>();
+	List<Car> cars = new ArrayList<>();
 	Object selectedObject;
+	RentalsManager manager;
 	
-	public LocaleComboBoxModel() {
+	public FreeCarComboBoxModel(RentalsManager manager) {
+		this.manager = manager;
 		this.loadData();
 	}
-/*	
-Čeština
-English
-Deutsh*/
+	
 	private void loadData() {
-		this.locales.add(new Locale("cs","CZ"));
-		this.locales.add(new Locale("en","US"));
-		this.locales.add(new Locale("de","DE"));
+		this.cars = manager.findAllCarsOnStock();
 	}
 	
 	@Override
@@ -47,12 +43,12 @@ Deutsh*/
 
 	@Override
 	public int getSize() {
-		return this.locales.size();
+		return this.cars.size();
 	}
 
 	@Override
 	public Object getElementAt(int index) {
-		return this.locales.get(index);
+		return this.cars.get(index);
 	}
 
 	@Override

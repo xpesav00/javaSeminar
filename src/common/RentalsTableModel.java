@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -24,6 +25,7 @@ public class RentalsTableModel extends AbstractTableModel implements TableModelL
 
     private RentalsManager manager;
     private List<Rental> rentals;
+    private String[] columnNames = new String[7];
 
     public RentalsTableModel(RentalsManager manager) {
         this.manager = manager;
@@ -87,19 +89,19 @@ public class RentalsTableModel extends AbstractTableModel implements TableModelL
         }
 
         if (columnIndex == 3) {
-            try{
-            if (rental.getPrice().equals(new BigDecimal(s))) {
-                return;
-            }
-            rental.setPrice(new BigDecimal(s));
-            } catch (NumberFormatException ex) {  
+            try {
+                if (rental.getPrice().equals(new BigDecimal(s))) {
                     return;
                 }
+                rental.setPrice(new BigDecimal(s));
+            } catch (NumberFormatException ex) {
+                return;
+            }
         }
         rentals.set(rowIndex, rental);
         UpdateRentalSwingWorker update = new UpdateRentalSwingWorker(rental);
-        update.execute();       
-        
+        update.execute();
+
     }
 
     @Override
@@ -132,8 +134,6 @@ public class RentalsTableModel extends AbstractTableModel implements TableModelL
         return rental;
     }
 
-   
-
     public Rental getRental(int index) {
         return rentals.get(index);
 
@@ -142,17 +142,33 @@ public class RentalsTableModel extends AbstractTableModel implements TableModelL
     private void loadData() {
         this.rentals = manager.findAllRentals();
     }
-    
+
+    @Override
+    public String getColumnName(int col) {
+        return columnNames[col];
+    }
+
+    public void setColumnNames(ResourceBundle translator) {
+        columnNames[0] = translator.getString("rentals.id");
+        columnNames[1] = translator.getString("rentals.driver");
+        columnNames[2] = translator.getString("rentals.car");
+        columnNames[3] = translator.getString("rentals.price");
+        columnNames[4] = translator.getString("rentals.startTime");
+        columnNames[5] = translator.getString("rentals.expectedEndTime");
+        columnNames[6] = translator.getString("rentals.endTime");
+    }
     private class UpdateRentalSwingWorker extends SwingWorker<Void, Void> {
+
         Rental rental;
-        public UpdateRentalSwingWorker(Rental rental){
+
+        public UpdateRentalSwingWorker(Rental rental) {
             this.rental = rental;
         }
 
         @Override
         protected Void doInBackground() throws Exception {
             manager.updateRental(rental);
-            return null;          
+            return null;
         }
     }
 }

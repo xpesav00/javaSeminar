@@ -7,6 +7,7 @@ package common;
 import carrental.Driver;
 import carrental.DriversManager;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -20,6 +21,7 @@ public class DriversTableModel extends AbstractTableModel implements TableModelL
 
     private DriversManager manager;
     private List<Driver> drivers;
+     private String[] columnNames = new String[4];
 
     public DriversTableModel(DriversManager manager) {
         this.manager = manager;
@@ -139,6 +141,18 @@ public class DriversTableModel extends AbstractTableModel implements TableModelL
     private void loadData() {
         this.drivers = manager.findAllDrivers();
     }
+     @Override
+    public String getColumnName(int col) {
+        return columnNames[col];
+    }
+
+    public void setColumnNames(ResourceBundle translator) {
+        columnNames[0] = translator.getString("cars.id");
+        columnNames[1] = translator.getString("drivers.surname");
+        columnNames[2] = translator.getString("drivers.name");
+        columnNames[3] = translator.getString("drivers.licenseId");       
+    }
+
     private class UpdateDriverSwingWorker extends SwingWorker<Void, Void> {
         Driver driver;
         public UpdateDriverSwingWorker(Driver driver){

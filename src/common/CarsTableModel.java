@@ -10,6 +10,7 @@ import common.window.SetStatusBarSwingWorker;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -24,6 +25,7 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
 
     private CarsManager manager;
     private List<Car> cars;
+    private String[] columnNames = new String[5];
 
     public CarsTableModel(CarsManager manager) {
         this.manager = manager;
@@ -104,7 +106,7 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
                         return;
                     }
                     car.setMileage(Double.parseDouble(s));
-                } catch (NumberFormatException ex) {  
+                } catch (NumberFormatException ex) {
                     return;
                 }
         }
@@ -155,6 +157,19 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
 
     private void loadData() {
         this.cars = manager.findAllCars();
+    }
+
+    @Override
+    public String getColumnName(int col) {
+        return columnNames[col];
+    }
+
+    public void setColumnNames(ResourceBundle translator) {
+        columnNames[0] = translator.getString("cars.id");
+        columnNames[1] = translator.getString("cars.vin");
+        columnNames[2] = translator.getString("cars.licensePlate");
+        columnNames[3] = translator.getString("cars.model");
+        columnNames[4] = translator.getString("cars.mileage");
     }
 
     private class UpdateCarSwingWorker extends SwingWorker<Void, Void> {
