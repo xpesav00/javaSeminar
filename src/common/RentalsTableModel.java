@@ -7,6 +7,7 @@ package common;
 import carrental.*;
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -44,7 +45,6 @@ public class RentalsTableModel extends AbstractTableModel implements TableModelL
     public Object getValueAt(int rowIndex, int columnIndex) {
         Rental rental = rentals.get(rowIndex);
         DateFormat formating = DateFormat.getDateInstance(); //new SimpleDateFormat("dd/MM/yyyy");
-
 
         switch (columnIndex) {
             case 0:
@@ -87,20 +87,19 @@ public class RentalsTableModel extends AbstractTableModel implements TableModelL
         }
 
         if (columnIndex == 3) {
+            try{
             if (rental.getPrice().equals(new BigDecimal(s))) {
                 return;
             }
             rental.setPrice(new BigDecimal(s));
+            } catch (NumberFormatException ex) {  
+                    return;
+                }
         }
         rentals.set(rowIndex, rental);
         UpdateRentalSwingWorker update = new UpdateRentalSwingWorker(rental);
-        update.execute();
-        System.out.println(rental.getCar());
-        System.out.println(rental.getDriver());
-        System.out.println(rental.getId());
-        System.out.println(rental.getPrice());
-        System.out.println(rental.getStartTime());
-        manager.updateRental(rental);
+        update.execute();       
+        
     }
 
     @Override
