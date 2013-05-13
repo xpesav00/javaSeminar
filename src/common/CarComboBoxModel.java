@@ -6,7 +6,6 @@ package common;
 
 import carrental.Car;
 import carrental.CarsManager;
-import carrental.RentalsManager;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ComboBoxModel;

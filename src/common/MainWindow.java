@@ -27,6 +27,8 @@ import javax.swing.RowFilter;
 import javax.swing.SwingWorker;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableRowSorter;
 import javax.swing.text.Document;
 import org.apache.commons.dbcp.BasicDataSource;
@@ -63,6 +65,9 @@ public class MainWindow extends javax.swing.JFrame {
     private int deleteChoice = 0;
     private List<Rental> customRentals;
     private static final Object LOCK = new Object();
+    FreeCarComboBoxModel freeCarComboBoxModel;
+    CarComboBoxModel carComboBoxModel;
+    DriverComboBoxModel driverComboBoxModel;
 
     /**
      * Creates new form MainWindow
@@ -278,9 +283,14 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxCRDCar.setModel(new FreeCarComboBoxModel(this.rentalsManager));
+        jComboBoxCRDCar.setModel(freeCarComboBoxModel);
+        jComboBoxCRDCar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxCRDCarActionPerformed(evt);
+            }
+        });
 
-        jComboBoxCRDDriver.setModel(new DriverComboBoxModel(this.driversManager));
+        jComboBoxCRDDriver.setModel(driverComboBoxModel);
         jComboBoxCRDDriver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxCRDDriverActionPerformed(evt);
@@ -790,14 +800,14 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxERDCar.setModel(new CarComboBoxModel(this.carsManager));
+        jComboBoxERDCar.setModel(carComboBoxModel);
         jComboBoxERDCar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxERDCarActionPerformed(evt);
             }
         });
 
-        jComboBoxERDDriver.setModel(new DriverComboBoxModel(this.driversManager));
+        jComboBoxERDDriver.setModel(driverComboBoxModel);
         jComboBoxERDDriver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxERDDriverActionPerformed(evt);
@@ -1587,7 +1597,7 @@ public class MainWindow extends javax.swing.JFrame {
 
 
             } catch (Exception ex) {
-                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
                 this.displayInformationDialog(this.translator.getString("cars.insertError"));
             }
 
@@ -1636,12 +1646,14 @@ public class MainWindow extends javax.swing.JFrame {
                 //data was changed, info to datamodel
                 this.driversModel.fireTableDataChanged();
 
+
+
                 //hide dialog
                 this.CreateDriverDialog.dispose();
 
 
             } catch (Exception ex) {
-                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                //  Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
                 this.displayInformationDialog(this.translator.getString("drivers.insertError"));
             }
         }//GEN-LAST:event_jButtonCDDOkActionPerformed
@@ -1704,7 +1716,7 @@ public class MainWindow extends javax.swing.JFrame {
 
 
             } catch (Exception ex) {
-                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                //   Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
                 this.displayInformationDialog(this.translator.getString("rentals.insertError"));
             }
         }//GEN-LAST:event_jButtonCRDOkActionPerformed
@@ -1810,7 +1822,7 @@ public class MainWindow extends javax.swing.JFrame {
 
 
             } catch (Exception ex) {
-                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                //  Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
                 this.displayInformationDialog(this.translator.getString("rentals.editError"));
             }
         }//GEN-LAST:event_jButtonERDOkActionPerformed
@@ -1830,6 +1842,10 @@ public class MainWindow extends javax.swing.JFrame {
         private void jComboBoxERDCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxERDCarActionPerformed
             // TODO add your handling code here:
         }//GEN-LAST:event_jComboBoxERDCarActionPerformed
+
+    private void jComboBoxCRDCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCRDCarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxCRDCarActionPerformed
 // </editor-fold>
 
     /**
@@ -2022,9 +2038,12 @@ public class MainWindow extends javax.swing.JFrame {
         carsModel.setColumnNames(translator);
         driversModel = new DriversTableModel(driversManager);
         driversModel.setColumnNames(translator);
-
         rentalsModel = new RentalsTableModel(rentalsManager);
         rentalsModel.setColumnNames(translator);
+
+        freeCarComboBoxModel = new FreeCarComboBoxModel(rentalsManager);
+        carComboBoxModel = new CarComboBoxModel(carsManager);
+        driverComboBoxModel = new DriverComboBoxModel(driversManager);
     }
 
     private void controlInputText(JTextField textField) throws IllegalAccessException {
@@ -2196,7 +2215,9 @@ public class MainWindow extends javax.swing.JFrame {
         jTableRentals.getTableHeader().setReorderingAllowed(false);
 
         carsModel.addTableModelListener(carsModel);
+        carsModel.addTableModelListener(new CarsTableListener());
         driversModel.addTableModelListener(driversModel);
+        driversModel.addTableModelListener(new DriversTableListener());
         rentalsModel.addTableModelListener(rentalsModel);
 
         carSearchTextField.getDocument().addDocumentListener(new SearchCarsFilterListener(this));
@@ -2389,20 +2410,40 @@ public class MainWindow extends javax.swing.JFrame {
     private void localeChanged() {
         this.translator = ResourceBundle.getBundle("common.messages", this.localesManager.getLocale());
         //this.setLocale(this.localesManager.getLocale());
-        
+
         carsModel.setColumnNames(translator);
-        carsModel.fireTableStructureChanged();       
+        carsModel.fireTableStructureChanged();
         driversModel.setColumnNames(translator);
-        driversModel.fireTableStructureChanged();      
+        driversModel.fireTableStructureChanged();
         rentalsModel.setColumnNames(translator);
-        rentalsModel.fireTableStructureChanged();      
-        
+        rentalsModel.fireTableStructureChanged();
+
         this.changeText();
         this.invalidateComponents();
     }
 
     private void invalidateComponents() {
         this.invalidate();
+    }
+
+    protected class CarsTableListener implements TableModelListener {
+
+        @Override
+        public void tableChanged(TableModelEvent e) {
+            System.out.println("change made");
+            freeCarComboBoxModel.update();
+            carComboBoxModel.update();           
+            rentalsModel.fireTableDataChanged();
+        }
+    }
+
+    protected class DriversTableListener implements TableModelListener {
+
+        @Override
+        public void tableChanged(TableModelEvent e) {
+            driverComboBoxModel.update();
+            rentalsModel.fireTableDataChanged();
+        }
     }
 
     private void changeText() {

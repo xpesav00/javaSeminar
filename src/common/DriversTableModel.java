@@ -105,10 +105,6 @@ public class DriversTableModel extends AbstractTableModel implements TableModelL
     @Override
     public void tableChanged(TableModelEvent e) {
         this.loadData();
-        //     int row = e.getFirstRow();
-        //     int column = e.getColumn();
-        // System.err.println("heeey");
-        //    getValueAt(row, column);
     }
 
     public Driver removeRow(javax.swing.JTable table) {

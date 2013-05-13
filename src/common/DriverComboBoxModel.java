@@ -19,50 +19,50 @@ import javax.swing.event.ListDataListener;
  */
 public class DriverComboBoxModel implements ComboBoxModel {
 
-	List<Driver> drivers = new ArrayList<>();
-	Object selectedObject;
-	DriversManager manager;
-	
-	public DriverComboBoxModel(DriversManager manager) {
-		this.manager = manager;
-		this.loadData();
-	}
-	
-	private void loadData() {
-		this.drivers = manager.findAllDrivers();
-	}
-	
-	@Override
-	public void setSelectedItem(Object anItem) {
-		this.selectedObject = anItem;
-	}
+    List<Driver> drivers = new ArrayList<>();
+    Object selectedObject;
+    DriversManager manager;
 
-	@Override
-	public Object getSelectedItem() {
-		return this.selectedObject;
-	}
+    public DriverComboBoxModel(DriversManager manager) {
+        this.manager = manager;
+        this.loadData();
+    }
 
-	@Override
-	public int getSize() {
-		return this.drivers.size();
-	}
+    private void loadData() {
+        this.drivers = manager.findAllDrivers();
+    }
 
-	@Override
-	public Object getElementAt(int index) {
-		return this.drivers.get(index);
-	}
+    @Override
+    public void setSelectedItem(Object anItem) {
+        this.selectedObject = anItem;
+    }
 
-	@Override
-	public void addListDataListener(ListDataListener l) {
-		//throw new UnsupportedOperationException("Not supported yet.");
-	}
+    @Override
+    public Object getSelectedItem() {
+        return this.selectedObject;
+    }
 
-	@Override
-	public void removeListDataListener(ListDataListener l) {
-		//throw new UnsupportedOperationException("Not supported yet.");
-	}
-	
-	public void update()  {
-		this.loadData();
-	}
+    @Override
+    public int getSize() {
+        return this.drivers.size();
+    }
+
+    @Override
+    public Object getElementAt(int index) {
+        return this.drivers.get(index);
+    }
+    
+    @Override
+    public void addListDataListener(ListDataListener l) {
+        //throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void removeListDataListener(ListDataListener l) {
+        //throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void update() {
+        this.loadData();
+    }
 }

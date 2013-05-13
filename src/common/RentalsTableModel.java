@@ -106,11 +106,7 @@ public class RentalsTableModel extends AbstractTableModel implements TableModelL
 
     @Override
     public void tableChanged(TableModelEvent e) {
-        this.loadData();
-        //     int row = e.getFirstRow();
-        //     int column = e.getColumn();
-        // System.err.println("heeey");
-        //    getValueAt(row, column);
+        this.loadData();        
     }
 
     public Rental removeRow(javax.swing.JTable table) {
@@ -157,6 +153,7 @@ public class RentalsTableModel extends AbstractTableModel implements TableModelL
         columnNames[5] = translator.getString("rentals.expectedEndTime");
         columnNames[6] = translator.getString("rentals.endTime");
     }
+
     private class UpdateRentalSwingWorker extends SwingWorker<Void, Void> {
 
         Rental rental;

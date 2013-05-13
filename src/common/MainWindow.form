@@ -225,14 +225,17 @@
         <Component class="javax.swing.JComboBox" name="jComboBoxCRDCar">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new FreeCarComboBoxModel(this.rentalsManager)" type="code"/>
+              <Connection code="freeCarComboBoxModel" type="code"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxCRDCarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="jComboBoxCRDDriver">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new DriverComboBoxModel(this.driversManager)" type="code"/>
+              <Connection code="driverComboBoxModel" type="code"/>
             </Property>
           </Properties>
           <Events>
@@ -958,7 +961,7 @@
         <Component class="javax.swing.JComboBox" name="jComboBoxERDCar">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new CarComboBoxModel(this.carsManager)" type="code"/>
+              <Connection code="carComboBoxModel" type="code"/>
             </Property>
           </Properties>
           <Events>
@@ -968,7 +971,7 @@
         <Component class="javax.swing.JComboBox" name="jComboBoxERDDriver">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new DriverComboBoxModel(this.driversManager)" type="code"/>
+              <Connection code="driverComboBoxModel" type="code"/>
             </Property>
           </Properties>
           <Events>

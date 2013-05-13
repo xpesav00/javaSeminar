@@ -119,10 +119,6 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
     @Override
     public void tableChanged(TableModelEvent e) {
         this.loadData();
-        //     int row = e.getFirstRow();
-        //     int column = e.getColumn();
-        // System.err.println("heeey");
-        //    getValueAt(row, column);
     }
 
     public Car removeRow(javax.swing.JTable table) {
