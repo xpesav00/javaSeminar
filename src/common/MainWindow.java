@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Properties;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -26,6 +28,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
 import javax.swing.text.Document;
 import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.derby.iapi.services.i18n.BundleFinder;
 
 /**
  *
@@ -44,6 +47,8 @@ public class MainWindow extends javax.swing.JFrame {
     private TableRowSorter<RentalsTableModel> rentalsSorter;
     private RowFilter<CarsTableModel, Integer> carsFilter;
     private RowFilter<DriversTableModel, Integer> driversFilter;
+    private LocalesManager localesManager = new LocalesManager();
+    private ResourceBundle translator = ResourceBundle.getBundle("common.messages", new Locale("cs", "CZ"));
     //private RowFilter<RentalsTableModel, Integer> rentalsFilter;
     private String filterCars = "";
     private String filterDrivers = "";
@@ -73,10 +78,12 @@ public class MainWindow extends javax.swing.JFrame {
          driversManager.createDriver(d);
          carsManager.createCar(c);
          }// </editor-fold>*/
-
+	
+	
         initComponents();
         initSortingFiltering();
         initComponents2();
+	localeChanged();
     }
 
     /**
@@ -1325,6 +1332,8 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addGap(0, 0, 0))
                 );
 
+                jTabbedPane2.getAccessibleContext().setAccessibleDescription("");
+
                 pack();
         }// </editor-fold>//GEN-END:initComponents
     // <editor-fold defaultstate="expanded" desc="Actions performed">  
@@ -1343,7 +1352,9 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemExitMouseClicked
 
     private void jMenuItemOptionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOptionsActionPerformed
-        Options.setLocationRelativeTo(this);
+        this.jComboBoxOptionsLanguage.setModel(new LocaleComboBoxModel());
+	this.jComboBoxOptionsLanguage.setSelectedItem(this.localesManager.getLocale());
+	Options.setLocationRelativeTo(this);
         Options.setVisible(true);
     }//GEN-LAST:event_jMenuItemOptionsActionPerformed
 
@@ -1578,8 +1589,9 @@ public class MainWindow extends javax.swing.JFrame {
 
         private void jButtonOptionsOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOptionsOkActionPerformed
             //ok button - options
-
-            this.Options.dispose();
+	    this.localesManager.setLocale((Locale)this.jComboBoxOptionsLanguage.getSelectedItem());
+	    this.localeChanged();	    
+	    this.Options.dispose();
         }//GEN-LAST:event_jButtonOptionsOkActionPerformed
 
         private void jButtonOptionsCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOptionsCancelActionPerformed
@@ -2197,6 +2209,44 @@ public class MainWindow extends javax.swing.JFrame {
             }
             return null;
         }
+    }
+    
+    private void loadTranslator() {
+	    this.translator = ResourceBundle.getBundle("common.messages", this.localesManager.getLocale());
+    }
+    
+    private void localeChanged() {
+	     this.translator = ResourceBundle.getBundle("common.messages", this.localesManager.getLocale());
+	     //this.setLocale(this.localesManager.getLocale());
+	     this.changeText();
+	     this.invalidateComponents();
+    }
+    
+    private void invalidateComponents() {
+	    this.invalidate();
+    }
+    
+    private void changeText() {
+	   //menu
+	   this.jMenu4.setText(this.translator.getString("menu")); 
+	   this.jMenuItemRefresh.setText(this.translator.getString("menu.refresh"));
+	   this.jMenuItemOptions.setText(this.translator.getString("menu.options"));
+	   this.jMenuItemAbout.setText(this.translator.getString("menu.aboutProgram"));
+	   this.jMenuItemExit.setText(this.translator.getString("menu.exit"));
+	   
+	   //tabbed panel
+	   this.jTabbedPane2.setTitleAt(0, this.translator.getString("panel.cars"));
+	   this.jTabbedPane2.setTitleAt(1, this.translator.getString("panel.drivers"));
+	   this.jTabbedPane2.setTitleAt(2, this.translator.getString("panel.rentals"));
+	   
+	   //car section
+	   this.carsSearchLabel.setText(this.translator.getString("toolbox.search"));
+	   this.allCarsRadioButton.setText(this.translator.getString("cars.all"));
+	   this.rentedCarsRadioButton.setText(this.translator.getString("cars.rented"));
+	   this.freeCarsRadioButton.setText(this.translator.getString("cars.free"));
+	   this.addCarButton.setText(this.translator.getString("cars.addCar"));
+	   this.deleteCarButton.setText(this.translator.getString("cars.deleteCar"));
+	   this.carHistoryButton.setText(this.translator.getString("cars.carHistory"));
     }
 
 // <editor-fold defaultstate="collapsed" desc="Getters and Setters">    
