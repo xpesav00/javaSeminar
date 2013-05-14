@@ -420,8 +420,9 @@ public class RentalsManager implements IRentalManager {
         if (!rental.getExpectedEndTime().after(rental.getStartTime())) {
             throw new IllegalArgumentException("Expected end time should be greater than start time");
         }
+        
         if (rental.getEndTime() != null) {
-            if (!rental.getEndTime().after(rental.getStartTime())) {
+            if (rental.getStartTime().after(rental.getEndTime()) && !rental.getStartTime().equals(rental.getEndTime())) {
                 throw new IllegalArgumentException("End time should be greater than start time");
             }
         }

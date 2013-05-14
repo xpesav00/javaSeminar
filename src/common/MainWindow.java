@@ -106,20 +106,7 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jPopupMenu1 = new javax.swing.JPopupMenu();
-        jMenu1 = new javax.swing.JMenu();
-        jPopupMenu2 = new javax.swing.JPopupMenu();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
-        jMenuBar2 = new javax.swing.JMenuBar();
-        jMenu5 = new javax.swing.JMenu();
-        jMenu6 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
         buttonGroup1 = new javax.swing.ButtonGroup();
-        jMenu3 = new javax.swing.JMenu();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
         CreateRentalDialog = new javax.swing.JDialog();
         jButtonCRDOk = new javax.swing.JButton();
         jButtonCRDCancel = new javax.swing.JButton();
@@ -189,7 +176,7 @@ public class MainWindow extends javax.swing.JFrame {
         jXDatePickerERDEndTime = new org.jdesktop.swingx.JXDatePicker();
         jTextFieldERDId = new javax.swing.JTextField();
         jTabbedPane2 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        jPanelCars = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTableCars = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -201,7 +188,7 @@ public class MainWindow extends javax.swing.JFrame {
         deleteCarButton = new javax.swing.JButton();
         carHistoryButton = new javax.swing.JButton();
         carsSearchLabel = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        jPanelDrivers = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         jTableDrivers = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
@@ -210,7 +197,7 @@ public class MainWindow extends javax.swing.JFrame {
         deleteDriverButton = new javax.swing.JButton();
         driverHistoryButton = new javax.swing.JButton();
         driversSearchLabel = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
+        jPanelRentals = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         rentalSearchTextField = new javax.swing.JTextField();
         allRentalsRadioButton = new javax.swing.JRadioButton();
@@ -232,41 +219,9 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuItemAbout = new javax.swing.JMenuItem();
         jMenuItemExit = new javax.swing.JMenuItem();
 
-        jMenuItem3.setText("jMenuItem3");
-
-        jMenu1.setText("jMenu1");
-
-        jScrollPane2.setViewportView(jTree1);
-
-        jMenu5.setText("File");
-        jMenuBar2.add(jMenu5);
-
-        jMenu6.setText("Edit");
-        jMenuBar2.add(jMenu6);
-
-        jMenu2.setText("jMenu2");
-
-        jMenu3.setText("jMenu3");
-
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jTable5.setCellSelectionEnabled(true);
-        jTable5.setMinimumSize(new java.awt.Dimension(400, 400));
-        jScrollPane8.setViewportView(jTable5);
-
         CreateRentalDialog.setTitle("Create Rental");
         CreateRentalDialog.setMinimumSize(new java.awt.Dimension(450, 230));
         CreateRentalDialog.setModal(true);
-        CreateRentalDialog.setPreferredSize(new java.awt.Dimension(450, 216));
         CreateRentalDialog.setResizable(false);
 
         jButtonCRDOk.setText("OK");
@@ -839,6 +794,14 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabelERDEndTime.setText("End Time");
 
+        jTextFieldERDId.setEditable(false);
+        jTextFieldERDId.setText("jTextField1");
+        jTextFieldERDId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldERDIdActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout EditRentalDialogLayout = new javax.swing.GroupLayout(EditRentalDialog.getContentPane());
         EditRentalDialog.getContentPane().setLayout(EditRentalDialogLayout);
         EditRentalDialogLayout.setHorizontalGroup(
@@ -861,7 +824,8 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGroup(EditRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jComboBoxERDCar, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jTextFieldERDPrice, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jComboBoxERDDriver, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jComboBoxERDDriver, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextFieldERDId)))
                     .addGroup(EditRentalDialogLayout.createSequentialGroup()
                         .addGroup(EditRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabelERDEndTime, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -878,7 +842,9 @@ public class MainWindow extends javax.swing.JFrame {
             EditRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EditRentalDialogLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelERDId)
+                .addGroup(EditRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelERDId)
+                    .addComponent(jTextFieldERDId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(EditRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxERDCar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -903,24 +869,20 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(EditRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelERDEndTime)
                     .addComponent(jXDatePickerERDEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addGroup(EditRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonERDCancel)
                     .addComponent(jButtonERDOk))
                 .addGap(5, 5, 5))
         );
 
-        jTextFieldERDId.setEditable(false);
-        jTextFieldERDId.setText("jTextField1");
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
 
-        jTabbedPane2.setComponentPopupMenu(jPopupMenu1);
         jTabbedPane2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jTabbedPane2.setRequestFocusEnabled(false);
 
-        jPanel1.setName(""); // NOI18N
+        jPanelCars.setName(""); // NOI18N
 
         jTableCars.setModel(carsModel);
         jTableCars.setEditingColumn(0);
@@ -1029,29 +991,29 @@ public class MainWindow extends javax.swing.JFrame {
         carsSearchLabel.setMinimumSize(new java.awt.Dimension(49, 28));
         carsSearchLabel.setPreferredSize(new java.awt.Dimension(49, 28));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelCarsLayout = new javax.swing.GroupLayout(jPanelCars);
+        jPanelCars.setLayout(jPanelCarsLayout);
+        jPanelCarsLayout.setHorizontalGroup(
+            jPanelCarsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelCarsLayout.createSequentialGroup()
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 859, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanelCarsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(carsSearchLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jPanelCarsLayout.setVerticalGroup(
+            jPanelCarsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
+            .addGroup(jPanelCarsLayout.createSequentialGroup()
                 .addComponent(carsSearchLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jTabbedPane2.addTab("Cars", jPanel1);
+        jTabbedPane2.addTab("Cars", jPanelCars);
 
-        jPanel2.setName(""); // NOI18N
+        jPanelDrivers.setName(""); // NOI18N
 
         jTableDrivers.setModel(driversModel);
         jTableDrivers.setEditingColumn(0);
@@ -1114,24 +1076,24 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelDriversLayout = new javax.swing.GroupLayout(jPanelDrivers);
+        jPanelDrivers.setLayout(jPanelDriversLayout);
+        jPanelDriversLayout.setHorizontalGroup(
+            jPanelDriversLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDriversLayout.createSequentialGroup()
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 859, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+        jPanelDriversLayout.setVerticalGroup(
+            jPanelDriversLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTabbedPane2.addTab("Drivers", jPanel2);
+        jTabbedPane2.addTab("Drivers", jPanelDrivers);
 
-        jPanel5.setName(""); // NOI18N
+        jPanelRentals.setName(""); // NOI18N
 
         rentalSearchTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1258,24 +1220,24 @@ public class MainWindow extends javax.swing.JFrame {
         jTableRentals.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jTableRentals);
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelRentalsLayout = new javax.swing.GroupLayout(jPanelRentals);
+        jPanelRentals.setLayout(jPanelRentalsLayout);
+        jPanelRentalsLayout.setHorizontalGroup(
+            jPanelRentalsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelRentalsLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 859, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanelRentalsLayout.setVerticalGroup(
+            jPanelRentalsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
         );
 
-        jTabbedPane2.addTab("Rentals", jPanel5);
+        jTabbedPane2.addTab("Rentals", jPanelRentals);
 
         statusBar.setEditable(false);
         statusBar.setDisabledTextColor(new java.awt.Color(70, 70, 70));
@@ -1594,7 +1556,8 @@ public class MainWindow extends javax.swing.JFrame {
                 this.carsManager.createCar(car);
 
                 //data was changed, info to datamodel
-                this.carsModel.fireTableDataChanged();
+                CarsFireDataChangedSwingWorker carsFireDataChangedSwingWorker = new CarsFireDataChangedSwingWorker();
+                carsFireDataChangedSwingWorker.execute();
 
                 //hide dialog
                 this.CreateCarDialog.dispose();
@@ -1648,7 +1611,8 @@ public class MainWindow extends javax.swing.JFrame {
                 this.driversManager.createDriver(driver);
 
                 //data was changed, info to datamodel
-                this.driversModel.fireTableDataChanged();
+                DriversFireDataChangedSwingWorker driversFireDataChangedSwingWorker = new DriversFireDataChangedSwingWorker();
+                driversFireDataChangedSwingWorker.execute();
 
 
 
@@ -1746,8 +1710,12 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_statusBarActionPerformed
 
     private void jMenuItemRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRefreshActionPerformed
-        RefreshSwingWorker refreshSwingWorker = new RefreshSwingWorker();
-        refreshSwingWorker.execute();
+        CarsFireDataChangedSwingWorker carsFireDataChangedSwingWorker = new CarsFireDataChangedSwingWorker();
+        carsFireDataChangedSwingWorker.execute();
+        DriversFireDataChangedSwingWorker driversFireDataChangedSwingWorker = new DriversFireDataChangedSwingWorker();
+        driversFireDataChangedSwingWorker.execute();
+        RentalsFireDataChangedSwingWorker rentalsFireDataChangedSwingWorker = new RentalsFireDataChangedSwingWorker();
+        rentalsFireDataChangedSwingWorker.execute();
     }//GEN-LAST:event_jMenuItemRefreshActionPerformed
 
     private void jXDatePickerCRDExEndTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePickerCRDExEndTimeActionPerformed
@@ -1807,7 +1775,7 @@ public class MainWindow extends javax.swing.JFrame {
                     endDateCal.setTime(endDate);
 
                     //control date
-            /*        if (!startDateCal.equals(endDateCal) && startDateCal.after(endDateCal )) {
+          /*          if (!startDateCal.equals(endDateCal) && startDateCal.after(endDateCal )) {
                      throw new IllegalAccessException("Start date isnt less than end date.");
                      }*/
 
@@ -1815,21 +1783,22 @@ public class MainWindow extends javax.swing.JFrame {
                 } else {
                     rental.setEndTime(null);
                 }
-                if (!rentalsManager.isCarFree(car) && rental.getEndTime() == null) {
+                if (!rental.getCar().equals(rentalsManager.findRentalById(id).getCar()) && !rentalsManager.isCarFree(car) && rental.getEndTime() == null) {
                     throw new IllegalAccessException("cannot update this car");
                 }
 
                 this.rentalsManager.updateRental(rental);
 
                 //data was changed, info to datamodel
-                this.rentalsModel.fireTableDataChanged();
+                RentalsFireDataChangedSwingWorker rentalsFireDataChangedSwingWorker = new RentalsFireDataChangedSwingWorker();
+                rentalsFireDataChangedSwingWorker.execute();
 
                 //hide dialog
                 this.EditRentalDialog.dispose();
 
 
             } catch (Exception ex) {
-                //  Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                //   Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
                 this.displayInformationDialog(this.translator.getString("rentals.editError"));
             }
         }//GEN-LAST:event_jButtonERDOkActionPerformed
@@ -1853,6 +1822,10 @@ public class MainWindow extends javax.swing.JFrame {
     private void jComboBoxCRDCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCRDCarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxCRDCarActionPerformed
+
+    private void jTextFieldERDIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldERDIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldERDIdActionPerformed
 // </editor-fold>
 
     /**
@@ -1964,36 +1937,24 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelERDPrice;
     private javax.swing.JLabel jLabelERDStartTime;
     private javax.swing.JLabel jLabelOptionsLanguage;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItemAbout;
     private javax.swing.JMenuItem jMenuItemExit;
     private javax.swing.JMenuItem jMenuItemOptions;
     private javax.swing.JMenuItem jMenuItemRefresh;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPopupMenu jPopupMenu1;
-    private javax.swing.JPopupMenu jPopupMenu2;
+    private javax.swing.JPanel jPanelCars;
+    private javax.swing.JPanel jPanelDrivers;
+    private javax.swing.JPanel jPanelRentals;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable5;
     private javax.swing.JTable jTableCars;
     private javax.swing.JTable jTableDrivers;
     private javax.swing.JTable jTableRentals;
@@ -2009,7 +1970,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldCRDPrice;
     private javax.swing.JTextField jTextFieldERDId;
     private javax.swing.JTextField jTextFieldERDPrice;
-    private javax.swing.JTree jTree1;
     private org.jdesktop.swingx.JXDatePicker jXDatePickerCRDExEndTime;
     private org.jdesktop.swingx.JXDatePicker jXDatePickerCRDStartTime;
     private org.jdesktop.swingx.JXDatePicker jXDatePickerERDEndTime;
@@ -2235,13 +2195,32 @@ public class MainWindow extends javax.swing.JFrame {
         rentalSearchTextField.getDocument().addDocumentListener(new SearchRentalsFilterListener(this));
     }
 
-    protected class RefreshSwingWorker extends SwingWorker<Void, Void> {
+    protected class CarsFireDataChangedSwingWorker extends SwingWorker<Void, Void> {
 
         @Override
         protected Void doInBackground() throws Exception {
 
             carsModel.fireTableDataChanged();
+            return null;
+        }
+    }
+
+    protected class DriversFireDataChangedSwingWorker extends SwingWorker<Void, Void> {
+
+        @Override
+        protected Void doInBackground() throws Exception {
+
             driversModel.fireTableDataChanged();
+            return null;
+        }
+    }
+
+    protected class RentalsFireDataChangedSwingWorker extends SwingWorker<Void, Void> {
+
+        @Override
+        protected Void doInBackground() throws Exception {
+
+
             rentalsModel.fireTableDataChanged();
             return null;
         }
@@ -2416,7 +2395,6 @@ public class MainWindow extends javax.swing.JFrame {
     private void localeChanged() {
         this.translator = ResourceBundle.getBundle("common.messages", this.localesManager.getLocale());
         //this.setLocale(this.localesManager.getLocale());
-
         carsModel.setColumnNames(translator);
         carsModel.fireTableStructureChanged();
         driversModel.setColumnNames(translator);
