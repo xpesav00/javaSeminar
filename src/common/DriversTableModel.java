@@ -70,6 +70,7 @@ public class DriversTableModel extends AbstractTableModel implements TableModelL
         Long id = Long.parseLong(getValueAt(rowIndex, 0).toString());
         Driver driver = drivers.get(rowIndex);
         String s = (String) aValue;
+        boolean test =false;
 
         if (s.equals("")) {
             return;
@@ -81,6 +82,7 @@ public class DriversTableModel extends AbstractTableModel implements TableModelL
                     return;
                 }
                 driver.setSurname(s);
+                test = true;
                 break;
             case 2:
                 if (driver.getName().equals(s)) {
@@ -99,6 +101,9 @@ public class DriversTableModel extends AbstractTableModel implements TableModelL
         drivers.set(rowIndex, driver);
        UpdateDriverSwingWorker update = new UpdateDriverSwingWorker(driver);
         update.execute();
+        if (test) {
+            fireTableDataChanged();
+        }
 
     }
 

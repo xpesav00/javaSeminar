@@ -75,6 +75,7 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         Long id = Long.parseLong(getValueAt(rowIndex, 0).toString());
         Car car = cars.get(rowIndex);
+        boolean test = false;
         String s = (String) aValue;
 
         if (s.equals("")) {
@@ -99,6 +100,7 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
                     return;
                 }
                 car.setName(s);
+                test = true;
                 break;
             case 4:
                 try {
@@ -113,6 +115,9 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
         cars.set(rowIndex, car);
         UpdateCarSwingWorker update = new UpdateCarSwingWorker(car);
         update.execute();
+        if (test) {
+            fireTableDataChanged();
+        }
 
     }
 

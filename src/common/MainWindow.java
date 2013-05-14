@@ -486,7 +486,7 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
         CreateCarDialog.setTitle("Create Car");
-        CreateCarDialog.setMinimumSize(new java.awt.Dimension(300, 190));
+        CreateCarDialog.setMinimumSize(new java.awt.Dimension(340, 190));
         CreateCarDialog.setModal(true);
         CreateCarDialog.setResizable(false);
 
@@ -553,14 +553,14 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(jButtonCCDOk, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(CreateCarDialogLayout.createSequentialGroup()
                         .addContainerGap()
+                        .addGroup(CreateCarDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabelCCDMileage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabelCCDLicensePlate, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                            .addComponent(jLabelCCDModel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabelCCDVin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(CreateCarDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelCCDModel)
-                            .addComponent(jLabelCCDLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelCCDVin)
-                            .addComponent(jLabelCCDMileage))
-                        .addGap(12, 12, 12)
-                        .addGroup(CreateCarDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldCCDMileage, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                            .addComponent(jTextFieldCCDMileage, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
                             .addComponent(jTextFieldCCDLicensePlate, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jTextFieldCCDModel)
                             .addComponent(jTextFieldCCDVin))))
@@ -574,9 +574,11 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(jLabelCCDVin)
                     .addComponent(jTextFieldCCDVin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(CreateCarDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelCCDLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldCCDLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(CreateCarDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldCCDLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(CreateCarDialogLayout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jLabelCCDLicensePlate, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(CreateCarDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCCDModel)
@@ -588,8 +590,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addGroup(CreateCarDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCCDOk)
-                    .addComponent(jButtonCCDCancel))
-                .addGap(0, 0, 0))
+                    .addComponent(jButtonCCDCancel)))
         );
 
         AboutProgram.setTitle("About");
@@ -697,8 +698,9 @@ public class MainWindow extends javax.swing.JFrame {
 
         DeleteWindow.setTitle("Delete Dialog");
         DeleteWindow.setAlwaysOnTop(true);
-        DeleteWindow.setMinimumSize(new java.awt.Dimension(330, 120));
+        DeleteWindow.setMinimumSize(new java.awt.Dimension(280, 90));
         DeleteWindow.setModal(true);
+        DeleteWindow.setPreferredSize(new java.awt.Dimension(280, 90));
         DeleteWindow.setResizable(false);
 
         jButtonDDYes.setText("Yes");
@@ -708,6 +710,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        jLabelDeleteDialog.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelDeleteDialog.setText("Do you really wish to delete?");
 
         jButtonDDNo.setText("No");
@@ -722,25 +725,26 @@ public class MainWindow extends javax.swing.JFrame {
         DeleteWindowLayout.setHorizontalGroup(
             DeleteWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DeleteWindowLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(98, Short.MAX_VALUE)
                 .addComponent(jButtonDDNo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonDDYes)
                 .addGap(100, 100, 100))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DeleteWindowLayout.createSequentialGroup()
+            .addGroup(DeleteWindowLayout.createSequentialGroup()
                 .addGap(7, 7, 7)
-                .addComponent(jLabelDeleteDialog, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE))
+                .addComponent(jLabelDeleteDialog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(7, 7, 7))
         );
         DeleteWindowLayout.setVerticalGroup(
             DeleteWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DeleteWindowLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addGap(0, 0, 0)
                 .addComponent(jLabelDeleteDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addGroup(DeleteWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonDDYes)
                     .addComponent(jButtonDDNo))
-                .addGap(5, 5, 5))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         InformationDialog.setTitle("Information dialog");
@@ -1695,6 +1699,10 @@ public class MainWindow extends javax.swing.JFrame {
 
                 //create rental
                 Rental rental = new Rental(null, driver, car, price, startDateCal, expectedEndDateCal);
+                if (!rentalsManager.isCarFree(car) && rental.getEndTime() == null) {
+                    throw new IllegalAccessException("cannot update this car");
+                }
+
                 this.rentalsManager.createRental(rental);
 
                 //data was changed, info to datamodel
@@ -1738,9 +1746,8 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_statusBarActionPerformed
 
     private void jMenuItemRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRefreshActionPerformed
-        this.carsModel.fireTableDataChanged();
-        this.driversModel.fireTableDataChanged();
-        this.rentalsModel.fireTableDataChanged();
+        RefreshSwingWorker refreshSwingWorker = new RefreshSwingWorker();
+        refreshSwingWorker.execute();
     }//GEN-LAST:event_jMenuItemRefreshActionPerformed
 
     private void jXDatePickerCRDExEndTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePickerCRDExEndTimeActionPerformed
@@ -1800,9 +1807,9 @@ public class MainWindow extends javax.swing.JFrame {
                     endDateCal.setTime(endDate);
 
                     //control date
-                    if (startDateCal.compareTo(endDateCal) >= 0) {
-                        throw new IllegalAccessException("Start date isnt less than end date.");
-                    }
+            /*        if (!startDateCal.equals(endDateCal) && startDateCal.after(endDateCal )) {
+                     throw new IllegalAccessException("Start date isnt less than end date.");
+                     }*/
 
                     rental.setEndTime(endDateCal);
                 } else {
@@ -2054,6 +2061,7 @@ public class MainWindow extends javax.swing.JFrame {
             textField.setBackground(Color.white);
         }
     }
+    // <editor-fold defaultstate="collapsed" desc="Clear dialogs functions"> 
 
     private void displayInformationDialog(String text) {
         this.jTextAreaIDinformation.setText(text);
@@ -2085,6 +2093,7 @@ public class MainWindow extends javax.swing.JFrame {
         this.jComboBoxCRDCar.setSelectedIndex(0);
         this.jComboBoxCRDDriver.setSelectedIndex(0);
     }
+    // </editor-fold>
 
     private void initSortingFiltering() {
         //<snip>Setup filtering for winners 
@@ -2215,9 +2224,10 @@ public class MainWindow extends javax.swing.JFrame {
         jTableRentals.getTableHeader().setReorderingAllowed(false);
 
         carsModel.addTableModelListener(carsModel);
-        carsModel.addTableModelListener(new CarsTableListener());
+        ForRentalsTableListener forRentalsTableListener = new ForRentalsTableListener();
+        carsModel.addTableModelListener(forRentalsTableListener);
         driversModel.addTableModelListener(driversModel);
-        driversModel.addTableModelListener(new DriversTableListener());
+        driversModel.addTableModelListener(forRentalsTableListener);
         rentalsModel.addTableModelListener(rentalsModel);
 
         carSearchTextField.getDocument().addDocumentListener(new SearchCarsFilterListener(this));
@@ -2225,18 +2235,27 @@ public class MainWindow extends javax.swing.JFrame {
         rentalSearchTextField.getDocument().addDocumentListener(new SearchRentalsFilterListener(this));
     }
 
-    protected class DeleteCarSwingWorker extends SwingWorker<Integer, Void> {
+    protected class RefreshSwingWorker extends SwingWorker<Void, Void> {
 
         @Override
-        protected Integer doInBackground() throws Exception {
+        protected Void doInBackground() throws Exception {
 
-            LocalesManager localesManager = new LocalesManager();
-            ResourceBundle translator = ResourceBundle.getBundle("common.messages", localesManager.getLocale());
+            carsModel.fireTableDataChanged();
+            driversModel.fireTableDataChanged();
+            rentalsModel.fireTableDataChanged();
+            return null;
+        }
+    }
+
+    protected class DeleteCarSwingWorker extends SwingWorker<Void, Void> {
+
+        @Override
+        protected Void doInBackground() throws Exception {
 
             if (jTableCars.isEditing()) {
                 SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, translator.getString("rental.stopEditRow"));
                 status.execute();
-                return 0;
+                return null;
             }
             int row = jTableCars.getSelectedRow();
             if (row != -1) {
@@ -2254,22 +2273,19 @@ public class MainWindow extends javax.swing.JFrame {
                 SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, translator.getString("general.selectRow"));
                 status.execute();
             }
-            return 0;
+            return null;
         }
     }
 
-    protected class DeleteDriverSwingWorker extends SwingWorker<Integer, Void> {
+    protected class DeleteDriverSwingWorker extends SwingWorker<Void, Void> {
 
         @Override
-        protected Integer doInBackground() throws Exception {
-
-            LocalesManager localesManager = new LocalesManager();
-            ResourceBundle translator = ResourceBundle.getBundle("common.messages", localesManager.getLocale());
+        protected Void doInBackground() throws Exception {
 
             if (jTableDrivers.isEditing()) {
                 SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, translator.getString("rental.stopEditRow"));
                 status.execute();
-                return 0;
+                return null;
             }
             int row = jTableDrivers.getSelectedRow();
             if (row != -1) {
@@ -2287,7 +2303,7 @@ public class MainWindow extends javax.swing.JFrame {
                 SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, translator.getString("general.selectRow"));
                 status.execute();
             }
-            return 0;
+            return null;
 
         }
     }
@@ -2296,8 +2312,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         @Override
         protected Void doInBackground() throws Exception {
-            LocalesManager localesManager = new LocalesManager();
-            ResourceBundle translator = ResourceBundle.getBundle("common.messages", localesManager.getLocale());
 
             if (jTableRentals.isEditing()) {
                 SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, translator.getString("rental.stopEditRow"));
@@ -2334,18 +2348,16 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
 
-    protected class CarHistorySwingWorker extends SwingWorker<Integer, Void> {
+    protected class CarHistorySwingWorker extends SwingWorker<Void, Void> {
 
         @Override
-        protected Integer doInBackground() throws Exception {
+        protected Void doInBackground() throws Exception {
 
-            LocalesManager localesManager = new LocalesManager();
-            ResourceBundle translator = ResourceBundle.getBundle("common.messages", localesManager.getLocale());
 
             if (jTableCars.isEditing()) {
                 SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, translator.getString("rental.stopEditRow"));
                 status.execute();
-                return 0;
+                return null;
             }
             int row = jTableCars.getSelectedRow();
             if (row != -1) {
@@ -2365,21 +2377,19 @@ public class MainWindow extends javax.swing.JFrame {
                 SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, translator.getString("general.selectRow"));
                 status.execute();
             }
-            return 0;
+            return null;
         }
     }
 
-    protected class DriverHistorySwingWorker extends SwingWorker<Integer, Void> {
+    protected class DriverHistorySwingWorker extends SwingWorker<Void, Void> {
 
         @Override
-        protected Integer doInBackground() throws Exception {
-            LocalesManager localesManager = new LocalesManager();
-            ResourceBundle translator = ResourceBundle.getBundle("common.messages", localesManager.getLocale());
+        protected Void doInBackground() throws Exception {
 
             if (jTableDrivers.isEditing()) {
                 SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, translator.getString("rental.stopEditRow"));
                 status.execute();
-                return 0;
+                return null;
             }
             int row = jTableDrivers.getSelectedRow();
             if (row != -1) {
@@ -2389,7 +2399,7 @@ public class MainWindow extends javax.swing.JFrame {
                 customDriver = driver;
 
                 rentalsSorter.setRowFilter(rentalsFilter);
-                customRentalsRadioButton.setToolTipText(translator.getString("drivers.showHistory") + driver + " " + driver.getSurname());
+                customRentalsRadioButton.setToolTipText(translator.getString("drivers.showHistory") + driver + " " + driver.getName());
                 customRentalsRadioButton.setSelected(true);
                 customRentalsRadioButton.doClick();
                 jTabbedPane2.setSelectedIndex(2);
@@ -2399,12 +2409,8 @@ public class MainWindow extends javax.swing.JFrame {
                 SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, translator.getString("general.selectRow"));
                 status.execute();
             }
-            return 0;
+            return null;
         }
-    }
-
-    private void loadTranslator() {
-        this.translator = ResourceBundle.getBundle("common.messages", this.localesManager.getLocale());
     }
 
     private void localeChanged() {
@@ -2419,29 +2425,13 @@ public class MainWindow extends javax.swing.JFrame {
         rentalsModel.fireTableStructureChanged();
 
         this.changeText();
-        this.invalidateComponents();
-    }
-
-    private void invalidateComponents() {
         this.invalidate();
     }
 
-    protected class CarsTableListener implements TableModelListener {
+    protected class ForRentalsTableListener implements TableModelListener {
 
         @Override
         public void tableChanged(TableModelEvent e) {
-            System.out.println("change made");
-            freeCarComboBoxModel.update();
-            carComboBoxModel.update();           
-            rentalsModel.fireTableDataChanged();
-        }
-    }
-
-    protected class DriversTableListener implements TableModelListener {
-
-        @Override
-        public void tableChanged(TableModelEvent e) {
-            driverComboBoxModel.update();
             rentalsModel.fireTableDataChanged();
         }
     }

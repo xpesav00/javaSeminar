@@ -43,7 +43,7 @@ public class DeleteSwingWorker extends SwingWorker<Void, Void> {
         jTableDrivers = app.getjTableDrivers();
         jTableRentals = app.getjTableRentals();
         DeleteWindow = app.getDeleteWindow();
-        statusBar = app.getStatusBar();          
+        statusBar = app.getStatusBar();         
 
     }
 
@@ -56,7 +56,7 @@ public class DeleteSwingWorker extends SwingWorker<Void, Void> {
         DeleteWindow.dispose();
         switch (deleteChoice) {
             case 0:
-                car = carsModel.removeRow(jTableCars);            
+                car = carsModel.removeRow(jTableCars);                 
                 message = "Car : " + car + " was deleted";               
                 break;
             case 1:
