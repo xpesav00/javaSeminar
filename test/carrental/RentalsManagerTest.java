@@ -613,7 +613,7 @@ public class RentalsManagerTest {
         assertEquals(expected.getDriver(), actual.getDriver());
         assertEquals(expected.getEndTime(), actual.getEndTime());
         assertEquals(expected.getExpectedEndTime(), actual.getExpectedEndTime());
-        assertEquals(expected.getPrice(), actual.getPrice());
+	assertTrue(expected.getPrice().setScale(4).equals(actual.getPrice().setScale(4)));
         assertEquals(expected.getStartTime(), actual.getStartTime());
 
     }
