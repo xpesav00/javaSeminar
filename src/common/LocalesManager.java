@@ -12,7 +12,7 @@ import java.util.Locale;
  */
 public class LocalesManager {
 	
-	private static Locale selectedLocale = new Locale("cs","CZ");
+	private static Locale selectedLocale = Locale.getDefault();
 	
 	public LocalesManager() {
 		//not implemeted

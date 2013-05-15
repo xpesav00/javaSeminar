@@ -964,7 +964,7 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addComponent(deleteCarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(carHistoryButton)
-                                .addGap(0, 254, Short.MAX_VALUE))
+                                .addGap(0, 295, Short.MAX_VALUE))
                 );
 
                 carSearchTextField.getAccessibleContext().setAccessibleName("");
@@ -2340,6 +2340,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void localeChanged() {
         this.translator = ResourceBundle.getBundle("common.messages", this.localesManager.getLocale());
+	this.setLocale(this.localesManager.getLocale());
         //this.setLocale(this.localesManager.getLocale());
         carsModel.setColumnNames(translator);
         carsModel.fireTableStructureChanged();
