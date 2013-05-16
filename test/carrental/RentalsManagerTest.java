@@ -16,7 +16,6 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 import javax.naming.NamingException;
-import javax.sql.DataSource;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

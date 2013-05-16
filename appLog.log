@@ -1,0 +1,400 @@
+2013-05-16 17:45:47,767 0 [main] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:45:47,892 125 [main] ERROR carrental.CarRental  - createCar 1 : test car no. 1
+2013-05-16 17:45:47,896 129 [main] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:45:47,914 147 [main] ERROR carrental.CarRental  - createCar 2 : test car no. 2
+2013-05-16 17:45:47,918 151 [main] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:45:47,990 223 [main] INFO  carrental.CarRental  - findCarById 1
+2013-05-16 17:45:48,059 292 [main] INFO  carrental.CarRental  - deleteCar 1 : test car no. 1
+2013-05-16 17:45:48,061 294 [main] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:45:48,063 296 [main] INFO  carrental.CarRental  - findCarById 2
+2013-05-16 17:45:48,081 314 [main] INFO  carrental.CarRental  - deleteCar 2 : test car no. 2
+2013-05-16 17:45:48,084 317 [main] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:45:49,954 2187 [main] INFO  carrental.CarRental  - findCarById 9223372036854775807
+2013-05-16 17:45:49,981 2214 [main] ERROR carrental.CarRental  - createCar 1 : test car no. 1
+2013-05-16 17:45:49,983 2216 [main] INFO  carrental.CarRental  - findCarById 1
+2013-05-16 17:45:49,993 2226 [main] ERROR carrental.CarRental  - createCar 2 : test car no. 2
+2013-05-16 17:45:49,995 2228 [main] INFO  carrental.CarRental  - findCarById 1
+2013-05-16 17:45:49,997 2230 [main] INFO  carrental.CarRental  - findCarById 2
+2013-05-16 17:45:49,999 2232 [main] INFO  carrental.CarRental  - findCarById 9223372036854775807
+2013-05-16 17:45:51,793 4026 [main] ERROR carrental.CarRental  - createCar 1 : test car no. 1
+2013-05-16 17:45:51,813 4046 [main] INFO  carrental.CarRental  - findCarById 1
+2013-05-16 17:45:51,827 4060 [main] ERROR carrental.CarRental  - createCar 2 : test car no. 2
+2013-05-16 17:45:51,829 4062 [main] INFO  carrental.CarRental  - findCarById 1
+2013-05-16 17:45:53,572 5805 [main] ERROR carrental.CarRental  - createCar 1 : test car no. 1
+2013-05-16 17:45:53,583 5816 [main] ERROR carrental.CarRental  - createCar 2 : test car no. 2
+2013-05-16 17:45:53,606 5839 [main] INFO  carrental.CarRental  - findCarById 1
+2013-05-16 17:45:53,607 5840 [main] INFO  carrental.CarRental  - findCarById 2
+2013-05-16 17:45:53,608 5841 [main] INFO  carrental.CarRental  - findCarById 1
+2013-05-16 17:45:53,638 5871 [main] INFO  carrental.CarRental  - deleteCar 1 : test car no. 1
+2013-05-16 17:45:53,639 5872 [main] INFO  carrental.CarRental  - findCarById 9223372036854775807
+2013-05-16 17:45:53,640 5873 [main] INFO  carrental.CarRental  - findCarById 2
+2013-05-16 17:45:53,651 5884 [main] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:45:53,652 5885 [main] INFO  carrental.CarRental  - findCarById 9223372036854775807
+2013-05-16 17:45:53,654 5887 [main] INFO  carrental.CarRental  - findCarById 2
+2013-05-16 17:45:53,661 5894 [main] INFO  carrental.CarRental  - deleteCar 2 : test car no. 2
+2013-05-16 17:45:53,662 5895 [main] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:45:55,296 7529 [main] ERROR carrental.CarRental  - createCar 1 : test car no. 1
+2013-05-16 17:45:55,307 7540 [main] ERROR carrental.CarRental  - createCar 2 : test car no. 2
+2013-05-16 17:45:55,324 7557 [main] INFO  carrental.CarRental  - findCarById 1
+2013-05-16 17:45:55,418 7651 [main] INFO  carrental.CarRental  - updateCar 1 : test car no. 1
+2013-05-16 17:45:55,419 7652 [main] INFO  carrental.CarRental  - findCarById 1
+2013-05-16 17:45:55,419 7652 [main] INFO  carrental.CarRental  - findCarById 1
+2013-05-16 17:45:55,429 7662 [main] INFO  carrental.CarRental  - updateCar 1 : test car no. 1
+2013-05-16 17:45:55,431 7664 [main] INFO  carrental.CarRental  - findCarById 1
+2013-05-16 17:45:55,433 7666 [main] INFO  carrental.CarRental  - findCarById 1
+2013-05-16 17:45:55,440 7673 [main] INFO  carrental.CarRental  - updateCar 1 : test car no. 20
+2013-05-16 17:45:55,442 7675 [main] INFO  carrental.CarRental  - findCarById 1
+2013-05-16 17:45:55,444 7677 [main] INFO  carrental.CarRental  - findCarById 1
+2013-05-16 17:45:55,451 7684 [main] INFO  carrental.CarRental  - updateCar 1 : test car no. 20
+2013-05-16 17:45:55,454 7687 [main] INFO  carrental.CarRental  - findCarById 1
+2013-05-16 17:45:55,455 7688 [main] INFO  carrental.CarRental  - findCarById 2
+2013-05-16 17:45:55,466 7699 [main] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:45:55,467 7700 [main] INFO  carrental.CarRental  - findCarById 2
+2013-05-16 17:45:55,468 7701 [main] INFO  carrental.CarRental  - findCarById 2
+2013-05-16 17:45:55,469 7702 [main] INFO  carrental.CarRental  - findCarById 9223372036854775807
+2013-05-16 17:45:55,469 7702 [main] INFO  carrental.CarRental  - findCarById 2
+2013-05-16 17:45:55,470 7703 [main] INFO  carrental.CarRental  - findCarById 2
+2013-05-16 17:45:55,471 7704 [main] INFO  carrental.CarRental  - findCarById 2
+2013-05-16 17:45:55,472 7705 [main] INFO  carrental.CarRental  - findCarById 2
+2013-05-16 17:46:01,887 0 [main] INFO  carrental.CarRental  - create driver 1 : no. 1
+2013-05-16 17:46:01,897 10 [main] INFO  carrental.CarRental  - create driver 2 : no. 2
+2013-05-16 17:46:01,946 59 [main] INFO  carrental.CarRental  - findDriverById1
+2013-05-16 17:46:01,948 61 [main] INFO  carrental.CarRental  - findDriverById2
+2013-05-16 17:46:01,949 62 [main] INFO  carrental.CarRental  - findDriverById1
+2013-05-16 17:46:01,997 110 [main] INFO  carrental.CarRental  - deleteDriver 1 : no. 1
+2013-05-16 17:46:01,998 111 [main] INFO  carrental.CarRental  - findDriverById 1
+2013-05-16 17:46:02,000 113 [main] INFO  carrental.CarRental  - findDriverById2
+2013-05-16 17:46:02,014 127 [main] INFO  carrental.CarRental  - findAllDrivers
+2013-05-16 17:46:02,015 128 [main] INFO  carrental.CarRental  - findDriverById 1
+2013-05-16 17:46:02,016 129 [main] INFO  carrental.CarRental  - findDriverById2
+2013-05-16 17:46:02,030 143 [main] INFO  carrental.CarRental  - deleteDriver 2 : no. 2
+2013-05-16 17:46:02,031 144 [main] INFO  carrental.CarRental  - findAllDrivers
+2013-05-16 17:46:05,175 3288 [main] INFO  carrental.CarRental  - create driver 1 : no. 1
+2013-05-16 17:46:05,186 3299 [main] INFO  carrental.CarRental  - create driver 2 : no. 2
+2013-05-16 17:46:05,203 3316 [main] INFO  carrental.CarRental  - findDriverById1
+2013-05-16 17:46:05,242 3355 [main] INFO  carrental.CarRental  - updateDriver 1 : no. 1
+2013-05-16 17:46:05,243 3356 [main] INFO  carrental.CarRental  - findDriverById1
+2013-05-16 17:46:05,244 3357 [main] INFO  carrental.CarRental  - findDriverById1
+2013-05-16 17:46:05,253 3366 [main] INFO  carrental.CarRental  - updateDriver 1 : Jakob
+2013-05-16 17:46:05,255 3368 [main] INFO  carrental.CarRental  - findDriverById1
+2013-05-16 17:46:05,257 3370 [main] INFO  carrental.CarRental  - findDriverById1
+2013-05-16 17:46:05,264 3377 [main] INFO  carrental.CarRental  - updateDriver 1 : Jakob
+2013-05-16 17:46:05,266 3379 [main] INFO  carrental.CarRental  - findDriverById1
+2013-05-16 17:46:05,268 3381 [main] INFO  carrental.CarRental  - findDriverById2
+2013-05-16 17:46:05,282 3395 [main] INFO  carrental.CarRental  - findAllDrivers
+2013-05-16 17:46:05,283 3396 [main] INFO  carrental.CarRental  - findDriverById2
+2013-05-16 17:46:05,284 3397 [main] INFO  carrental.CarRental  - findDriverById2
+2013-05-16 17:46:05,285 3398 [main] INFO  carrental.CarRental  - findDriverById 9223372036854775807
+2013-05-16 17:46:05,286 3399 [main] INFO  carrental.CarRental  - findDriverById2
+2013-05-16 17:46:05,287 3400 [main] INFO  carrental.CarRental  - findDriverById2
+2013-05-16 17:46:05,288 3401 [main] INFO  carrental.CarRental  - findDriverById2
+2013-05-16 17:46:06,957 5070 [main] INFO  carrental.CarRental  - findAllDrivers
+2013-05-16 17:46:06,976 5089 [main] INFO  carrental.CarRental  - create driver 1 : no. 1
+2013-05-16 17:46:06,977 5090 [main] INFO  carrental.CarRental  - findAllDrivers
+2013-05-16 17:46:06,987 5100 [main] INFO  carrental.CarRental  - create driver 2 : no. 2
+2013-05-16 17:46:06,988 5101 [main] INFO  carrental.CarRental  - findAllDrivers
+2013-05-16 17:46:07,004 5117 [main] INFO  carrental.CarRental  - findDriverById1
+2013-05-16 17:46:07,043 5156 [main] INFO  carrental.CarRental  - deleteDriver 1 : no. 1
+2013-05-16 17:46:07,044 5157 [main] INFO  carrental.CarRental  - findAllDrivers
+2013-05-16 17:46:07,045 5158 [main] INFO  carrental.CarRental  - findDriverById2
+2013-05-16 17:46:07,054 5167 [main] INFO  carrental.CarRental  - deleteDriver 2 : no. 2
+2013-05-16 17:46:07,055 5168 [main] INFO  carrental.CarRental  - findAllDrivers
+2013-05-16 17:46:08,891 7004 [main] INFO  carrental.CarRental  - findDriverById 9223372036854775807
+2013-05-16 17:46:08,932 7045 [main] INFO  carrental.CarRental  - create driver 1 : no. 1
+2013-05-16 17:46:08,934 7047 [main] INFO  carrental.CarRental  - findDriverById1
+2013-05-16 17:46:08,955 7068 [main] INFO  carrental.CarRental  - create driver 2 : no. 2
+2013-05-16 17:46:08,956 7069 [main] INFO  carrental.CarRental  - findDriverById1
+2013-05-16 17:46:08,958 7071 [main] INFO  carrental.CarRental  - findDriverById2
+2013-05-16 17:46:08,959 7072 [main] INFO  carrental.CarRental  - findDriverById 9223372036854775807
+2013-05-16 17:46:11,111 9224 [main] INFO  carrental.CarRental  - create driver 1 : no. 1
+2013-05-16 17:46:11,131 9244 [main] INFO  carrental.CarRental  - findDriverById1
+2013-05-16 17:46:11,144 9257 [main] INFO  carrental.CarRental  - create driver 2 : no. 2
+2013-05-16 17:46:11,147 9260 [main] INFO  carrental.CarRental  - findDriverById1
+2013-05-16 17:46:17,601 0 [main] ERROR carrental.CarRental  - createCar 1 : Ford Tranzit
+2013-05-16 17:46:17,622 21 [main] ERROR carrental.CarRental  - createCar 2 : Ford Fiesta
+2013-05-16 17:46:17,634 33 [main] ERROR carrental.CarRental  - createCar 3 : Ford Mondeo
+2013-05-16 17:46:17,667 66 [main] INFO  carrental.CarRental  - create driver 1 : Vomacka
+2013-05-16 17:46:17,678 77 [main] INFO  carrental.CarRental  - create driver 2 : Velky
+2013-05-16 17:46:17,689 88 [main] INFO  carrental.CarRental  - create driver 3 : Uzky
+2013-05-16 17:46:17,745 144 [main] INFO  carrental.CarRental  - createRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:17,825 224 [main] INFO  carrental.CarRental  - findAllRentedCars 
+2013-05-16 17:46:17,834 233 [main] INFO  carrental.CarRental  - createRental 22 : Velky2 : Ford Fiesta
+2013-05-16 17:46:17,845 244 [main] INFO  carrental.CarRental  - createRental 33 : Uzky3 : Ford Mondeo
+2013-05-16 17:46:17,900 299 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:17,934 333 [main] INFO  carrental.CarRental  - deleteRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:17,936 335 [main] INFO  carrental.CarRental  - findAllRentedCars 
+2013-05-16 17:46:17,943 342 [main] INFO  carrental.CarRental  - findRentalById 3
+2013-05-16 17:46:17,949 348 [main] INFO  carrental.CarRental  - findRentalById 3
+2013-05-16 17:46:18,001 400 [main] INFO  carrental.CarRental  - updateRental 33 : Uzky3 : Ford Mondeo
+2013-05-16 17:46:18,001 400 [main] INFO  carrental.CarRental  - endRental33 : Uzky3 : Ford Mondeo
+2013-05-16 17:46:18,024 423 [main] INFO  carrental.CarRental  - findAllRentedCars 
+2013-05-16 17:46:18,041 440 [main] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:46:18,045 444 [main] INFO  carrental.CarRental  - findAllRentedCars 
+2013-05-16 17:46:18,049 448 [main] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:46:18,053 452 [main] INFO  carrental.CarRental  - findAllRentedCars 
+2013-05-16 17:46:18,053 452 [main] INFO  carrental.CarRental  - findAllCarsOnStock 
+2013-05-16 17:46:19,868 2267 [main] ERROR carrental.CarRental  - createCar 1 : Ford Tranzit
+2013-05-16 17:46:19,890 2289 [main] ERROR carrental.CarRental  - createCar 2 : Ford Fiesta
+2013-05-16 17:46:19,901 2300 [main] ERROR carrental.CarRental  - createCar 3 : Ford Mondeo
+2013-05-16 17:46:19,935 2334 [main] INFO  carrental.CarRental  - create driver 1 : Vomacka
+2013-05-16 17:46:19,946 2345 [main] INFO  carrental.CarRental  - create driver 2 : Velky
+2013-05-16 17:46:19,957 2356 [main] INFO  carrental.CarRental  - create driver 3 : Uzky
+2013-05-16 17:46:19,971 2370 [main] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:46:19,973 2372 [main] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:46:20,005 2404 [main] INFO  carrental.CarRental  - findAllRentedCars 
+2013-05-16 17:46:20,006 2405 [main] INFO  carrental.CarRental  - findAllCarsOnStock 
+2013-05-16 17:46:20,024 2423 [main] INFO  carrental.CarRental  - createRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:20,035 2434 [main] INFO  carrental.CarRental  - createRental 22 : Velky2 : Ford Fiesta
+2013-05-16 17:46:20,100 2499 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:20,103 2502 [main] INFO  carrental.CarRental  - findAllRentedCars 
+2013-05-16 17:46:20,105 2504 [main] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:46:20,106 2505 [main] INFO  carrental.CarRental  - findAllRentedCars 
+2013-05-16 17:46:20,106 2505 [main] INFO  carrental.CarRental  - findAllCarsOnStock 
+2013-05-16 17:46:20,127 2526 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:20,132 2531 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:20,168 2567 [main] INFO  carrental.CarRental  - updateRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:20,168 2567 [main] INFO  carrental.CarRental  - endRental11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:20,171 2570 [main] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:46:20,174 2573 [main] INFO  carrental.CarRental  - findAllRentedCars 
+2013-05-16 17:46:20,174 2573 [main] INFO  carrental.CarRental  - findAllCarsOnStock 
+2013-05-16 17:46:20,190 2589 [main] ERROR carrental.CarRental  - createCar 4 : Ford Focus
+2013-05-16 17:46:20,194 2593 [main] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:46:20,196 2595 [main] INFO  carrental.CarRental  - findAllRentedCars 
+2013-05-16 17:46:20,196 2595 [main] INFO  carrental.CarRental  - findAllCarsOnStock 
+2013-05-16 17:46:20,202 2601 [main] INFO  carrental.CarRental  - findRentalById 2
+2013-05-16 17:46:20,206 2605 [main] INFO  carrental.CarRental  - findRentalById 2
+2013-05-16 17:46:20,213 2612 [main] INFO  carrental.CarRental  - updateRental 22 : Velky2 : Ford Fiesta
+2013-05-16 17:46:20,213 2612 [main] INFO  carrental.CarRental  - endRental22 : Velky2 : Ford Fiesta
+2013-05-16 17:46:20,216 2615 [main] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:46:20,219 2618 [main] INFO  carrental.CarRental  - findAllRentedCars 
+2013-05-16 17:46:20,219 2618 [main] INFO  carrental.CarRental  - findAllCarsOnStock 
+2013-05-16 17:46:22,013 4412 [main] ERROR carrental.CarRental  - createCar 1 : Ford Tranzit
+2013-05-16 17:46:22,024 4423 [main] ERROR carrental.CarRental  - createCar 2 : Ford Fiesta
+2013-05-16 17:46:22,035 4434 [main] ERROR carrental.CarRental  - createCar 3 : Ford Mondeo
+2013-05-16 17:46:22,057 4456 [main] INFO  carrental.CarRental  - create driver 1 : Vomacka
+2013-05-16 17:46:22,069 4468 [main] INFO  carrental.CarRental  - create driver 2 : Velky
+2013-05-16 17:46:22,080 4479 [main] INFO  carrental.CarRental  - create driver 3 : Uzky
+2013-05-16 17:46:22,124 4523 [main] INFO  carrental.CarRental  - createRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:22,135 4534 [main] INFO  carrental.CarRental  - createRental 22 : Velky2 : Ford Fiesta
+2013-05-16 17:46:22,181 4580 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:22,183 4582 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:22,213 4612 [main] INFO  carrental.CarRental  - updateRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:22,213 4612 [main] INFO  carrental.CarRental  - endRental11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:23,904 6303 [main] ERROR carrental.CarRental  - createCar 1 : Ford Tranzit
+2013-05-16 17:46:23,927 6326 [main] ERROR carrental.CarRental  - createCar 2 : Ford Fiesta
+2013-05-16 17:46:23,938 6337 [main] ERROR carrental.CarRental  - createCar 3 : Ford Mondeo
+2013-05-16 17:46:23,960 6359 [main] INFO  carrental.CarRental  - create driver 1 : Vomacka
+2013-05-16 17:46:23,971 6370 [main] INFO  carrental.CarRental  - create driver 2 : Velky
+2013-05-16 17:46:23,982 6381 [main] INFO  carrental.CarRental  - create driver 3 : Uzky
+2013-05-16 17:46:24,015 6414 [main] INFO  carrental.CarRental  - createRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:24,026 6425 [main] INFO  carrental.CarRental  - createRental 22 : Velky2 : Ford Fiesta
+2013-05-16 17:46:24,062 6461 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:24,062 6461 [main] INFO  carrental.CarRental  - activeRentals 
+2013-05-16 17:46:24,078 6477 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:24,081 6480 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:24,115 6514 [main] INFO  carrental.CarRental  - updateRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:24,116 6515 [main] INFO  carrental.CarRental  - endRental11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:24,123 6522 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:24,123 6522 [main] INFO  carrental.CarRental  - activeRentals 
+2013-05-16 17:46:24,129 6528 [main] INFO  carrental.CarRental  - findRentalById 2
+2013-05-16 17:46:24,132 6531 [main] INFO  carrental.CarRental  - findRentalById 2
+2013-05-16 17:46:24,149 6548 [main] INFO  carrental.CarRental  - updateRental 22 : Velky2 : Ford Fiesta
+2013-05-16 17:46:24,149 6548 [main] INFO  carrental.CarRental  - endRental22 : Velky2 : Ford Fiesta
+2013-05-16 17:46:24,156 6555 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:24,156 6555 [main] INFO  carrental.CarRental  - activeRentals 
+2013-05-16 17:46:25,805 8204 [main] ERROR carrental.CarRental  - createCar 1 : Ford Tranzit
+2013-05-16 17:46:25,816 8215 [main] ERROR carrental.CarRental  - createCar 2 : Ford Fiesta
+2013-05-16 17:46:25,827 8226 [main] ERROR carrental.CarRental  - createCar 3 : Ford Mondeo
+2013-05-16 17:46:25,849 8248 [main] INFO  carrental.CarRental  - create driver 1 : Vomacka
+2013-05-16 17:46:25,861 8260 [main] INFO  carrental.CarRental  - create driver 2 : Velky
+2013-05-16 17:46:25,872 8271 [main] INFO  carrental.CarRental  - create driver 3 : Uzky
+2013-05-16 17:46:25,905 8304 [main] INFO  carrental.CarRental  - createRental 13 : Uzky3 : Ford Mondeo
+2013-05-16 17:46:25,943 8342 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:25,956 8355 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:25,972 8371 [main] INFO  carrental.CarRental  - createRental 21 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:26,267 8666 [main] INFO  carrental.CarRental  - createRental 32 : Velky2 : Ford Fiesta
+2013-05-16 17:46:26,279 8678 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:26,281 8680 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:26,314 8713 [main] INFO  carrental.CarRental  - deleteRental 13 : Uzky3 : Ford Mondeo
+2013-05-16 17:46:26,324 8723 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:27,937 10336 [main] ERROR carrental.CarRental  - createCar 1 : Ford Tranzit
+2013-05-16 17:46:27,948 10347 [main] ERROR carrental.CarRental  - createCar 2 : Ford Fiesta
+2013-05-16 17:46:27,959 10358 [main] ERROR carrental.CarRental  - createCar 3 : Ford Mondeo
+2013-05-16 17:46:27,982 10381 [main] INFO  carrental.CarRental  - create driver 1 : Vomacka
+2013-05-16 17:46:27,993 10392 [main] INFO  carrental.CarRental  - create driver 2 : Velky
+2013-05-16 17:46:28,004 10403 [main] INFO  carrental.CarRental  - create driver 3 : Uzky
+2013-05-16 17:46:28,037 10436 [main] INFO  carrental.CarRental  - createRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:28,048 10447 [main] INFO  carrental.CarRental  - createRental 22 : Velky2 : Ford Fiesta
+2013-05-16 17:46:28,093 10492 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:28,098 10497 [main] INFO  carrental.CarRental  - findRentalById 2
+2013-05-16 17:46:28,112 10511 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:28,117 10516 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:28,137 10536 [main] INFO  carrental.CarRental  - deleteRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:28,143 10542 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:28,144 10543 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:28,146 10545 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:29,908 12307 [main] ERROR carrental.CarRental  - createCar 1 : Ford Tranzit
+2013-05-16 17:46:29,919 12318 [main] ERROR carrental.CarRental  - createCar 2 : Ford Fiesta
+2013-05-16 17:46:29,930 12329 [main] ERROR carrental.CarRental  - createCar 3 : Ford Mondeo
+2013-05-16 17:46:29,953 12352 [main] INFO  carrental.CarRental  - create driver 1 : Vomacka
+2013-05-16 17:46:29,964 12363 [main] INFO  carrental.CarRental  - create driver 2 : Velky
+2013-05-16 17:46:29,975 12374 [main] INFO  carrental.CarRental  - create driver 3 : Uzky
+2013-05-16 17:46:30,008 12407 [main] INFO  carrental.CarRental  - createRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:30,019 12418 [main] INFO  carrental.CarRental  - createRental 22 : Velky2 : Ford Fiesta
+2013-05-16 17:46:30,062 12461 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:30,072 12471 [main] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:46:30,096 12495 [main] INFO  carrental.CarRental  - findAllRentedCars 
+2013-05-16 17:46:30,096 12495 [main] INFO  carrental.CarRental  - findAllCarsOnStock 
+2013-05-16 17:46:30,113 12512 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:30,115 12514 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:30,142 12541 [main] INFO  carrental.CarRental  - updateRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:30,142 12541 [main] INFO  carrental.CarRental  - endRental11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:30,152 12551 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:30,155 12554 [main] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:46:30,156 12555 [main] INFO  carrental.CarRental  - findAllRentedCars 
+2013-05-16 17:46:30,156 12555 [main] INFO  carrental.CarRental  - findAllCarsOnStock 
+2013-05-16 17:46:32,021 14420 [main] ERROR carrental.CarRental  - createCar 1 : Ford Tranzit
+2013-05-16 17:46:32,031 14430 [main] ERROR carrental.CarRental  - createCar 2 : Ford Fiesta
+2013-05-16 17:46:32,042 14441 [main] ERROR carrental.CarRental  - createCar 3 : Ford Mondeo
+2013-05-16 17:46:32,065 14464 [main] INFO  carrental.CarRental  - create driver 1 : Vomacka
+2013-05-16 17:46:32,076 14475 [main] INFO  carrental.CarRental  - create driver 2 : Velky
+2013-05-16 17:46:32,087 14486 [main] INFO  carrental.CarRental  - create driver 3 : Uzky
+2013-05-16 17:46:32,121 14520 [main] INFO  carrental.CarRental  - createRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:32,131 14530 [main] INFO  carrental.CarRental  - createRental 22 : Velky2 : Ford Fiesta
+2013-05-16 17:46:32,165 14564 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:32,168 14567 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:32,187 14586 [main] INFO  carrental.CarRental  - updateRental 11 : Vomacka1 : null
+2013-05-16 17:46:32,189 14588 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:32,192 14591 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:32,198 14597 [main] INFO  carrental.CarRental  - updateRental 11 : Vomacka1 : null
+2013-05-16 17:46:32,201 14600 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:32,203 14602 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:32,209 14608 [main] INFO  carrental.CarRental  - updateRental 11 : Vomacka1 : null
+2013-05-16 17:46:32,211 14610 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:32,226 14625 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:32,228 14627 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:32,242 14641 [main] INFO  carrental.CarRental  - updateRental 11 : Vomacka1 : null
+2013-05-16 17:46:32,245 14644 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:32,253 14652 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:32,253 14652 [main] INFO  carrental.CarRental  - activeRentals 
+2013-05-16 17:46:32,255 14654 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:32,276 14675 [main] INFO  carrental.CarRental  - deleteRental 11 : Vomacka1 : null
+2013-05-16 17:46:32,278 14677 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:33,867 16266 [main] ERROR carrental.CarRental  - createCar 1 : Ford Tranzit
+2013-05-16 17:46:33,878 16277 [main] ERROR carrental.CarRental  - createCar 2 : Ford Fiesta
+2013-05-16 17:46:33,889 16288 [main] ERROR carrental.CarRental  - createCar 3 : Ford Mondeo
+2013-05-16 17:46:33,912 16311 [main] INFO  carrental.CarRental  - create driver 1 : Vomacka
+2013-05-16 17:46:33,923 16322 [main] INFO  carrental.CarRental  - create driver 2 : Velky
+2013-05-16 17:46:33,934 16333 [main] INFO  carrental.CarRental  - create driver 3 : Uzky
+2013-05-16 17:46:33,956 16355 [main] INFO  carrental.CarRental  - createRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:33,967 16366 [main] INFO  carrental.CarRental  - createRental 22 : Velky2 : Ford Fiesta
+2013-05-16 17:46:34,001 16400 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:34,003 16402 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:34,023 16422 [main] INFO  carrental.CarRental  - deleteRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:34,028 16427 [main] INFO  carrental.CarRental  - findRentalById 2
+2013-05-16 17:46:34,029 16428 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:35,802 18201 [main] ERROR carrental.CarRental  - createCar 1 : Ford Tranzit
+2013-05-16 17:46:35,880 18279 [main] ERROR carrental.CarRental  - createCar 2 : Ford Fiesta
+2013-05-16 17:46:35,935 18334 [main] ERROR carrental.CarRental  - createCar 3 : Ford Mondeo
+2013-05-16 17:46:35,968 18367 [main] INFO  carrental.CarRental  - create driver 1 : Vomacka
+2013-05-16 17:46:35,980 18379 [main] INFO  carrental.CarRental  - create driver 2 : Velky
+2013-05-16 17:46:35,991 18390 [main] INFO  carrental.CarRental  - create driver 3 : Uzky
+2013-05-16 17:46:35,999 18398 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:36,013 18412 [main] INFO  carrental.CarRental  - createRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:36,024 18423 [main] INFO  carrental.CarRental  - createRental 22 : Velky2 : Ford Fiesta
+2013-05-16 17:46:36,046 18445 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:36,049 18448 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:36,061 18460 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:36,079 18478 [main] INFO  carrental.CarRental  - deleteRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:36,083 18482 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:36,092 18491 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:36,095 18494 [main] INFO  carrental.CarRental  - findRentalById 2
+2013-05-16 17:46:36,102 18501 [main] INFO  carrental.CarRental  - deleteRental 22 : Velky2 : Ford Fiesta
+2013-05-16 17:46:36,103 18502 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:36,104 18503 [main] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:46:37,760 20159 [main] ERROR carrental.CarRental  - createCar 1 : Ford Tranzit
+2013-05-16 17:46:37,771 20170 [main] ERROR carrental.CarRental  - createCar 2 : Ford Fiesta
+2013-05-16 17:46:37,782 20181 [main] ERROR carrental.CarRental  - createCar 3 : Ford Mondeo
+2013-05-16 17:46:37,826 20225 [main] INFO  carrental.CarRental  - create driver 1 : Vomacka
+2013-05-16 17:46:37,838 20237 [main] INFO  carrental.CarRental  - create driver 2 : Velky
+2013-05-16 17:46:37,848 20247 [main] INFO  carrental.CarRental  - create driver 3 : Uzky
+2013-05-16 17:46:37,867 20266 [main] INFO  carrental.CarRental  - findHistoryOfRental 1 : Ford Tranzit
+2013-05-16 17:46:37,882 20281 [main] INFO  carrental.CarRental  - createRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:37,903 20302 [main] INFO  carrental.CarRental  - findHistoryOfRental 1 : Ford Tranzit
+2013-05-16 17:46:37,917 20316 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:37,920 20319 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:37,948 20347 [main] INFO  carrental.CarRental  - updateRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:37,949 20348 [main] INFO  carrental.CarRental  - endRental11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:37,960 20359 [main] INFO  carrental.CarRental  - createRental 22 : Velky1 : Ford Tranzit
+2013-05-16 17:46:37,966 20365 [main] INFO  carrental.CarRental  - findHistoryOfRental 1 : Ford Tranzit
+2013-05-16 17:46:37,968 20367 [main] INFO  carrental.CarRental  - findRentalById 2
+2013-05-16 17:46:37,970 20369 [main] INFO  carrental.CarRental  - findRentalById 2
+2013-05-16 17:46:37,982 20381 [main] INFO  carrental.CarRental  - updateRental 22 : Velky1 : Ford Tranzit
+2013-05-16 17:46:37,982 20381 [main] INFO  carrental.CarRental  - endRental22 : Velky1 : Ford Tranzit
+2013-05-16 17:46:37,993 20392 [main] INFO  carrental.CarRental  - createRental 33 : Uzky1 : Ford Tranzit
+2013-05-16 17:46:38,003 20402 [main] INFO  carrental.CarRental  - findHistoryOfRental 1 : Ford Tranzit
+2013-05-16 17:46:38,006 20405 [main] INFO  carrental.CarRental  - findRentalById 3
+2013-05-16 17:46:38,008 20407 [main] INFO  carrental.CarRental  - findRentalById 3
+2013-05-16 17:46:38,015 20414 [main] INFO  carrental.CarRental  - updateRental 33 : Uzky1 : Ford Tranzit
+2013-05-16 17:46:38,015 20414 [main] INFO  carrental.CarRental  - endRental33 : Uzky1 : Ford Tranzit
+2013-05-16 17:46:38,026 20425 [main] INFO  carrental.CarRental  - createRental 41 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:38,040 20439 [main] INFO  carrental.CarRental  - findHistoryOfRental 1 : Ford Tranzit
+2013-05-16 17:46:40,163 22562 [main] ERROR carrental.CarRental  - createCar 1 : Ford Tranzit
+2013-05-16 17:46:40,174 22573 [main] ERROR carrental.CarRental  - createCar 2 : Ford Fiesta
+2013-05-16 17:46:40,185 22584 [main] ERROR carrental.CarRental  - createCar 3 : Ford Mondeo
+2013-05-16 17:46:40,208 22607 [main] INFO  carrental.CarRental  - create driver 1 : Vomacka
+2013-05-16 17:46:40,219 22618 [main] INFO  carrental.CarRental  - create driver 2 : Velky
+2013-05-16 17:46:40,230 22629 [main] INFO  carrental.CarRental  - create driver 3 : Uzky
+2013-05-16 17:46:40,244 22643 [main] INFO  carrental.CarRental  - findHistoryOfRental 1 : Vomacka
+2013-05-16 17:46:40,263 22662 [main] INFO  carrental.CarRental  - createRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:40,291 22690 [main] INFO  carrental.CarRental  - findHistoryOfRental 1 : Vomacka
+2013-05-16 17:46:40,307 22706 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:40,310 22709 [main] INFO  carrental.CarRental  - findRentalById 1
+2013-05-16 17:46:40,341 22740 [main] INFO  carrental.CarRental  - updateRental 11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:40,341 22740 [main] INFO  carrental.CarRental  - endRental11 : Vomacka1 : Ford Tranzit
+2013-05-16 17:46:40,352 22751 [main] INFO  carrental.CarRental  - createRental 21 : Vomacka2 : Ford Fiesta
+2013-05-16 17:46:40,359 22758 [main] INFO  carrental.CarRental  - findHistoryOfRental 1 : Vomacka
+2013-05-16 17:46:40,362 22761 [main] INFO  carrental.CarRental  - findRentalById 2
+2013-05-16 17:46:40,364 22763 [main] INFO  carrental.CarRental  - findRentalById 2
+2013-05-16 17:46:40,374 22773 [main] INFO  carrental.CarRental  - updateRental 21 : Vomacka2 : Ford Fiesta
+2013-05-16 17:46:40,374 22773 [main] INFO  carrental.CarRental  - endRental21 : Vomacka2 : Ford Fiesta
+2013-05-16 17:46:40,385 22784 [main] INFO  carrental.CarRental  - createRental 31 : Vomacka3 : Ford Mondeo
+2013-05-16 17:46:40,392 22791 [main] INFO  carrental.CarRental  - findHistoryOfRental 1 : Vomacka
+2013-05-16 17:46:40,394 22793 [main] INFO  carrental.CarRental  - findRentalById 3
+2013-05-16 17:46:40,396 22795 [main] INFO  carrental.CarRental  - findRentalById 3
+2013-05-16 17:46:40,408 22807 [main] INFO  carrental.CarRental  - updateRental 31 : Vomacka3 : Ford Mondeo
+2013-05-16 17:46:40,408 22807 [main] INFO  carrental.CarRental  - endRental31 : Vomacka3 : Ford Mondeo
+2013-05-16 17:48:12,458 0 [main] WARN  carrental.CarRental  - Can't run two instances at same time
+2013-05-16 17:48:22,108 0 [AWT-EventQueue-0] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:48:22,116 8 [AWT-EventQueue-0] INFO  carrental.CarRental  - findAllDrivers
+2013-05-16 17:48:22,278 170 [AWT-EventQueue-0] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:48:22,296 188 [AWT-EventQueue-0] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:48:22,308 200 [AWT-EventQueue-0] INFO  carrental.CarRental  - findAllRentedCars 
+2013-05-16 17:48:22,309 201 [AWT-EventQueue-0] INFO  carrental.CarRental  - findAllCarsOnStock 
+2013-05-16 17:48:22,322 214 [AWT-EventQueue-0] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:48:22,340 232 [AWT-EventQueue-0] INFO  carrental.CarRental  - findAllDrivers
+2013-05-16 17:48:24,416 2308 [AWT-EventQueue-0] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:48:24,425 2317 [AWT-EventQueue-0] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:48:24,573 2465 [AWT-EventQueue-0] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:48:24,584 2476 [AWT-EventQueue-0] INFO  carrental.CarRental  - findAllDrivers
+2013-05-16 17:48:24,726 2618 [AWT-EventQueue-0] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:48:31,181 9073 [SwingWorker-pool-1-thread-1] INFO  carrental.CarRental  - findHistoryOfRental 39 : 45
+2013-05-16 17:48:32,371 10263 [SwingWorker-pool-1-thread-2] INFO  carrental.CarRental  - findCarById 39
+2013-05-16 17:48:32,403 10295 [SwingWorker-pool-1-thread-2] INFO  carrental.CarRental  - deleteCar 39 : 45
+2013-05-16 17:48:32,412 10304 [SwingWorker-pool-1-thread-2] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:48:32,549 10441 [SwingWorker-pool-1-thread-2] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:48:32,556 10448 [SwingWorker-pool-1-thread-2] INFO  carrental.CarRental  - findAllCars 
+2013-05-16 17:48:36,866 14758 [SwingWorker-pool-1-thread-4] INFO  carrental.CarRental  - findDriverById8
+2013-05-16 17:48:36,935 14827 [SwingWorker-pool-1-thread-4] INFO  carrental.CarRental  - updateDriver 8 : Davis
+2013-05-16 17:48:39,144 17036 [SwingWorker-pool-1-thread-5] INFO  carrental.CarRental  - findDriverById8
+2013-05-16 17:48:39,168 17060 [SwingWorker-pool-1-thread-5] INFO  carrental.CarRental  - updateDriver 8 : Davis
+2013-05-16 17:48:42,835 20727 [AWT-EventQueue-0] INFO  carrental.CarRental  - create driver 45 : asdf
+2013-05-16 17:48:42,967 20859 [SwingWorker-pool-1-thread-6] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:48:42,972 20864 [SwingWorker-pool-1-thread-6] INFO  carrental.CarRental  - findAllDrivers
+2013-05-16 17:48:47,054 24946 [SwingWorker-pool-1-thread-7] INFO  carrental.CarRental  - findRentalById 10
+2013-05-16 17:48:47,067 24959 [SwingWorker-pool-1-thread-7] INFO  carrental.CarRental  - findRentalById 10
+2013-05-16 17:48:47,135 25027 [SwingWorker-pool-1-thread-7] INFO  carrental.CarRental  - updateRental 102 : Smith10 : Honda Step Bus
+2013-05-16 17:48:47,135 25027 [SwingWorker-pool-1-thread-7] INFO  carrental.CarRental  - endRental102 : Smith10 : Honda Step Bus
+2013-05-16 17:48:47,274 25166 [SwingWorker-pool-1-thread-7] INFO  carrental.CarRental  - findAllRentals
+2013-05-16 17:49:02,945 40837 [AWT-EventQueue-0] INFO  carrental.CarRental  - createRental 222 : Smith13 : Honda S360
+2013-05-16 17:49:03,098 40990 [AWT-EventQueue-0] INFO  carrental.CarRental  - findAllRentals

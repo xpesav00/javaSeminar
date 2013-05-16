@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.apache.log4j.*;
+import org.slf4j.LoggerFactory;
 
 /**
  * Some DB tools.
@@ -36,13 +37,13 @@ public class Utils {
      *
      * @param logger logger for initialization
      */
-    public static void initLogger(org.apache.log4j.Logger logger2) {
+ /*   public static void initLogger(org.apache.log4j.Logger logger2) {
         try {
             FileAppender logfile = new FileAppender(new PatternLayout("%d %r [%t] %-5p %c %x - %m%n"), "appLog.log", true);
             logger2.addAppender(logfile);
         } catch (IOException x) {
         }
-    }
+    }*/
 
     /**
      * Makes sure there is only one instance of program
@@ -68,9 +69,9 @@ public class Utils {
                 lockfile.deleteOnExit();           
                 
             } else {
-                org.apache.log4j.Logger logger3 = org.apache.log4j.Logger.getLogger(CarRental.class.getName());
-                initLogger(logger3);
-                logger3.log(org.apache.log4j.Level.WARN, "Can't run two instances at same time");                
+                 final org.slf4j.Logger logger3 = LoggerFactory.getLogger(CarRental.class.getName());
+                PropertyConfigurator.configure("log4j.properties");
+                logger3.warn("Can't run two instances at same time");                
                 System.exit(1);            
             }
 

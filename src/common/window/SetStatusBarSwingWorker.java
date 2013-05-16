@@ -35,7 +35,7 @@ public class SetStatusBarSwingWorker extends SwingWorker<Integer, Void> {
             statusBar.setText(message);
             
             try {
-                Thread.sleep(3000);
+                Thread.sleep(3500);
             } catch (InterruptedException ex) {
                 Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
             }

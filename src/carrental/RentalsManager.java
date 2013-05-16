@@ -5,7 +5,8 @@
  * @package carrental
  * @file RentalsManager.java
  * @author Jan Pesava - xpesav00, Filip Krepinsky
- * @email xpesav00@mail.muni.cz, 410022@mail.muni.cz
+ * @email xpesav00@mail.muni.cz, 410022
+ * @mail.muni.cz
  * @date 5. 3. 2013
  */
 package carrental;
@@ -23,15 +24,16 @@ import java.util.Calendar;
 import java.util.List;
 import javax.sql.DataSource;
 import org.apache.log4j.*;
+import org.slf4j.LoggerFactory;
 
 public class RentalsManager implements IRentalManager {
 
-    public static final Logger logger = Logger.getLogger(CarRental.class.getName());
+    public static final org.slf4j.Logger logger = LoggerFactory.getLogger(CarRental.class.getName());
     private DataSource dataSource;
 
     public RentalsManager(DataSource dataSource) {
         this.dataSource = dataSource;
-         Utils.initLogger(logger);         
+        PropertyConfigurator.configure("log4j.properties");
     }
 
     @Override
@@ -53,7 +55,7 @@ public class RentalsManager implements IRentalManager {
                 insertStatement.setLong(2, rental.getCar().getId());
                 insertStatement.setBigDecimal(3, rental.getPrice());
                 insertStatement.setTimestamp(4, new Timestamp(rental.getStartTime().getTimeInMillis()));
-                insertStatement.setTimestamp(5, new Timestamp(rental.getExpectedEndTime().getTimeInMillis()));                
+                insertStatement.setTimestamp(5, new Timestamp(rental.getExpectedEndTime().getTimeInMillis()));
                 int addedRows = insertStatement.executeUpdate();
                 if (addedRows != 1) {
                     throw new ServiceFailureException("To DB was added bad count of rows - " + addedRows);
@@ -67,10 +69,10 @@ public class RentalsManager implements IRentalManager {
                 connection.rollback();
             }
         } catch (SQLException ex) {
-            logger.log(Level.ERROR, "create rental", ex);
+            logger.error("create rental", ex);
             throw new ServiceFailureException("Internal error: Failed creating rental.", ex);
         }
-        logger.log(Level.INFO,"createRental " + rental);
+        logger.info("createRental " + rental);
         return rental;
     }
 
@@ -84,7 +86,7 @@ public class RentalsManager implements IRentalManager {
         }
         rental.setEndTime(Calendar.getInstance());
         this.updateRental(rental);
-        logger.log(Level.INFO,"endRental" + rental);
+        logger.info("endRental" + rental);
     }
 
     @Override
@@ -111,10 +113,10 @@ public class RentalsManager implements IRentalManager {
             }
 
         } catch (SQLException ex) {
-            logger.log(Level.ERROR, "delete rental", ex);
+            logger.error("delete rental", ex);
             throw new ServiceFailureException("Internal error: Problem with deleting rental.", ex);
         }
-        logger.log(Level.INFO,"deleteRental " + rental);
+        logger.info("deleteRental " + rental);
     }
 
     @Override
@@ -150,10 +152,10 @@ public class RentalsManager implements IRentalManager {
                 connection.rollback();
             }
         } catch (SQLException ex) {
-            logger.log(Level.ERROR, "update rental", ex);
+            logger.error("update rental", ex);
             throw new ServiceFailureException("Internal error: Failed updating rental", ex);
         }
-        logger.log(Level.INFO,"updateRental " + rental);
+        logger.info("updateRental " + rental);
     }
 
     @Override
@@ -180,15 +182,15 @@ public class RentalsManager implements IRentalManager {
                             "Internal error: More entities with the same id found "
                             + "(source id: " + id + ", found " + rental + " and " + resultSetToRental(rs));
                 }
-                logger.log(Level.INFO,"findRentalById " + id);
+                logger.info("findRentalById " + id);
                 return rental;
             } else {
-                logger.log(Level.INFO,"findRentalById " + id);
+                logger.info("findRentalById " + id);
                 return null;
             }
 
         } catch (SQLException ex) {
-            logger.log(Level.ERROR, "find rental with id" + id, ex);
+            logger.error("find rental with id" + id, ex);
             throw new ServiceFailureException("Error when retrieving rental with id " + id, ex);
         }
     }
@@ -204,13 +206,13 @@ public class RentalsManager implements IRentalManager {
             while (rs.next()) {
                 result.add(resultSetToRental(rs));
             }
-            logger.log(Level.INFO,"findAllRentals");
+            logger.info("findAllRentals");
             return result;
 
         } catch (SQLException ex) {
-            logger.log(Level.ERROR, "findAllRentals", ex);
+            logger.error("findAllRentals", ex);
             throw new ServiceFailureException("Error when retrieving all rentals", ex);
-        }    
+        }
     }
 
     @Override
@@ -230,10 +232,10 @@ public class RentalsManager implements IRentalManager {
                 }
             }
         } catch (SQLException ex) {
-            logger.log(Level.ERROR, "find history of rental", ex);
+            logger.error("find history of rental", ex);
             throw new ServiceFailureException("Error when finding history of rental(car)", ex);
         }
-        logger.log(Level.INFO,"findHistoryOfRental " + car);
+        logger.info("findHistoryOfRental " + car);
         return result;
 
     }
@@ -261,10 +263,10 @@ public class RentalsManager implements IRentalManager {
                 }
             }
         } catch (SQLException ex) {
-            logger.log(Level.ERROR, "find history of rental", ex);
+            logger.error("find history of rental", ex);
             throw new ServiceFailureException("Error when finding history of rental(driver)", ex);
         }
-        logger.log(Level.INFO,"findHistoryOfRental " + driver);
+        logger.info("findHistoryOfRental " + driver);
         return result;
 
     }
@@ -287,10 +289,10 @@ public class RentalsManager implements IRentalManager {
 
             }
         } catch (SQLException ex) {
-            logger.log(Level.ERROR, "find all rented cars", ex);
+            logger.error("find all rented cars", ex);
             throw new ServiceFailureException("Error when finding all rented cars", ex);
         }
-        logger.log(Level.INFO,"findAllRentedCars ");
+        logger.info("findAllRentedCars ");
         return result;
     }
 
@@ -301,7 +303,7 @@ public class RentalsManager implements IRentalManager {
         result = manager.findAllCars();
 
         result.removeAll(findAllRentedCars());
-        logger.log(Level.INFO,"findAllCarsOnStock ");
+        logger.info("findAllCarsOnStock ");
         return result;
     }
 
@@ -323,7 +325,7 @@ public class RentalsManager implements IRentalManager {
                 }
             }
         } catch (SQLException ex) {
-            logger.log(Level.ERROR, "isCarFree", ex);
+            logger.error("isCarFree", ex);
             throw new ServiceFailureException("Error when assuring car is free", ex);
         }
         return true;
@@ -338,7 +340,7 @@ public class RentalsManager implements IRentalManager {
                 result.add(list.get(i));
             }
         }
-        logger.log(Level.INFO,"activeRentals ");
+        logger.info("activeRentals ");
         return result;
     }
 
@@ -420,7 +422,7 @@ public class RentalsManager implements IRentalManager {
         if (!rental.getExpectedEndTime().after(rental.getStartTime())) {
             throw new IllegalArgumentException("Expected end time should be greater than start time");
         }
-        
+
         if (rental.getEndTime() != null) {
             if (rental.getStartTime().after(rental.getEndTime()) && !rental.getStartTime().equals(rental.getEndTime())) {
                 throw new IllegalArgumentException("End time should be greater than start time");
@@ -456,6 +458,7 @@ public class RentalsManager implements IRentalManager {
 
         return car;
     }
+
     private Driver findDriverById(Long id) throws ServiceFailureException {
 
         if (id == null) {
@@ -477,13 +480,13 @@ public class RentalsManager implements IRentalManager {
                             + "(source id: " + id + ", found " + driver + " and " + resultSetToDriver(rs));
                 }
                 return driver;
-                
+
             } else {
                 return null;
             }
 
         } catch (SQLException ex) {
-            logger.log(Level.ERROR, "find driver with id (from rentalsManager)" + id, ex);
+            logger.error("find driver with id (from rentalsManager)" + id, ex);
             throw new ServiceFailureException("Error when retrieving driver with id(from rentalsManager) " + id, ex);
         }
     }
@@ -496,7 +499,8 @@ public class RentalsManager implements IRentalManager {
         driver.setSurname(rs.getString("surname"));
         return driver;
     }
-     private Car findCarById(Long id) {
+
+    private Car findCarById(Long id) {
         Car car = null;
         if (id == null) {
             throw new IllegalArgumentException("id is null");
@@ -520,11 +524,9 @@ public class RentalsManager implements IRentalManager {
 
 
         } catch (SQLException ex) {
-            logger.log(Level.ERROR, "findCarById with id " + id, ex);
+            logger.error("findCarById with id " + id, ex);
             throw new ServiceFailureException("Error when retrieving car with id " + id, ex);
         }
         return car;
     }
-
-   
 }
