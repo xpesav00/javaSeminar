@@ -17,8 +17,8 @@ import javax.swing.SwingWorker;
  */
 public class SetStatusBarSwingWorker extends SwingWorker<Integer, Void> {
 
-    String message;
-    JTextField statusBar;
+    private String message;
+    private JTextField statusBar;
 
     public SetStatusBarSwingWorker(JTextField statusBar, String message) {
 

@@ -21,9 +21,9 @@ import javax.swing.text.Document;
  */
 public class SearchDriversFilterListener implements DocumentListener {
 
-    MainWindow app;
-    TableRowSorter<DriversTableModel> driversSorter;
-    RowFilter<DriversTableModel, Integer> driversFilter;
+    private MainWindow app;
+    private TableRowSorter<DriversTableModel> driversSorter;
+    private RowFilter<DriversTableModel, Integer> driversFilter;
 
     public SearchDriversFilterListener(MainWindow app) {
         this.app = app;

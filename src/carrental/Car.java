@@ -32,6 +32,13 @@ public class Car {
         this.name = name;
         this.mileage = mileage;
     }
+    public Car(Car car) {
+        this.id = car.id;
+        this.vin = car.vin;
+        this.spz = car.spz;
+        this.name = car.name;
+        this.mileage = car.mileage;
+    }
 
     public Long getId() {
         return this.id;

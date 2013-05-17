@@ -17,9 +17,9 @@ import javax.swing.event.ListDataListener;
  */
 public class CarComboBoxModel implements ComboBoxModel {
 
-	List<Car> cars = new ArrayList<>();
-	Object selectedObject;
-	CarsManager manager;
+	private List<Car> cars = new ArrayList<>();
+	private Object selectedObject;
+	private CarsManager manager;
 	
 	public CarComboBoxModel(CarsManager manager) {
 		this.manager = manager;

@@ -18,9 +18,9 @@ import javax.swing.event.ListDataListener;
  */
 public class FreeCarComboBoxModel implements ComboBoxModel {
 
-    List<Car> cars = new ArrayList<>();
-    Object selectedObject;
-    RentalsManager manager;
+    private List<Car> cars = new ArrayList<>();
+    private Object selectedObject;
+    private RentalsManager manager;
 
     public FreeCarComboBoxModel(RentalsManager manager) {
         this.manager = manager;

@@ -22,9 +22,9 @@ import javax.swing.text.Document;
  */
 public class SearchRentalsFilterListener implements DocumentListener {
 
-    MainWindow app;
-    TableRowSorter<RentalsTableModel> rentalsSorter;
-    RowFilter<RentalsTableModel, Integer> rentalsFilter;
+    private MainWindow app;
+    private TableRowSorter<RentalsTableModel> rentalsSorter;
+    private RowFilter<RentalsTableModel, Integer> rentalsFilter;
 
     public SearchRentalsFilterListener(MainWindow app) {
         this.app = app;

@@ -4,10 +4,13 @@
  */
 package common;
 
+import carrental.Car;
 import carrental.Driver;
 import carrental.DriversManager;
+import common.window.FailWindow;
 import java.util.List;
 import java.util.ResourceBundle;
+import javax.swing.JFrame;
 import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -17,15 +20,17 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author ansy
  */
-public class DriversTableModel extends AbstractTableModel implements TableModelListener {
+public class DriversTableModel extends AbstractTableModel {
 
     private DriversManager manager;
     private List<Driver> drivers;
-     private String[] columnNames = new String[4];
+    private String[] columnNames = new String[4];
+    private JFrame location;
 
-    public DriversTableModel(DriversManager manager) {
+    public DriversTableModel(DriversManager manager, JFrame location) {
         this.manager = manager;
         drivers = manager.findAllDrivers();
+        this.location = location;
     }
 
     @Override
@@ -67,10 +72,9 @@ public class DriversTableModel extends AbstractTableModel implements TableModelL
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Long id = Long.parseLong(getValueAt(rowIndex, 0).toString());
-        Driver driver = drivers.get(rowIndex);
+        Driver driver = new Driver(drivers.get(rowIndex));
         String s = (String) aValue;
-        boolean test =false;
+
 
         if (s.equals("")) {
             return;
@@ -82,7 +86,6 @@ public class DriversTableModel extends AbstractTableModel implements TableModelL
                     return;
                 }
                 driver.setSurname(s);
-                test = true;
                 break;
             case 2:
                 if (driver.getName().equals(s)) {
@@ -98,51 +101,21 @@ public class DriversTableModel extends AbstractTableModel implements TableModelL
                 break;
 
         }
-        drivers.set(rowIndex, driver);
-       UpdateDriverSwingWorker update = new UpdateDriverSwingWorker(driver);
+        UpdateDriverSwingWorker update = new UpdateDriverSwingWorker(driver);
         update.execute();
-        if (test) {
-            fireTableDataChanged();
-        }
+
 
     }
 
-    @Override
-    public void tableChanged(TableModelEvent e) {
-        this.loadData();
-    }
+  
 
-    public Driver removeRow(javax.swing.JTable table) {
-        Driver driver = null;
-        int row = table.getSelectedRow();
-        if (row != -1) {
-            int view = row;
-            row = table.getRowSorter().convertRowIndexToModel(row);
-            driver = getDriver(row);            
-                   
-            
-            manager.deleteDriver(driver);
-            drivers = manager.findAllDrivers();            
-            fireTableRowsDeleted(row, row);
-
-            if (table.getRowSorter().getViewRowCount() > view) {
-                table.setRowSelectionInterval(view, view);
-            } else {
-                table.setRowSelectionInterval(view - 1, view - 1);
-            }
-        }
-        return driver;
-    }
-          
     public Driver getDriver(int index) {
         return drivers.get(index);
 
     }
 
-    private void loadData() {
-        this.drivers = manager.findAllDrivers();
-    }
-     @Override
+ 
+    @Override
     public String getColumnName(int col) {
         return columnNames[col];
     }
@@ -151,19 +124,77 @@ public class DriversTableModel extends AbstractTableModel implements TableModelL
         columnNames[0] = translator.getString("cars.id");
         columnNames[1] = translator.getString("drivers.surname");
         columnNames[2] = translator.getString("drivers.name");
-        columnNames[3] = translator.getString("drivers.licenseId");       
+        columnNames[3] = translator.getString("drivers.licenseId");
+    }
+
+    public int findDriverIndex(Long id) {
+        for (int i = 0; i < drivers.size(); i++) {
+            if (drivers.get(i).getId().equals(id)) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
+    public void addDriver(Driver car) {
+        drivers.add(car);
+
+    }
+
+    public void removeDriver(Driver car) {
+        drivers.remove(car);
+
+    }
+
+    public Driver getSelectedDriver(javax.swing.JTable table) {
+        Driver driver = null;
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            row = table.getRowSorter().convertRowIndexToModel(row);
+
+            driver = drivers.get(row);
+        }
+        return driver;
     }
 
     private class UpdateDriverSwingWorker extends SwingWorker<Void, Void> {
-        Driver driver;
-        public UpdateDriverSwingWorker(Driver driver){
+
+        private Driver driver;
+        private boolean test;
+
+        public UpdateDriverSwingWorker(Driver driver) {
             this.driver = driver;
         }
 
         @Override
         protected Void doInBackground() throws Exception {
-            manager.updateDriver(driver);
-            return null;          
+            try {
+                manager.updateDriver(driver);
+                test = true;
+            } catch (Exception x) {
+                test = false;
+            }
+            return null;
+        }
+
+        @Override
+        protected void done() {
+            int index = findDriverIndex(driver.getId());
+            if (test && index != -1) {
+                drivers.set(index, driver);
+                fireTableRowsUpdated(index, index);
+            } else {
+                setDialog("fail.updateDriver");
+
+            }
+        }
+
+        private void setDialog(String key) {
+            FailWindow dialog = new FailWindow(MainWindow.getTranslator().getString(key));
+            dialog.setLocationRelativeTo(location);
+            dialog.setTitle(driver.toString());
+            dialog.setVisible(true);
         }
     }
 }

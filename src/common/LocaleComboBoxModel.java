@@ -19,8 +19,8 @@ import javax.swing.event.ListDataListener;
  */
 public class LocaleComboBoxModel implements ComboBoxModel {
 
-	List<Locale> locales = new ArrayList<>();
-	Object selectedObject;
+	private List<Locale> locales = new ArrayList<>();
+	private Object selectedObject;
 	
 	public LocaleComboBoxModel() {
 		this.loadData();

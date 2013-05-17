@@ -19,9 +19,9 @@ import javax.swing.event.ListDataListener;
  */
 public class DriverComboBoxModel implements ComboBoxModel {
 
-    List<Driver> drivers = new ArrayList<>();
-    Object selectedObject;
-    DriversManager manager;
+    private List<Driver> drivers = new ArrayList<>();
+    private Object selectedObject;
+    private DriversManager manager;
 
     public DriverComboBoxModel(DriversManager manager) {
         this.manager = manager;

@@ -5,7 +5,8 @@
  * @package carrental
  * @file Driver.java
  * @author Jan Pesava - xpesav00, Filip Krepinsky
- * @email xpesav00@mail.muni.cz, 410022@mail.muni.cz
+ * @email xpesav00@mail.muni.cz, 410022
+ * @mail.muni.cz
  * @date 5. 3. 2013
  */
 package carrental;
@@ -19,9 +20,9 @@ public class Driver {
 
     public Driver() {
     }
-    
+
     public Driver(Long id) {
-	    this.id = id;
+        this.id = id;
     }
 
     public Driver(Long id, String name, String surname, String licenseId) {
@@ -29,6 +30,13 @@ public class Driver {
         this.name = name;
         this.surname = surname;
         this.licenseId = licenseId;
+    }
+
+    public Driver(Driver driver) {
+        this.id = driver.id;
+        this.name = driver.name;
+        this.surname = driver.surname;
+        this.licenseId = driver.licenseId;
     }
 
     public Long getId() {
@@ -73,12 +81,12 @@ public class Driver {
         }
         return false;
     }
-    
+
     @Override
     public int hashCode() {
         return (id == null) ? 0 : id.hashCode();
     }
-    
+
     @Override
     public String toString() {
         return id.toString() + " : " + surname;

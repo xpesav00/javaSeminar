@@ -20,9 +20,9 @@ import javax.swing.text.Document;
  */
 public class SearchCarsFilterListener implements DocumentListener {
 
-    MainWindow app;
-    TableRowSorter<CarsTableModel> carsSorter;
-    RowFilter<CarsTableModel, Integer> carsFilter;
+    private MainWindow app;
+    private TableRowSorter<CarsTableModel> carsSorter;
+    private RowFilter<CarsTableModel, Integer> carsFilter;
 
     public SearchCarsFilterListener(MainWindow app) {
         this.app = app;

@@ -6,11 +6,13 @@ package common;
 
 import carrental.Car;
 import carrental.CarsManager;
+import common.window.FailWindow;
 import common.window.SetStatusBarSwingWorker;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javax.swing.JFrame;
 import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -21,15 +23,17 @@ import javax.swing.table.TableModel;
  *
  * @author ansy
  */
-public class CarsTableModel extends AbstractTableModel implements TableModelListener {
+public class CarsTableModel extends AbstractTableModel /* implements TableModelListener*/ {
 
     private CarsManager manager;
-    private List<Car> cars;
+    private List<Car> cars = new ArrayList<>();
     private String[] columnNames = new String[5];
+    private JFrame location;
 
-    public CarsTableModel(CarsManager manager) {
+    public CarsTableModel(CarsManager manager, JFrame location) {
         this.manager = manager;
         cars = manager.findAllCars();
+        this.location = location;
     }
 
     @Override
@@ -73,9 +77,7 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Long id = Long.parseLong(getValueAt(rowIndex, 0).toString());
-        Car car = cars.get(rowIndex);
-        boolean test = false;
+        Car car = new Car(cars.get(rowIndex));
         String s = (String) aValue;
 
         if (s.equals("")) {
@@ -100,7 +102,6 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
                     return;
                 }
                 car.setName(s);
-                test = true;
                 break;
             case 4:
                 try {
@@ -112,52 +113,50 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
                     return;
                 }
         }
-        cars.set(rowIndex, car);
         UpdateCarSwingWorker update = new UpdateCarSwingWorker(car);
         update.execute();
-        if (test) {
-            fireTableDataChanged();
-        }
-
     }
 
-    @Override
+   /* @Override
     public void tableChanged(TableModelEvent e) {
-        this.loadData();
-    }
+        //  this.loadData();
+    }*/
 
-    public Car removeRow(javax.swing.JTable table) {
+    public Car getSelectedCar(javax.swing.JTable table) { 
         Car car = null;
         int row = table.getSelectedRow();
-
         if (row != -1) {
-            int view = row;
             row = table.getRowSorter().convertRowIndexToModel(row);
 
-            car = getCar(row);
-            manager.deleteCar(car);
-            cars = manager.findAllCars();
-            fireTableRowsDeleted(row, row);
-
-            if (table.getRowSorter().getViewRowCount() > view) {
-                table.setRowSelectionInterval(view, view);
-
-            } else {
-                table.setRowSelectionInterval(view - 1, view - 1);
-            }
-
+            car = cars.get(row);
         }
         return car;
-
     }
+
 
     public Car getCar(int index) {
         return cars.get(index);
 
     }
 
-    private void loadData() {
-        this.cars = manager.findAllCars();
+    public int findCarIndex(Long id) {
+        for (int i = 0; i < cars.size(); i++) {
+            if (cars.get(i).getId().equals(id)) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
+    public void addCar(Car car) {
+        cars.add(car);
+
+    }
+    
+    public void removeCar(Car car) {
+        cars.remove(car);
+
     }
 
     @Override
@@ -165,7 +164,8 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
         return columnNames[col];
     }
 
-    public void setColumnNames(ResourceBundle translator) {
+    public void setColumnNames() {
+        ResourceBundle translator = MainWindow.getTranslator();
         columnNames[0] = translator.getString("cars.id");
         columnNames[1] = translator.getString("cars.vin");
         columnNames[2] = translator.getString("cars.licensePlate");
@@ -175,7 +175,8 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
 
     private class UpdateCarSwingWorker extends SwingWorker<Void, Void> {
 
-        Car car;
+        private Car car;
+        private boolean test;
 
         public UpdateCarSwingWorker(Car car) {
             this.car = car;
@@ -183,9 +184,33 @@ public class CarsTableModel extends AbstractTableModel implements TableModelList
 
         @Override
         protected Void doInBackground() throws Exception {
-            manager.updateCar(car);
+            try {
+                manager.updateCar(car);
+                test = true;
+            } catch (Exception x) {
+                test = false;
+            }
             return null;
 
+        }
+
+        @Override
+        protected void done() {
+            int index = findCarIndex(car.getId());
+            if (test && index != -1) {
+                cars.set(index, car);
+                fireTableRowsUpdated(index, index);
+            } else {
+                setDialog("fail.updateCar2");
+
+            }
+        }
+
+        private void setDialog(String key) {
+            FailWindow dialog = new FailWindow(MainWindow.getTranslator().getString(key));
+            dialog.setLocationRelativeTo(location);
+            dialog.setTitle(car.toString());
+            dialog.setVisible(true);
         }
     }
 }
