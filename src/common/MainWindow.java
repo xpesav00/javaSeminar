@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -1603,7 +1604,7 @@ public class MainWindow extends javax.swing.JFrame {
                 startDateCal.setTime(startDate);
                 Calendar expectedEndDateCal = Calendar.getInstance();
                 expectedEndDateCal.setTime(expectedEndDate);
-                BigDecimal price = new BigDecimal(priceDouble);
+                BigDecimal price = new BigDecimal(priceDouble).round(MathContext.DECIMAL64);
 
                 //control dates
                 if (startDateCal.compareTo(expectedEndDateCal) >= 0) {
@@ -1640,7 +1641,7 @@ public class MainWindow extends javax.swing.JFrame {
 
 
             } catch (Exception ex) {
-                //Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
                 this.displayInformationDialog(translator.getString("rentals.insertError"));
             }
         }//GEN-LAST:event_jButtonCRDOkActionPerformed
@@ -1705,7 +1706,7 @@ public class MainWindow extends javax.swing.JFrame {
                 startDateCal.setTime(startDate);
                 Calendar expectedEndDateCal = Calendar.getInstance();
                 expectedEndDateCal.setTime(expectedEndDate);
-                BigDecimal price = new BigDecimal(priceDouble);
+                BigDecimal price = new BigDecimal(priceDouble).round(MathContext.DECIMAL64);
 
                 //control dates
                 if (startDateCal.compareTo(expectedEndDateCal) >= 0) {
