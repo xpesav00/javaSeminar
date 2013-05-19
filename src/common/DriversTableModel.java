@@ -147,6 +147,11 @@ public class DriversTableModel extends AbstractTableModel {
 
     }
 
+    public List<Driver> getDrivers() {
+        return drivers;
+    }
+    
+
     public Driver getSelectedDriver(javax.swing.JTable table) {
         Driver driver = null;
         int row = table.getSelectedRow();
@@ -182,7 +187,10 @@ public class DriversTableModel extends AbstractTableModel {
         protected void done() {
             int index = findDriverIndex(driver.getId());
             if (test && index != -1) {
-                drivers.set(index, driver);
+                Driver actualDriver =drivers.get(index);
+                actualDriver.setLicenseId(driver.getLicenseId());
+                actualDriver.setName(driver.getName());
+                actualDriver.setSurname(driver.getSurname());                
                 fireTableRowsUpdated(index, index);
             } else {
                 setDialog("fail.updateDriver");

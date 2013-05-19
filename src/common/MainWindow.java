@@ -26,14 +26,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingWorker;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.TableRowSorter;
-import javax.swing.text.Document;
 import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.derby.iapi.services.i18n.BundleFinder;
 import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +36,7 @@ import org.slf4j.LoggerFactory;
  * @author ansy
  */
 public class MainWindow extends javax.swing.JFrame {
-
+    // <editor-fold defaultstate="expanded" desc="Variables"> 
     private CarsManager carsManager;
     private DriversManager driversManager;
     private RentalsManager rentalsManager;
@@ -73,7 +67,7 @@ public class MainWindow extends javax.swing.JFrame {
     private DriverComboBoxModel driverComboBoxModel;
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(CarRental.class.getName());
     private boolean failedOnce = false;
-
+// </editor-fold>*/
     /**
      * Creates new form MainWindow
      */
@@ -220,13 +214,12 @@ public class MainWindow extends javax.swing.JFrame {
         statusBar = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu4 = new javax.swing.JMenu();
-        jMenuItemRefresh = new javax.swing.JMenuItem();
         jMenuItemOptions = new javax.swing.JMenuItem();
         jMenuItemAbout = new javax.swing.JMenuItem();
         jMenuItemExit = new javax.swing.JMenuItem();
 
         CreateRentalDialog.setTitle("Create Rental");
-        CreateRentalDialog.setMinimumSize(new java.awt.Dimension(450, 230));
+        CreateRentalDialog.setMinimumSize(new java.awt.Dimension(450, 250));
         CreateRentalDialog.setModal(true);
         CreateRentalDialog.setResizable(false);
 
@@ -353,8 +346,9 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
         CreateDriverDialog.setTitle("Create Driver");
-        CreateDriverDialog.setMinimumSize(new java.awt.Dimension(300, 160));
+        CreateDriverDialog.setMinimumSize(new java.awt.Dimension(300, 180));
         CreateDriverDialog.setModal(true);
+        CreateDriverDialog.setPreferredSize(new java.awt.Dimension(300, 180));
         CreateDriverDialog.setResizable(false);
 
         jButtonCDDOk.setText("OK");
@@ -442,8 +436,9 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
         CreateCarDialog.setTitle("Create Car");
-        CreateCarDialog.setMinimumSize(new java.awt.Dimension(340, 200));
+        CreateCarDialog.setMinimumSize(new java.awt.Dimension(340, 220));
         CreateCarDialog.setModal(true);
+        CreateCarDialog.setPreferredSize(new java.awt.Dimension(340, 220));
         CreateCarDialog.setResizable(false);
 
         jButtonCCDOk.setText("OK");
@@ -737,8 +732,9 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
         EditRentalDialog.setTitle("Edit Rental");
-        EditRentalDialog.setMinimumSize(new java.awt.Dimension(500, 300));
+        EditRentalDialog.setMinimumSize(new java.awt.Dimension(500, 340));
         EditRentalDialog.setModal(true);
+        EditRentalDialog.setPreferredSize(new java.awt.Dimension(500, 340));
 
         jButtonERDOk.setText("OK");
         jButtonERDOk.addActionListener(new java.awt.event.ActionListener() {
@@ -859,7 +855,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(EditRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelERDEndTime)
                     .addComponent(jXDatePickerERDEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addGap(21, 21, 21)
                 .addGroup(EditRentalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonERDCancel)
                     .addComponent(jButtonERDOk))
@@ -993,7 +989,7 @@ public class MainWindow extends javax.swing.JFrame {
         );
         jPanelCarsLayout.setVerticalGroup(
             jPanelCarsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
+            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
             .addGroup(jPanelCarsLayout.createSequentialGroup()
                 .addComponent(carsSearchLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
@@ -1077,7 +1073,7 @@ public class MainWindow extends javax.swing.JFrame {
         );
         jPanelDriversLayout.setVerticalGroup(
             jPanelDriversLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -1224,7 +1220,7 @@ public class MainWindow extends javax.swing.JFrame {
         jPanelRentalsLayout.setVerticalGroup(
             jPanelRentalsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
         );
 
         jTabbedPane2.addTab("Rentals", jPanelRentals);
@@ -1245,15 +1241,6 @@ public class MainWindow extends javax.swing.JFrame {
                 jMenu4KeyPressed(evt);
             }
         });
-
-        jMenuItemRefresh.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
-        jMenuItemRefresh.setText("Refresh");
-        jMenuItemRefresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemRefreshActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItemRefresh);
 
         jMenuItemOptions.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemOptions.setText("Options");
@@ -1422,7 +1409,6 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_driverHistoryButtonActionPerformed
 
     private void editRentalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editRentalButtonActionPerformed
-
         //get selected row
         int row = jTableRentals.getSelectedRow();
 
@@ -1436,7 +1422,7 @@ public class MainWindow extends javax.swing.JFrame {
 
             //get data and set data to dialog
             this.jTextFieldERDId.setText(selectedRental.getId().toString());
-            this.jSpinnerERDPrice.setValue(selectedRental.getPrice());
+            this.jSpinnerERDPrice.setValue(selectedRental.getPrice().doubleValue());
             this.jXDatePickerERDStartTime.setDate(selectedRental.getStartTime().getTime());
             this.jXDatePickerERDExEndTime.setDate(selectedRental.getExpectedEndTime().getTime());
 
@@ -1619,29 +1605,17 @@ public class MainWindow extends javax.swing.JFrame {
                 if (!rentalsManager.isCarFree(car) && rental.getEndTime() == null) {
                     throw new IllegalAccessException("cannot update this car");
                 }
-
-                this.rentalsManager.createRental(rental);
-
-                //data was changed, info to datamodel
-                switch (customSelection) {
-                    case 1:
-                        if (car.equals(customCar)) {
-                            customRentals.add(rental);
-                        }
-                        break;
-                    case 2:
-                        if (driver.equals(customDriver)) {
-                            customRentals.add(rental);
-                        }
-                }
-                this.rentalsModel.fireTableDataChanged();
-
-                //hide dialog
                 this.CreateRentalDialog.dispose();
+
+                CreateRentalSwingWorker createRentalSwingWorker = new CreateRentalSwingWorker(rental);
+                createRentalSwingWorker.execute();
+
+
+
 
 
             } catch (Exception ex) {
-                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                //   Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
                 this.displayInformationDialog(translator.getString("rentals.insertError"));
             }
         }//GEN-LAST:event_jButtonCRDOkActionPerformed
@@ -1661,15 +1635,6 @@ public class MainWindow extends javax.swing.JFrame {
     private void statusBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusBarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_statusBarActionPerformed
-
-    private void jMenuItemRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRefreshActionPerformed
-        CarsFireDataChangedSwingWorker carsFireDataChangedSwingWorker = new CarsFireDataChangedSwingWorker();
-        carsFireDataChangedSwingWorker.execute();
-        DriversFireDataChangedSwingWorker driversFireDataChangedSwingWorker = new DriversFireDataChangedSwingWorker();
-        driversFireDataChangedSwingWorker.execute();
-        RentalsFireDataChangedSwingWorker rentalsFireDataChangedSwingWorker = new RentalsFireDataChangedSwingWorker();
-        rentalsFireDataChangedSwingWorker.execute();
-    }//GEN-LAST:event_jMenuItemRefreshActionPerformed
 
     private void jXDatePickerCRDExEndTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePickerCRDExEndTimeActionPerformed
         // TODO add your handling code here:
@@ -1716,7 +1681,7 @@ public class MainWindow extends javax.swing.JFrame {
                     throw new IllegalAccessException("Price is lower than zero.");
                 }
 
-                //create rental
+                //create rental                
                 Rental rental = new Rental(id, driver, car, price, startDateCal, expectedEndDateCal);
 
                 //set end date
@@ -1733,18 +1698,16 @@ public class MainWindow extends javax.swing.JFrame {
                 } else {
                     rental.setEndTime(null);
                 }
-                if (!rental.getCar().equals(rentalsManager.findRentalById(id).getCar()) && !rentalsManager.isCarFree(car) && rental.getEndTime() == null) {
-                    throw new IllegalAccessException("cannot update this car");
-                }
+                this.EditRentalDialog.dispose();
 
-                this.rentalsManager.updateRental(rental);
+                EditRentalSwingWorker editRentalSwingWorker = new EditRentalSwingWorker(rental);
+                editRentalSwingWorker.execute();
 
                 //data was changed, info to datamodel
-                RentalsFireDataChangedSwingWorker rentalsFireDataChangedSwingWorker = new RentalsFireDataChangedSwingWorker();
-                rentalsFireDataChangedSwingWorker.execute();
+
 
                 //hide dialog
-                this.EditRentalDialog.dispose();
+
 
 
             } catch (Exception ex) {
@@ -1888,7 +1851,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemAbout;
     private javax.swing.JMenuItem jMenuItemExit;
     private javax.swing.JMenuItem jMenuItemOptions;
-    private javax.swing.JMenuItem jMenuItemRefresh;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
@@ -1953,12 +1915,13 @@ public class MainWindow extends javax.swing.JFrame {
 
                 carsModel = new CarsTableModel(carsManager, this);
                 driversModel = new DriversTableModel(driversManager, this);
-                rentalsModel = new RentalsTableModel(rentalsManager);
+                rentalsModel = new RentalsTableModel(rentalsManager, carsModel, driversModel);
 
 
-                freeCarComboBoxModel = new FreeCarComboBoxModel(rentalsManager);
-                carComboBoxModel = new CarComboBoxModel(carsManager);
-                driverComboBoxModel = new DriverComboBoxModel(driversManager);
+
+                freeCarComboBoxModel = new FreeCarComboBoxModel(rentalsManager, carsModel);
+                carComboBoxModel = new CarComboBoxModel(carsModel);
+                driverComboBoxModel = new DriverComboBoxModel(driversModel);
                 break;
             } catch (Exception e) {
                 numTries++;
@@ -2156,46 +2119,9 @@ public class MainWindow extends javax.swing.JFrame {
         jTableDrivers.getTableHeader().setReorderingAllowed(false);
         jTableRentals.getTableHeader().setReorderingAllowed(false);
 
-        //  carsModel.addTableModelListener(carsModel);
-        ForRentalsTableListener forRentalsTableListener = new ForRentalsTableListener();
-        carsModel.addTableModelListener(forRentalsTableListener);
-        driversModel.addTableModelListener(forRentalsTableListener);
-        rentalsModel.addTableModelListener(rentalsModel);
-
         carSearchTextField.getDocument().addDocumentListener(new SearchCarsFilterListener(this));
         driverSearchTextField.getDocument().addDocumentListener(new SearchDriversFilterListener(this));
         rentalSearchTextField.getDocument().addDocumentListener(new SearchRentalsFilterListener(this));
-    }
-
-    protected class CarsFireDataChangedSwingWorker extends SwingWorker<Void, Void> {
-
-        @Override
-        protected Void doInBackground() throws Exception {
-
-            carsModel.fireTableDataChanged();
-            return null;
-        }
-    }
-
-    protected class DriversFireDataChangedSwingWorker extends SwingWorker<Void, Void> {
-
-        @Override
-        protected Void doInBackground() throws Exception {
-
-            driversModel.fireTableDataChanged();
-            return null;
-        }
-    }
-
-    protected class RentalsFireDataChangedSwingWorker extends SwingWorker<Void, Void> {
-
-        @Override
-        protected Void doInBackground() throws Exception {
-
-
-            rentalsModel.fireTableDataChanged();
-            return null;
-        }
     }
 
     protected class DeleteCarSwingWorker extends SwingWorker<Void, Void> {
@@ -2271,6 +2197,11 @@ public class MainWindow extends javax.swing.JFrame {
 
     protected class EndRentalSwingWorker extends SwingWorker<Void, Void> {
 
+        private Rental rental;
+        private boolean dbSucces = false;
+        private int view;
+        private Rental actualRental;
+
         @Override
         protected Void doInBackground() throws Exception {
 
@@ -2281,10 +2212,10 @@ public class MainWindow extends javax.swing.JFrame {
             }
             int row = jTableRentals.getSelectedRow();
             if (row != -1) {
-                int view = row;
+                view = row;
                 row = jTableRentals.getRowSorter().convertRowIndexToModel(row);
-
-                Rental rental = rentalsModel.getRental(row);
+                actualRental = rentalsModel.getRental(row);
+                rental = new Rental(actualRental);
                 if (rental.getEndTime() == null) {
 
                     if (!Calendar.getInstance().after(rental.getStartTime())) {
@@ -2292,9 +2223,14 @@ public class MainWindow extends javax.swing.JFrame {
                         status.execute();
                         return null;
                     }
+                    try{
 
                     rentalsManager.endRental(rental);
-                    rentalsModel.fireTableCellUpdated(view, 6);
+                    }catch(Exception ex){
+                        openDBFailWindow();
+                    }
+                    dbSucces=true;
+
 
                 } else {
                     SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, translator.getString("rental.isEnded"));
@@ -2306,6 +2242,14 @@ public class MainWindow extends javax.swing.JFrame {
                 status.execute();
             }
             return null;
+        }
+
+        @Override
+        protected void done() {
+            if (dbSucces) {
+               actualRental.setEndTime(rental.getEndTime());
+                rentalsModel.fireTableCellUpdated(view, 6);
+            }
         }
     }
 
@@ -2324,11 +2268,11 @@ public class MainWindow extends javax.swing.JFrame {
             if (row != -1) {
                 Car car = carsModel.getCar(jTableCars.convertRowIndexToModel(row));
                 customSelection = 1;
-                try{
-                customRentals = rentalsManager.findHistoryOfRental(car);
+                try {
+                    customRentals = rentalsManager.findHistoryOfRental(car);
                 } catch (Exception ex) {
                     openDBFailWindow();
-                     customSelection = 0;
+                    customSelection = 0;
                     return null;
                 }
                 customCar = car;
@@ -2363,11 +2307,12 @@ public class MainWindow extends javax.swing.JFrame {
                 Driver driver = driversModel.getDriver(jTableDrivers.convertRowIndexToModel(row));
                 customSelection = 2;
                 try {
+
                     customRentals = rentalsManager.findHistoryOfRental(driver);
                     customDriver = driver;
                 } catch (Exception ex) {
                     openDBFailWindow();
-                     customSelection = 0;
+                    customSelection = 0;
                     return null;
                 }
                 rentalsSorter.setRowFilter(rentalsFilter);
@@ -2445,6 +2390,97 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
 
+    protected class CreateRentalSwingWorker extends SwingWorker<Void, Void> {
+
+        private boolean dbSucces = false;
+        private Rental rental;
+
+        public CreateRentalSwingWorker(Rental rental) {
+            this.rental = rental;
+        }
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            try {
+                rentalsManager.createRental(rental);
+                dbSucces = true;
+            } catch (Exception ex) {
+                openDBFailWindow();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void done() {
+            if (dbSucces) {
+
+                switch (customSelection) {
+                    case 1:
+                        if (rental.getCar().equals(customCar)) {
+                            customRentals.add(rental);
+                        }
+                        break;
+                    case 2:
+                        if (rental.getDriver().equals(customDriver)) {
+                            customRentals.add(rental);
+                        }
+                }
+                rentalsModel.addRental(rental);
+                rentalsModel.fireTableDataChanged();
+            }
+        }
+    }
+
+    protected class EditRentalSwingWorker extends SwingWorker<Void, Void> {
+
+        private boolean dbSucces = false;
+        private Rental rental;
+
+        public EditRentalSwingWorker(Rental rental) {
+            this.rental = rental;
+        }
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            try {
+
+                if (!rental.getCar().equals(rentalsManager.findRentalById(rental.getId()).getCar()) && !rentalsManager.isCarFree(rental.getCar()) && rental.getEndTime() == null) {
+                    throw new IllegalAccessException(translator.getString("fail.carRented"));
+                }
+                if (rentalsManager.findRentalById(rental.getId()).getEndTime() != null && rental.getEndTime() == null && !rentalsManager.isCarFree(rental.getCar())) {
+                    throw new IllegalAccessException(translator.getString("fail.carRented"));
+                }
+
+                rentalsManager.updateRental(rental);
+
+                dbSucces = true;
+            } catch (IllegalAccessException e) {
+                openFailWindow(e.getMessage());
+            } catch (Exception ex) {
+                openDBFailWindow();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void done() {
+            if (!dbSucces) {
+                return;
+            }
+            Rental actualRental = rentalsModel.getRental(rentalsModel.findRentalIndex(rental.getId()));
+            actualRental.setCar(rental.getCar());
+            actualRental.setDriver(rental.getDriver());
+            actualRental.setExpectedEndTime(rental.getExpectedEndTime());
+            actualRental.setPrice(rental.getPrice());
+            actualRental.setStartTime(rental.getStartTime());
+            actualRental.setEndTime(rental.getEndTime());
+
+            rentalsModel.fireTableDataChanged();
+        }
+    }
+
     protected class DeleteSwingWorker extends SwingWorker<Void, Void> {
 
         private boolean dbSucces = false;
@@ -2481,6 +2517,15 @@ public class MainWindow extends javax.swing.JFrame {
                     }
                     break;
                 case 2:
+                    selectedRow = jTableRentals.getSelectedRow();
+                    row = jTableRentals.getRowSorter().convertRowIndexToModel(selectedRow);
+                    rental = rentalsModel.getSelectedRental(jTableRentals);
+                    try {
+                        rentalsManager.deleteRental(rental);
+                        dbSucces = true;
+                    } catch (Exception ex) {
+                        openDBFailWindow();
+                    }
                     break;
 
             }
@@ -2520,10 +2565,17 @@ public class MainWindow extends javax.swing.JFrame {
 
                     break;
                 case 2:
-                    rental = rentalsModel.removeRow(jTableRentals);
-                    message = "Rental : " + rental + " was deleted";
-                    break;
+                    rentalsModel.removeRental(rental);
+                    rentalsModel.fireTableRowsDeleted(row, row);
+                    message = translator.getString("rentals.rental") + " : " + rental + " " + translator.getString("general.wasDeleted");
+                    if (jTableRentals.getRowSorter().getViewRowCount() > selectedRow) {
+                        jTableRentals.setRowSelectionInterval(selectedRow, selectedRow);
 
+                    } else {
+                        jTableRentals.setRowSelectionInterval(selectedRow - 1, selectedRow - 1);
+                    }
+
+                    break;
             }
 
             SetStatusBarSwingWorker status = new SetStatusBarSwingWorker(statusBar, message);
@@ -2548,14 +2600,6 @@ public class MainWindow extends javax.swing.JFrame {
         this.invalidate();
     }
 
-    protected class ForRentalsTableListener implements TableModelListener {
-
-        @Override
-        public void tableChanged(TableModelEvent e) {
-            rentalsModel.fireTableDataChanged();
-        }
-    }
-
     private void openDBFailWindow() {
         logger.error("Connection to db failed");
         FailWindow dialog = new FailWindow(null);
@@ -2563,10 +2607,16 @@ public class MainWindow extends javax.swing.JFrame {
         dialog.setVisible(true);
     }
 
+    private void openFailWindow(String a) {
+        logger.error("Connection to db failed");
+        FailWindow dialog = new FailWindow(a);
+        dialog.setLocationRelativeTo(MainWindow.this);
+        dialog.setVisible(true);
+    }
+
     private void changeText() {
         //menu
         this.jMenu4.setText(translator.getString("menu"));
-        this.jMenuItemRefresh.setText(translator.getString("menu.refresh"));
         this.jMenuItemOptions.setText(translator.getString("menu.options"));
         this.jMenuItemAbout.setText(translator.getString("menu.aboutProgram"));
         this.jMenuItemExit.setText(translator.getString("menu.exit"));
@@ -2633,7 +2683,7 @@ public class MainWindow extends javax.swing.JFrame {
         this.jLabelERDPrice.setText(translator.getString("rentals.price"));
         this.jLabelERDStartTime.setText(translator.getString("rentals.startTime"));
         this.jLabelERDExEndTime.setText(translator.getString("rentals.expectedEndTime"));
-        this.jLabelERDEndTime.setText(translator.getString("rentals.expectedEndTime"));
+        this.jLabelERDEndTime.setText(translator.getString("rentals.endTime"));
         this.jXDatePickerERDStartTime.setLocale(this.localesManager.getLocale());
         this.jXDatePickerERDExEndTime.setLocale(this.localesManager.getLocale());
         this.jXDatePickerERDEndTime.setLocale(this.localesManager.getLocale());

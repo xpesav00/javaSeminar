@@ -8,6 +8,8 @@ import carrental.Car;
 import carrental.CarsManager;
 import carrental.RentalsManager;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.ComboBoxModel;
 import javax.swing.event.ListDataListener;
@@ -19,17 +21,19 @@ import javax.swing.event.ListDataListener;
 public class FreeCarComboBoxModel implements ComboBoxModel {
 
     private List<Car> cars = new ArrayList<>();
-    private Object selectedObject;
-    private RentalsManager manager;
+    private Object selectedObject;    
 
-    public FreeCarComboBoxModel(RentalsManager manager) {
-        this.manager = manager;
-        this.loadData();
-    }
+    public FreeCarComboBoxModel(RentalsManager manager, CarsTableModel model) {
 
-    private void loadData() {
-        this.cars = manager.findAllCarsOnStock();
-    }
+        List<Car> temp = model.getCars(); 
+        Iterator<Car> iter = temp.iterator();
+        while (iter.hasNext()) {   
+            Car tmp = iter.next();
+                if (manager.isCarFree(tmp)) {
+                    cars.add(tmp);                
+                }
+            }
+        }       
 
     @Override
     public void setSelectedItem(Object anItem) {
@@ -59,9 +63,5 @@ public class FreeCarComboBoxModel implements ComboBoxModel {
     @Override
     public void removeListDataListener(ListDataListener l) {
         //throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void update() {
-        this.loadData();
     }
 }

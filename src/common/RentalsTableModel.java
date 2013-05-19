@@ -5,14 +5,9 @@
 package common;
 
 import carrental.*;
-import java.math.BigDecimal;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
-import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
@@ -21,15 +16,21 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author ansy
  */
-public class RentalsTableModel extends AbstractTableModel implements TableModelListener {
+public class RentalsTableModel extends AbstractTableModel/* implements TableModelListener*/ {
 
     private RentalsManager manager;
     private List<Rental> rentals;
-    private String[] columnNames = new String[7];
+    private String[] columnNames = new String[7];    
 
-    public RentalsTableModel(RentalsManager manager) {
+    public RentalsTableModel(RentalsManager manager,CarsTableModel carsModel,DriversTableModel driversModel) {
         this.manager = manager;
-        rentals = manager.findAllRentals();
+        rentals = manager.findAllRentals();  
+        for(int i=0;i<rentals.size();i++){
+            int carIndex= carsModel.findCarIndex(rentals.get(i).getCar().getId());
+            int driverIndex =driversModel.findDriverIndex(rentals.get(i).getDriver().getId());
+            rentals.get(i).setCar(carsModel.getCar(carIndex));
+            rentals.get(i).setDriver(driversModel.getDriver(driverIndex));            
+        }
 
     }
 
@@ -70,44 +71,16 @@ public class RentalsTableModel extends AbstractTableModel implements TableModelL
     }
 
     @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
-        if (columnIndex != 3) {
-            return false;
-        }
-        return true;
-
+    public boolean isCellEditable(int rowIndex, int columnIndex) {     
+            return false;       
     }
 
-    @Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Long id = Long.parseLong(getValueAt(rowIndex, 0).toString());
-        Rental rental = rentals.get(rowIndex);
-        String s = (String) aValue;
-
-        if (s.equals("")) {
-            return;
-        }
-
-        if (columnIndex == 3) {
-            try {
-                if (rental.getPrice().equals(new BigDecimal(s))) {
-                    return;
-                }
-                rental.setPrice(new BigDecimal(s));
-            } catch (NumberFormatException ex) {
-                return;
-            }
-        }
-        rentals.set(rowIndex, rental);
-        UpdateRentalSwingWorker update = new UpdateRentalSwingWorker(rental);
-        update.execute();
-
-    }
-
+    
+/*
     @Override
     public void tableChanged(TableModelEvent e) {
         this.loadData();        
-    }
+    }*/
 
     public Rental removeRow(javax.swing.JTable table) {
         Rental rental = null;
@@ -135,9 +108,6 @@ public class RentalsTableModel extends AbstractTableModel implements TableModelL
 
     }
 
-    private void loadData() {
-        this.rentals = manager.findAllRentals();
-    }
 
     @Override
     public String getColumnName(int col) {
@@ -152,20 +122,36 @@ public class RentalsTableModel extends AbstractTableModel implements TableModelL
         columnNames[4] = translator.getString("rentals.startTime");
         columnNames[5] = translator.getString("rentals.expectedEndTime");
         columnNames[6] = translator.getString("rentals.endTime");
+    }    
+
+    public void addRental(Rental rental) {
+        rentals.add(rental);
+
     }
 
-    private class UpdateRentalSwingWorker extends SwingWorker<Void, Void> {
+    public void removeRental(Rental rental) {
+        rentals.remove(rental);
 
-        Rental rental;
-
-        public UpdateRentalSwingWorker(Rental rental) {
-            this.rental = rental;
-        }
-
-        @Override
-        protected Void doInBackground() throws Exception {
-            manager.updateRental(rental);
-            return null;
-        }
     }
+    public int findRentalIndex(Long id) {
+        for (int i = 0; i < rentals.size(); i++) {
+            if (rentals.get(i).getId().equals(id)) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
+    public Rental getSelectedRental(javax.swing.JTable table) {
+        Rental rental = null;
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            row = table.getRowSorter().convertRowIndexToModel(row);
+
+            rental = rentals.get(row);
+        }
+        return rental;
+    }
+
 }

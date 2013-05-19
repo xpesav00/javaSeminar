@@ -39,6 +39,15 @@ public class Rental {
         this.startTime = startTime;
         this.expectedEndTime = expectedEndTime;
     }
+     public Rental(Rental rental) {
+        this.id = rental.id;
+        this.driver = rental.driver;
+        this.car = rental.car;
+        this.price = rental.price;
+        this.startTime = rental.startTime;
+        this.expectedEndTime = rental.expectedEndTime;
+        this.endTime = rental.endTime;
+    }
 
     public Long getId() {
         return this.id;

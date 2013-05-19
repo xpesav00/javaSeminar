@@ -18,17 +18,13 @@ import javax.swing.event.ListDataListener;
 public class CarComboBoxModel implements ComboBoxModel {
 
 	private List<Car> cars = new ArrayList<>();
-	private Object selectedObject;
-	private CarsManager manager;
+	private Object selectedObject;	
 	
-	public CarComboBoxModel(CarsManager manager) {
-		this.manager = manager;
-		this.loadData();
+	public CarComboBoxModel(CarsTableModel model) {
+		
+            cars = model.getCars();
 	}
-	
-	private void loadData() {
-		this.cars = manager.findAllCars();
-	}
+		
 	
 	@Override
 	public void setSelectedItem(Object anItem) {
@@ -58,9 +54,5 @@ public class CarComboBoxModel implements ComboBoxModel {
 	@Override
 	public void removeListDataListener(ListDataListener l) {
 		//throw new UnsupportedOperationException("Not supported yet.");
-	}
-	
-	public void update()  {
-		this.loadData();
-	}
+	}	
     }

@@ -172,6 +172,15 @@ public class CarsTableModel extends AbstractTableModel /* implements TableModelL
         columnNames[3] = translator.getString("cars.model");
         columnNames[4] = translator.getString("cars.mileage");
     }
+    
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
+    }
+    
 
     private class UpdateCarSwingWorker extends SwingWorker<Void, Void> {
 
@@ -198,7 +207,11 @@ public class CarsTableModel extends AbstractTableModel /* implements TableModelL
         protected void done() {
             int index = findCarIndex(car.getId());
             if (test && index != -1) {
-                cars.set(index, car);
+                Car actualCar =cars.get(index);
+                actualCar.setMileage(car.getMileage());
+                actualCar.setName(car.getName());
+                actualCar.setSpz(car.getSpz());
+                actualCar.setVin(car.getVin());
                 fireTableRowsUpdated(index, index);
             } else {
                 setDialog("fail.updateCar2");

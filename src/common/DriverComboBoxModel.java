@@ -4,10 +4,7 @@
  */
 package common;
 
-import carrental.Car;
-import carrental.CarsManager;
 import carrental.Driver;
-import carrental.DriversManager;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ComboBoxModel;
@@ -21,15 +18,10 @@ public class DriverComboBoxModel implements ComboBoxModel {
 
     private List<Driver> drivers = new ArrayList<>();
     private Object selectedObject;
-    private DriversManager manager;
 
-    public DriverComboBoxModel(DriversManager manager) {
-        this.manager = manager;
-        this.loadData();
-    }
-
-    private void loadData() {
-        this.drivers = manager.findAllDrivers();
+    public DriverComboBoxModel(DriversTableModel model) {
+		
+            drivers = model.getDrivers();
     }
 
     @Override
@@ -62,7 +54,5 @@ public class DriverComboBoxModel implements ComboBoxModel {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void update() {
-        this.loadData();
-    }
+  
 }
